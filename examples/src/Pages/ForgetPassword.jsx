@@ -21,6 +21,7 @@ function ForgetPassword() {
         })
         .then(function(response){
           console.log(response);
+          window.alert(response.data.otp);
           navigate("/otp", {state:{username:data.username}})
         })
         .catch(function(err){

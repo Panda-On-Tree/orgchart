@@ -9,7 +9,7 @@ import ResetPassword from './Pages/ResetPassword'
 import ForgetPassword from './Pages/ForgetPassword'
 import MChart from './Pages/MChart'
 import Otp from './Pages/Otp'
-
+import Home from './Pages/Home/Home'
 function App(){
    
 
@@ -21,6 +21,7 @@ function App(){
         <Route exact path="/otp" element={<Otp/>}></Route>
         <Route exact path="/reset-password" element={<ResetPassword/>}></Route>
         <Route exact path="/forget-password" element={<ForgetPassword/>}></Route>
+        <Route exact path="/home" element={<Home/>}></Route>
       </Routes>
     )
   }

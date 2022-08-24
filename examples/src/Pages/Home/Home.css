@@ -1,0 +1,7 @@
+.home-main{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    min-height: 100vh;
+    min-width: 100%;
+}
