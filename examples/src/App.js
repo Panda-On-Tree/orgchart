@@ -15,7 +15,7 @@ function App(){
 
     return (
       <Routes basename="/react-org-chart">
-        <Route exact path="/" element={<Chart/>}></Route>
+        <Route exact path="/" element={<LoginForm/>}></Route>
         <Route exact path="/chart" element={<MChart/>}></Route>
         <Route exact path="/login" element={<LoginForm/>}></Route>
         <Route exact path="/otp" element={<Otp/>}></Route>

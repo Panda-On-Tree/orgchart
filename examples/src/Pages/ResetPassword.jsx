@@ -26,6 +26,7 @@ function ResetPassword() {
         })
             .then(function (response) {
                 console.log(response);
+                navigate("/login")
                 
             })
             .catch(function (err) {
@@ -71,7 +72,7 @@ function ResetPassword() {
 
 
 
-                            <button className="btn"type="submit">Log In</button>
+                            <button className="btn"type="submit">Update Password</button>
 
                         </form>
 

@@ -66,7 +66,7 @@ function Otp() {
                            
                             
 
-                            <button className="btn" type="submit">Request Otp</button>
+                            <button className="btn" type="submit">Verify</button>
                            
                         </form>
 
