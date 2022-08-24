@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useForm } from "react-hook-form";
 import axios from 'axios';
+import logo from '../assets/logo.png'
 
 const LoginForm = () => {
 
 
     let navigate = useNavigate();
-
+    const [error, setError] = useState()
     const {register,handleSubmit,formState: { errors },} = useForm();
 
 const onSubmit = (data) => {
@@ -27,6 +28,7 @@ const onSubmit = (data) => {
     })
     .catch(function(err){
       console.log(err);
+      setError(err.response.data)
     })
   };
 
@@ -37,10 +39,10 @@ const onSubmit = (data) => {
                     <div className="login-text">
                         <div className="logo">
                             <span><i className="fab fa-speakap"></i></span>
-                            <span>Microtek</span>
+                            <img src={logo}  height="80px" width="200px" alt="" />
                         </div>
                         <h1>Log In</h1>
-                        <p>Lorem Ipsum is simply dummy text of the </p>
+                        <p style={{color:"red"}}> {error}</p>
 
                         <form className="flex-c" onSubmit={handleSubmit(onSubmit)}>
                             <div className="input-box">
@@ -66,8 +68,8 @@ const onSubmit = (data) => {
                             </div>
 
                             <div className="check">
-                                <input type="checkbox" name="" id="" />
-                                <span>Remember Me</span>
+                                
+                                <a style={{color:"red",fontSize:"14px"}} href="/forget-password">Forget Password?</a>
                             </div>
 
                             <button className="btn"  type="submit">Log In</button>

@@ -2,6 +2,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import axios from 'axios';
+import logo from '../assets/logo.png'
+
 function ForgetPassword() {
 
     let navigate = useNavigate();
@@ -34,7 +36,8 @@ function ForgetPassword() {
                     <div className="login-text">
                         <div className="logo">
                             <span><i className="fab fa-speakap"></i></span>
-                            <span>Microtek</span>
+                            <img src={logo}  height="80px" width="200px" alt="" />
+
                         </div>
                         <h1>Forgot Password?</h1>
                         

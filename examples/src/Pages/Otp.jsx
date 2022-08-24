@@ -2,6 +2,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { useLocation } from 'react-router';
+import logo from '../assets/logo.png'
+
 
 import axios from 'axios';
 function Otp() {
@@ -41,7 +43,8 @@ function Otp() {
                     <div className="login-text">
                         <div className="logo">
                             <span><i className="fab fa-speakap"></i></span>
-                            <span>Microtek</span>
+                            <img src={logo}  height="80px" width="200px" alt="" />
+
                         </div>
                         <h1>Forgot Password?</h1>
                         
@@ -49,8 +52,8 @@ function Otp() {
                         <form className="flex-c" onSubmit={handleSubmit(onSubmit)}>
                         
                         <div className="input-box">
-                                <span className="label">Enter Your Otp</span>
-                                <div className=" flex-r input">
+                                <span className="label" >Enter Your Otp</span>
+                                <div style={{marginTop:"20px"}} className=" flex-r input">
                                     <input type="number" placeholder="name@abc.com"
                                      {...register("otp", {
                                         required: "required",
