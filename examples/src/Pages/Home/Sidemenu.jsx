@@ -1,41 +1,104 @@
-import React from 'react'
-import './Sidemenu.css'
+import React, { useEffect } from "react";
+import "./Sidemenu.css";
+import { useNavigate } from "react-router-dom";
 function Sidemenu() {
+
+    const navigate = useNavigate();
+    function toogle() {
+      var getSidebar = document.getElementById("nav");
+      getSidebar.classList.toggle("active");
+    }
+
   return (
-    <div className="sidemenu-main">
-      <div className="sidemenu-header">
-        <h2>Microtek</h2>
-        <span class="material-symbols-outlined">menu</span>
-      </div>
-      <div className="sidemenu-tab-links">
-        <h3>General</h3>
-        <div className="sidemenu-tab-links-main">
-          <div className="sidemenu-link">
-            <span class="material-symbols-outlined sidemnu-link-icon">
-              display_settings
-            </span>
-            <h3>App</h3>
-          </div>
-          <div className="sidemenu-link">
-            <span class="material-symbols-outlined">monitoring</span>
-            <h3>Org Chart</h3>
-          </div>
-          <div className="sidemenu-link">
-            <span class="material-symbols-outlined">insights</span>
-            <h3>Analytics</h3>
-          </div>
-          <div className="sidemenu-link">
-            <span class="material-symbols-outlined">account_balance</span>
-            <h3>Banking</h3>
-          </div>
-          <div className="sidemenu-link">
-            <span class="material-symbols-outlined">description</span>
-            <h3>Invoice</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+   <nav onMouseEnter={()=>{
+    toogle()
+   }} onMouseLeave={()=>{
+    toogle()
+   }} id="nav">
+   <ul>
+     <li>
+       <a
+         className="toggle"
+         onClick={() => {
+           toogle();
+         }}
+       >
+         <span className="icon">
+           <i className="fas fa-bars"></i>
+         </span>
+         <span className="title">MICROTEK</span>
+       </a>
+     </li>
+     <li>
+       <a href="#">
+         <span className="icon">
+           <i className="fas fa-home"></i>
+         </span>
+         <span className="title">Home</span>
+       </a>
+     </li>
+     <li>
+       <a href="#">
+         <span className="icon">
+           <i className="fas fa-user"></i>
+         </span>
+         <span className="title">Profile</span>
+       </a>
+     </li>
+     <li>
+       <a href="#">
+         <span className="icon">
+           <i className="fas fa-envelope"></i>
+         </span>
+         <span className="title">Messages</span>
+       </a>
+     </li>
+     <li>
+       <a href="#">
+         <span className="icon">
+           <i className="fas fa-info"></i>
+         </span>
+         <span className="title">Help</span>
+       </a>
+     </li>
+     <li>
+       <a href="#">
+         <span className="icon">
+           <i className="fas fa-cog"></i>
+         </span>
+         <span className="title">Setting</span>
+       </a>
+     </li>
+     <li onClick={()=>{
+        navigate("/chart")
+     }}>
+       <a href="#" onClick={(e)=>e.preventDefault()}>
+         <span className="icon">
+           <i className="fas fa-sitemap"></i>
+         </span>
+         <span className="title">Org Chart</span>
+       </a>
+     </li>
+     <li>
+       <a onClick={(e)=>{
+          e.preventDefault();
+          localStorage.removeItem("employee_id");
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("fullname");
+                    localStorage.removeItem("email");
+          navigate("/login")
+       }} >
+         <span className="icon">
+           <i className="fas fa-sign-out-alt"></i>
+         </span>
+         <span  className="title">Sign Out</span>
+       </a>
+     </li>
+   </ul>
+ </nav>
+      
+    
+  );
 }
 
-export default Sidemenu
+export default Sidemenu;

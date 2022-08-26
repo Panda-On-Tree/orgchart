@@ -24,7 +24,12 @@ const onSubmit = (data) => {
     })
     .then(function(response){
       console.log(response);
-      navigate("/chart")
+      localStorage.setItem("employee_id", response.data.employee_id);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("fullname", response.data.fullname);
+      localStorage.setItem("email", response.data.email);
+      navigate("/chart");
+      window.location.reload();
     })
     .catch(function(err){
       console.log(err);
@@ -38,7 +43,6 @@ const onSubmit = (data) => {
                 <div className="flex-r login-wrapper">
                     <div className="login-text">
                         <div className="logo">
-                            <span><i className="fab fa-speakap"></i></span>
                             <img src={logo}  height="80px" width="200px" alt="" />
                         </div>
                         <h1>Log In</h1>

@@ -2,17 +2,12 @@ import React from 'react'
 import Navbar from './Navbar'
 import Sidemenu from './Sidemenu'
 import './Home.css'
+import MChart from '../MChart'
+import { Route, Routes } from 'react-router-dom'
 
 function Home() {
   return (
-    <div className='home-main'>
-        <Sidemenu/>
-        <div className='home-main-right'>
-            <Navbar/>
-            <div className='home-main-container'>
-
-            </div>
-        </div>        
+    <div className="home-main">
     </div>
   )
 }

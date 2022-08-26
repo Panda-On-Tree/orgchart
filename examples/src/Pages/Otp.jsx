@@ -42,7 +42,6 @@ function Otp() {
                 <div className="flex-r login-wrapper">
                     <div className="login-text">
                         <div className="logo">
-                            <span><i className="fab fa-speakap"></i></span>
                             <img src={logo}  height="80px" width="200px" alt="" />
 
                         </div>

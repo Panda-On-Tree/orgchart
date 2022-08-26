@@ -1,7 +1,27 @@
+*{
+    font-family: 'Public Sans', sans-serif;
+
+}
 .home-main{
     display: flex;
     flex-direction: row;
     background-color: white;
+    min-height: 100vh;
+    min-width: 100%;
+    background-color: #212b36;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: white;
+}
+.home-main-left{
+    display: flex;
+    min-width: 60px;
+}
+.home-main-right{
+    min-width: calc(100%-30px);
+    min-height: 100vh;
+}
+.home-main-container{
     min-height: 100vh;
     min-width: 100%;
 }

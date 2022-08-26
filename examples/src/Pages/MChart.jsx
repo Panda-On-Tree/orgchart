@@ -17,12 +17,16 @@ function MChart() {
     var configabc = {};
 
     useEffect(() => {
+        const data={
+            parent_employee_id:"53051"
+        }
         axios({
-            method: "get",
+            method: "post",
             url: "http://192.168.1.7:8080/v1/api/mhere/get-parent-node",
             headers: {
                 "Content-Type": "application/json",
             },
+            data
         })
             .then(function (response) {
                 console.log(response.data);
@@ -67,23 +71,6 @@ function MChart() {
         console.log(abc.data);
         return(data1)
     }
-
-    getParent({
-        "id": "125",
-        "person": {
-            "id": "150",
-            "avatar": "",
-            "department": "IT",
-            "name": "Developer Two",
-            "title": "",
-            "totalReports": null,
-            "manager_id": "999"
-        },
-        "hasChild": "true",
-        "hasParent": "true",
-        "children": []
-    })
-
 
     function handleDownload() {
         setDownloadingChart(false);
