@@ -13,7 +13,7 @@ function ForgetPassword() {
       console.log(data);
         axios({
           method:"post",
-          url:"http://192.168.1.7:8080/v1/api/mhere/send-otp",
+          url:"http://microtek.tech:8443/v1/api/mhere/send-otp",
           headers:{
             "Content-Type": "application/json",
           },

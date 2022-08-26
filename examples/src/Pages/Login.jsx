@@ -16,7 +16,7 @@ const onSubmit = (data) => {
   console.log(data);
     axios({
       method:"post",
-      url:"http://192.168.1.7:8080/v1/api/mhere/login",
+      url:"http://microtek.tech:8443/v1/api/mhere/new-login",
       headers:{
         "Content-Type": "application/json",
       },
@@ -24,9 +24,9 @@ const onSubmit = (data) => {
     })
     .then(function(response){
       console.log(response);
-      localStorage.setItem("employee_id", response.data.employee_id);
+      localStorage.setItem("employee_id", response.data.new_e_code);
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("fullname", response.data.fullname);
+      localStorage.setItem("fullname", response.data.name_of_the_employee);
       localStorage.setItem("email", response.data.email);
       navigate("/chart");
       window.location.reload();

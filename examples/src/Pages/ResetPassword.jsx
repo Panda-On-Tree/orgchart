@@ -18,7 +18,7 @@ function ResetPassword() {
 
         axios({
             method: "post",
-            url: "http://192.168.1.7:8080/v1/api/mhere/reset-password",
+            url: "http://microtek.tech:8443/v1/api/mhere/reset-password",
             headers: {
                 "Content-Type": "application/json",
             },

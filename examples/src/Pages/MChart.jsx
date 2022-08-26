@@ -18,11 +18,11 @@ function MChart() {
 
     useEffect(() => {
         const data={
-            parent_employee_id:"53051"
+            parent_employee_id: localStorage.getItem("employee_id")
         }
         axios({
             method: "post",
-            url: "http://192.168.1.7:8080/v1/api/mhere/get-parent-node",
+            url: "http://microtek.tech:8443/v1/api/mhere/get-parent-node",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -45,7 +45,7 @@ function MChart() {
         }
         const abc = await axios({
             method: "post",
-            url: "http://192.168.1.7:8080/v1/api/mhere/get-child",
+            url: "http://microtek.tech:8443/v1/api/mhere/get-child",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -59,7 +59,7 @@ function MChart() {
     async function getParent(data) {
         const abc = await axios({
             method: "post",
-            url: "http://192.168.1.7:8080/v1/api/mhere/get-parent",
+            url: "http://microtek.tech:8443/v1/api/mhere/get-parent",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -110,8 +110,7 @@ function MChart() {
                     loadParent={d => {
                         console.log(d);
                         const parentData = getParent(d)
-                        console.log(parentData);
-                        return parentData
+                        return(parentData)
                     }}
 
                     loadChildren={d => {

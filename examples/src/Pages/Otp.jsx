@@ -19,7 +19,7 @@ function Otp() {
 
         axios({
           method:"post",
-          url:"http://192.168.1.7:8080/v1/api/mhere/verify-otp",
+          url:"http://microtek.tech:8443/v1/api/mhere/verify-otp",
           headers:{
             "Content-Type": "application/json",
           },
