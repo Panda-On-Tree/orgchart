@@ -88,7 +88,7 @@ function MChart() {
 
             <React.Fragment>
                 <div className="zoom-buttons">
-              <button
+              <button style={{}}
                 className="btn btn-outline-primary zoom-button"
                 id="zoom-in"
               >
@@ -100,6 +100,16 @@ function MChart() {
               >
                 -
               </button>
+            </div>
+            <div style={{}} className="download-buttons">
+              <button style={{padding:"10px 10px"}} className="btn btn-outline-primary" id="download-image">
+                Download as image
+              </button>
+              <button style={{padding:"10px 10px"}} className="btn btn-outline-primary" id="download-pdf">
+                Download as PDF
+              </button>
+
+              {downloadingChart && <div>Downloading chart</div>}
             </div>
                 <OrgChart
                     tree={tree}
