@@ -48,7 +48,9 @@ body {
 .zoom-buttons {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 20px !important;
+  margin-right: 10px;
+  display: flex;
 }
 
 .download-buttons {
@@ -73,7 +75,7 @@ body {
   text-align: center;
   vertical-align: middle;
   user-select: none;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 10px !important;
   font-size: 0.875rem;
   line-height: 1.5rem;
   border-radius: 0.125rem;

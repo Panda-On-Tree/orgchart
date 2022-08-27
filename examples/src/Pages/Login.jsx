@@ -16,7 +16,7 @@ const onSubmit = (data) => {
   console.log(data);
     axios({
       method:"post",
-      url:"http://microtek.tech:8443/v1/api/mhere/new-login",
+      url:"http://microtek.tech:8443/v1/api/mhere/login",
       headers:{
         "Content-Type": "application/json",
       },

@@ -87,6 +87,20 @@ function MChart() {
         return (
 
             <React.Fragment>
+                <div className="zoom-buttons">
+              <button
+                className="btn btn-outline-primary zoom-button"
+                id="zoom-in"
+              >
+                +
+              </button>
+              <button
+                className="btn btn-outline-primary zoom-button"
+                id="zoom-out"
+              >
+                -
+              </button>
+            </div>
                 <OrgChart
                     tree={tree}
                     downloadImageId={downloadImageId}
