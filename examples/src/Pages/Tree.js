@@ -10,7 +10,7 @@ export const tree0 = {
     title: 'Manager',
     totalReports: 3,
   },
-  hasChild: true,
+  hasChild: "true",
   hasParent: true,
   children: [],
 }
@@ -26,9 +26,9 @@ export const tree1 = [
       title: 'IT Specialist',
       totalReports: 4,
     },
-    hasChild: true,
+    hasChild: "true",
     hasParent: true,
-    // children: [],
+    children: [],
   },
   {
     id: 32,
@@ -74,7 +74,7 @@ export const tree2 = [
     },
     hasChild: true,
     hasParent: true,
-    // children: [],
+    children: [],
   },
   {
     id: 66,

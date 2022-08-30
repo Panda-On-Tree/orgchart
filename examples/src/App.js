@@ -29,6 +29,7 @@ function App(){
       <Routes>
         <Route element={<Dashboard />}>
           <Route exact path="/" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
+          <Route exact path="/mchart" element={localStorage.getItem("token")? <Chart/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/chart" element={localStorage.getItem("token")? <MChart/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/home" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/react-org-chart" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
