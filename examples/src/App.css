@@ -23,9 +23,9 @@ body {
 .org-chart-person-link:hover g {
   fill: #409cf9 !important;
 }
-.org-chart-node:hover .org-chart-person-reports {
+/* .org-chart-node:hover .org-chart-person-reports {
   fill: #409cf9 !important;
-}
+} */
 .org-chart-person-dept.engineering {
   fill: #4caf50 !important;
 }

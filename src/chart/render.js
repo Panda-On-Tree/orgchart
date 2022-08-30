@@ -12,6 +12,7 @@ const PERSON_NAME_CLASS = 'org-chart-person-name'
 const PERSON_TITLE_CLASS = 'org-chart-person-title'
 const PERSON_HIGHLIGHT = 'org-chart-person-highlight'
 const PERSON_REPORTS_CLASS = 'org-chart-person-reports'
+const PERSON_REPORTS_CLASS_ICON = 'org-chart-person-reports-icon'
 
 function render(config) {
   const {
@@ -50,14 +51,14 @@ function render(config) {
   config.nodes = nodes
 
   // Normalize for fixed-depth.
-  nodes.forEach(function(d) {
+  nodes.forEach(function (d) {
     d.y = d.depth * lineDepthY
   })
 
   // Update the nodes
   const node = svg.selectAll('g.' + CHART_NODE_CLASS).data(
-    nodes.filter(d => d.id),
-    d => d.id
+    nodes.filter((d) => d.id),
+    (d) => d.id
   )
 
   const parentNode = sourceNode || treeData
@@ -96,10 +97,10 @@ function render(config) {
   // Person Card Container
   nodeEnter
     .append('rect')
-    .attr('class', d => (d.isHighlight ? `${PERSON_HIGHLIGHT} box` : 'box'))
+    .attr('class', (d) => (d.isHighlight ? `${PERSON_HIGHLIGHT} box` : 'box'))
     .attr('width', nodeWidth)
     .attr('height', nodeHeight)
-    .attr('id', d => d.id)
+    .attr('id', (d) => d.id)
     .attr('fill', backgroundColor)
     .attr('stroke', borderColor)
     .attr('rx', nodeBorderRadius)
@@ -126,7 +127,7 @@ function render(config) {
     .style('cursor', 'pointer')
     .style('fill', nameColor)
     .style('font-size', 14)
-    .text(d => d.person.name)
+    .text((d) => d.person.name)
   // .on('click', onParentClick(config))
 
   // Person's Title
@@ -139,37 +140,48 @@ function render(config) {
     .style('font-size', 12)
     .style('cursor', 'pointer')
     .style('fill', titleColor)
-    .text(d => d.person.title)
+    .text((d) => d.person.title)
 
   const heightForTitle = 60 // getHeightForText(d.person.title)
-
+  const widthForTile = 140
   // Person's Reports
   nodeEnter
     .append('text')
     .attr('class', PERSON_REPORTS_CLASS)
-    .attr('x', nodePaddingX + 8)
+    .attr('x', nodeWidth / 2 + 2)
     .attr('y', namePos.y + nodePaddingY + heightForTitle)
     .attr('dy', '.9em')
-    .style('font-size', 14)
-    .style('font-weight', 400)
+    .style('font-size', 16)
+    .style('font-weight', 600)
     .style('cursor', 'pointer')
-    .style('fill', reportsColor)
+    .style('fill', "black")
     .text(helpers.getTextForTitle)
 
+  nodeEnter
+    .append('svg:image')
+    .attr('class', PERSON_REPORTS_CLASS_ICON)
+    .attr('x', nodeWidth / 2 - 23)
+    .attr('y', namePos.y + nodePaddingY + heightForTitle - 3)
+    .attr('display', d => (d.hasChild ? '' : 'none'))
+    .attr('width', 20)
+    .attr('height', 20)
+    .style('cursor', 'pointer')
+    .attr('src', "")
+    .attr('xlink:href', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpb25pY29uIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHRpdGxlPlBlb3BsZTwvdGl0bGU+PHBhdGggZD0iTTQwMiAxNjhjLTIuOTMgNDAuNjctMzMuMSA3Mi02NiA3MnMtNjMuMTItMzEuMzItNjYtNzJjLTMtNDIuMzEgMjYuMzctNzIgNjYtNzJzNjkgMzAuNDYgNjYgNzJ6IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjMyIi8+PHBhdGggZD0iTTMzNiAzMDRjLTY1LjE3IDAtMTI3Ljg0IDMyLjM3LTE0My41NCA5NS40MS0yLjA4IDguMzQgMy4xNSAxNi41OSAxMS43MiAxNi41OWgyNjMuNjVjOC41NyAwIDEzLjc3LTguMjUgMTEuNzItMTYuNTlDNDYzLjg1IDMzNS4zNiA0MDEuMTggMzA0IDMzNiAzMDR6IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjMyIi8+PHBhdGggZD0iTTIwMCAxODUuOTRjLTIuMzQgMzIuNDgtMjYuNzIgNTguMDYtNTMgNTguMDZzLTUwLjctMjUuNTctNTMtNTguMDZDOTEuNjEgMTUyLjE1IDExNS4zNCAxMjggMTQ3IDEyOHM1NS4zOSAyNC43NyA1MyA1Ny45NHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMzIiLz48cGF0aCBkPSJNMjA2IDMwNmMtMTguMDUtOC4yNy0zNy45My0xMS40NS01OS0xMS40NS01MiAwLTEwMi4xIDI1Ljg1LTExNC42NSA3Ni4yLTEuNjUgNi42NiAyLjUzIDEzLjI1IDkuMzcgMTMuMjVIMTU0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS13aWR0aD0iMzIiLz48L3N2Zz4=')
   // Person's Avatar
   nodeEnter
     .append('image')
-    .attr('id', d => `image-${d.id}`)
+    .attr('id', (d) => `image-${d.id}`)
     .attr('width', avatarWidth)
     .attr('height', avatarWidth)
     .attr('x', avatarPos.x)
     .attr('y', avatarPos.y)
     .attr('stroke', borderColor)
-    .attr('s', d => {
+    .attr('s', (d) => {
       d.person.hasImage
         ? d.person.avatar
-        : loadImage(d).then(res => {
-            covertImageToBase64(res, function(dataUrl) {
+        : loadImage(d).then((res) => {
+            covertImageToBase64(res, function (dataUrl) {
               d3.select(`#image-${d.id}`).attr('href', dataUrl)
               d.person.avatar = dataUrl
             })
@@ -177,8 +189,8 @@ function render(config) {
             return d.person.avatar
           })
     })
-    .attr('src', d => d.person.avatar)
-    .attr('href', d => d.person.avatar)
+    .attr('src', (d) => d.person.avatar)
+    .attr('href', (d) => d.person.avatar)
     .attr('clip-path', 'url(#avatarClip)')
 
   // Person's Link
@@ -197,7 +209,7 @@ function render(config) {
 
   iconLink({
     svg: nodeLink,
-    x: nodeWidth - 20,
+    x: nodeWidth-20,
     y: 8,
   })
 
@@ -205,7 +217,7 @@ function render(config) {
   const nodeUpdate = node
     .transition()
     .duration(animationDuration)
-    .attr('transform', d => `translate(${d.x},${d.y})`)
+    .attr('transform', (d) => `translate(${d.x},${d.y})`)
 
   nodeUpdate
     .select('rect.box')
@@ -217,11 +229,11 @@ function render(config) {
     .exit()
     .transition()
     .duration(animationDuration)
-    .attr('transform', d => `translate(${parentNode.x},${parentNode.y})`)
+    .attr('transform', (d) => `translate(${parentNode.x},${parentNode.y})`)
     .remove()
 
   // Update the links
-  const link = svg.selectAll('path.link').data(links, d => d.target.id)
+  const link = svg.selectAll('path.link').data(links, (d) => d.target.id)
 
   // Wrap the title texts
   const wrapWidth = 124
@@ -232,7 +244,7 @@ function render(config) {
   renderLines(config)
 
   // Stash the old positions for transition.
-  nodes.forEach(function(d) {
+  nodes.forEach(function (d) {
     d.x0 = d.x
     d.y0 = d.y
   })
@@ -240,7 +252,7 @@ function render(config) {
   var nodeLeftX = -70
   var nodeRightX = 70
   var nodeY = 200
-  nodes.map(d => {
+  nodes.map((d) => {
     nodeLeftX = d.x < nodeLeftX ? d.x : nodeLeftX
     nodeRightX = d.x > nodeRightX ? d.x : nodeRightX
     nodeY = d.y > nodeY ? d.y : nodeY
@@ -250,11 +262,11 @@ function render(config) {
   config.nodeY = nodeY
   config.nodeLeftX = nodeLeftX * -1
 
-  d3.select(downloadImageId).on('click', function() {
+  d3.select(downloadImageId).on('click', function () {
     exportOrgChartImage(config)
   })
 
-  d3.select(downloadPdfId).on('click', function() {
+  d3.select(downloadPdfId).on('click', function () {
     exportOrgChartPdf(config)
   })
   onConfigChange(config)
