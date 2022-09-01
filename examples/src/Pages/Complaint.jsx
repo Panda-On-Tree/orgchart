@@ -30,11 +30,13 @@ function Complaint() {
         .then(function (response) {
           console.log(response)
           reset()
+          window.alert("File Uploaded successfully")
          
         })
         .catch(function (err) {
           console.log(err)
-          
+          window.alert("An error occured")
+            
         })
   }
   function checkfile(sender) {
