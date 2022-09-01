@@ -48,16 +48,17 @@ function MChart() {
       },
       data,
     }).then((res) => {
+      console.log(res.data);
       return res.data
     })
   }
 
   async function getParent(nodeData) {
-	console.log(nodeData);
-	const child = [nodeData]
-	const data = {
-		manager_id: nodeData.person.manager_id
-	}
+    console.log(nodeData)
+    const child = [nodeData]
+    const data = {
+      manager_id: nodeData.person.manager_id,
+    }
     return await axios({
       method: 'post',
       url: 'http://microtek.tech:8443/v1/api/mhere/get-parent',
@@ -68,7 +69,7 @@ function MChart() {
     }).then((res) => {
       console.log(res.data)
       const data1 = res.data
-	  data1.children = child
+      data1.children = child
       return data1
     })
   }
@@ -145,7 +146,6 @@ function MChart() {
             console.log(d)
             const childrenData = getChild(d.id)
             console.log(childrenData)
-
             return childrenData
           }}
         />

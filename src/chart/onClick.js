@@ -21,9 +21,6 @@ function onClick(configOnClick) {
         return
       }
     }
-    console.log(datum);
-    console.log(datum._children);
-    console.log(datum.children);
 
     // If this person doesn't have children but `hasChild` is true,
     // attempt to load using the `loadChildren` config function
@@ -34,7 +31,6 @@ function onClick(configOnClick) {
         )
         return
       }
-      console.log("hello");
       const result = loadChildren(datum)
       const handler = handleChildrenResult(config, datum)
 

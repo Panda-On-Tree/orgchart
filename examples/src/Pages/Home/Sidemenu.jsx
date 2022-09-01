@@ -44,12 +44,14 @@ function Sidemenu() {
             <span className="title">Profile</span>
           </a>
         </li>
-        <li>
-          <a href="#">
+        <li  onClick={() => {
+            navigate('/complaint')
+          }}>
+          <a>
             <span className="icon">
               <i className="fas fa-envelope"></i>
             </span>
-            <span className="title">Messages</span>
+            <span className="title">Complaint</span>
           </a>
         </li>
         <li>

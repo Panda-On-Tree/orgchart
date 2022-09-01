@@ -11,6 +11,7 @@ import MChart from './Pages/MChart'
 import Otp from './Pages/Otp'
 import Home from './Pages/Home/Home'
 import Sidemenu from './Pages/Home/Sidemenu'
+import Complaint from './Pages/Complaint'
 function App(){
    
   const Dashboard =()=>(
@@ -30,6 +31,7 @@ function App(){
         <Route element={<Dashboard />}>
           <Route exact path="/" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/mchart" element={localStorage.getItem("token")? <Chart/> : <Navigate replace to="/login"/>}></Route>
+          <Route exact path="/complaint" element={localStorage.getItem("token")? <Complaint/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/chart" element={localStorage.getItem("token")? <MChart/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/home" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/react-org-chart" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
