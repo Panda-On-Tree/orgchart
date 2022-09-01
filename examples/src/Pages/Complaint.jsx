@@ -19,9 +19,10 @@ function Complaint() {
     data.complaint_file = files
     data.employee_id= emp_id
     console.log(data);
+    if(data.type == "create"){
     axios({
         method: 'post',
-        url: 'http://microtek.tech:8443/v1/api/mhere/upload-complaint',
+        url: 'http://microtek.tech:8443/v1/api/mhere/create-complaint',
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -37,7 +38,47 @@ function Complaint() {
           console.log(err)
           window.alert("An error occured")
             
+        })}
+    if(data.type == "assign"){
+    axios({
+        method: 'post',
+        url: 'http://microtek.tech:8443/v1/api/mhere/assign-complaint',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data,
+      })
+        .then(function (response) {
+          console.log(response)
+          reset()
+          window.alert("File Uploaded successfully")
+         
         })
+        .catch(function (err) {
+          console.log(err)
+          window.alert("An error occured")
+            
+        })}
+    if(data.type == "close"){
+    axios({
+        method: 'post',
+        url: 'http://microtek.tech:8443/v1/api/mhere/close-complaint',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data,
+      })
+        .then(function (response) {
+          console.log(response)
+          reset()
+          window.alert("File Uploaded successfully")
+         
+        })
+        .catch(function (err) {
+          console.log(err)
+          window.alert("An error occured")
+            
+        })}
   }
   function checkfile(sender) {
     var validExts = new Array(".csv");
