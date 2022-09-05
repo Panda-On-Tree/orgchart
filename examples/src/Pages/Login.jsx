@@ -4,6 +4,7 @@ import './Login.css'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import logo from '../assets/logo.png'
+import { baseurl } from '../api/apiConfig'
 
 const LoginForm = () => {
   let navigate = useNavigate()
@@ -18,7 +19,7 @@ const LoginForm = () => {
     console.log(data)
     axios({
       method: 'post',
-      url: 'http://microtek.tech:8443/v1/api/mhere/login',
+      url: `${baseurl.base_url}/mhere/login`,
       headers: {
         'Content-Type': 'application/json',
       },

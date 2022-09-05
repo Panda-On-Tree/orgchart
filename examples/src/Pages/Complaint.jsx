@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Complaint.css'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-
+import { baseurl } from '../api/apiConfig'
 function Complaint() {
 
     const [files, setFile] = useState()
@@ -22,7 +22,7 @@ function Complaint() {
     if(data.type == "create"){
     axios({
         method: 'post',
-        url: 'http://microtek.tech:8443/v1/api/mhere/create-complaint',
+        url: `${baseurl.base_url}/mhere/create-complaint`,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -42,7 +42,7 @@ function Complaint() {
     if(data.type == "assign"){
     axios({
         method: 'post',
-        url: 'http://microtek.tech:8443/v1/api/mhere/assign-complaint',
+        url: `${baseurl.base_url}/mhere/assign-complaint`,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -62,7 +62,7 @@ function Complaint() {
     if(data.type == "close"){
     axios({
         method: 'post',
-        url: 'http://microtek.tech:8443/v1/api/mhere/close-complaint',
+        url: `${baseurl.base_url}/mhere/close-complaint`,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -106,7 +106,7 @@ function Complaint() {
             accept=".csv"
         onChange={(e)=>{
             checkfile(e.target)
-        }}
+        }}              
           />
           <select name="" required id=""  {...register('type', {
               required: 'required',

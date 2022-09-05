@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
 import logo from '../assets/logo.png'
+import { baseurl } from '../api/apiConfig'
 
 function ResetPassword() {
 
@@ -18,7 +19,7 @@ function ResetPassword() {
 
         axios({
             method: "post",
-            url: "http://microtek.tech:8443/v1/api/mhere/reset-password",
+            url: `${baseurl.base_url}/mhere/reset-password`,
             headers: {
                 "Content-Type": "application/json",
             },

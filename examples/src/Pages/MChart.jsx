@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '.././App.css'
 import OrgChart from '@unicef/react-org-chart'
+import { baseurl } from '../api/apiConfig'
 
 import { tree0, tree1, tree2, tree3, tree4 } from './Tree'
 
@@ -21,7 +22,7 @@ function MChart() {
     }
     axios({
       method: 'post',
-      url: 'http://microtek.tech:8443/v1/api/mhere/get-parent-node',
+      url: `${baseurl.base_url}/mhere/get-parent-node`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -42,7 +43,7 @@ function MChart() {
     }
     return await axios({
       method: 'post',
-      url: 'http://microtek.tech:8443/v1/api/mhere/get-child',
+      url: `${baseurl.base_url}/mhere/get-child`,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -61,7 +62,7 @@ function MChart() {
     }
     return await axios({
       method: 'post',
-      url: 'http://microtek.tech:8443/v1/api/mhere/get-parent',
+      url: `${baseurl.base_url}/mhere/get-parent`,
       headers: {
         'Content-Type': 'application/json',
       },

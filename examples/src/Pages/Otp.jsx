@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { useLocation } from 'react-router';
 import logo from '../assets/logo.png'
+import { baseurl } from '../api/apiConfig'
 
 
 import axios from 'axios';
@@ -19,7 +20,7 @@ function Otp() {
 
         axios({
           method:"post",
-          url:"http://microtek.tech:8443/v1/api/mhere/verify-otp",
+          url:`${baseurl.base_url}/mhere/verify-otp`,
           headers:{
             "Content-Type": "application/json",
           },
