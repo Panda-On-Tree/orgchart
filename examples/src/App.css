@@ -47,7 +47,7 @@ body {
 
 .zoom-buttons {
   position: absolute;
-  top: 0;
+  top: 10vh;
   right: 20px !important;
   margin-right: 10px;
   display: flex;

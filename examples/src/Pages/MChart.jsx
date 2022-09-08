@@ -37,9 +37,11 @@ function MChart() {
       })
   }, [])
 
-  async function getChild(id) {
+  async function getChild(d) {
+    console.log(d);
     const data = {
-      parent_employee_id: id,
+      parent_employee_id: d.id,
+      parent_height: d.max_height + d.height
     }
     return await axios({
       method: 'post',
@@ -145,7 +147,7 @@ function MChart() {
           }}
           loadChildren={(d) => {
             console.log(d)
-            const childrenData = getChild(d.id)
+            const childrenData = getChild(d)
             console.log(childrenData)
             return childrenData
           }}

@@ -36,7 +36,9 @@ function Sidemenu() {
             <span className="title">Home</span>
           </a>
         </li>
-        <li>
+        <li onClick={() => {
+            navigate('/profile')
+          }}>
           <a href="#">
             <span className="icon">
               <i className="fas fa-user"></i>

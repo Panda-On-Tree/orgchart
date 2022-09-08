@@ -52,8 +52,16 @@ function render(config) {
 
   // Normalize for fixed-depth.
   nodes.forEach(function (d) {
-    d.y = d.depth * lineDepthY
+    if (sourceNode) {
+      console.log(sourceNode);
+      //console.log(d.height + sourceNode.max_height, d.person.name,d.height, sourceNode.max_height,"if");
+      d.y = d.depth * lineDepthY + d.height + d.max_height
+    } else {
+      console.log("inside if");
+      d.y = d.depth * lineDepthY
+    }
   })
+  console.log("-------------------------");
 
   // Update the nodes
   const node = svg.selectAll('g.' + CHART_NODE_CLASS).data(
@@ -154,7 +162,7 @@ function render(config) {
     .style('font-size', 16)
     .style('font-weight', 600)
     .style('cursor', 'pointer')
-    .style('fill', "black")
+    .style('fill', 'black')
     .text(helpers.getTextForTitle)
 
   nodeEnter
@@ -162,12 +170,15 @@ function render(config) {
     .attr('class', PERSON_REPORTS_CLASS_ICON)
     .attr('x', nodeWidth / 2 - 23)
     .attr('y', namePos.y + nodePaddingY + heightForTitle - 3)
-    .attr('display', d => (d.hasChild ? '' : 'none'))
+    .attr('display', (d) => (d.hasChild ? '' : 'none'))
     .attr('width', 20)
     .attr('height', 20)
     .style('cursor', 'pointer')
-    .attr('src', "")
-    .attr('xlink:href', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpb25pY29uIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHRpdGxlPlBlb3BsZTwvdGl0bGU+PHBhdGggZD0iTTQwMiAxNjhjLTIuOTMgNDAuNjctMzMuMSA3Mi02NiA3MnMtNjMuMTItMzEuMzItNjYtNzJjLTMtNDIuMzEgMjYuMzctNzIgNjYtNzJzNjkgMzAuNDYgNjYgNzJ6IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjMyIi8+PHBhdGggZD0iTTMzNiAzMDRjLTY1LjE3IDAtMTI3Ljg0IDMyLjM3LTE0My41NCA5NS40MS0yLjA4IDguMzQgMy4xNSAxNi41OSAxMS43MiAxNi41OWgyNjMuNjVjOC41NyAwIDEzLjc3LTguMjUgMTEuNzItMTYuNTlDNDYzLjg1IDMzNS4zNiA0MDEuMTggMzA0IDMzNiAzMDR6IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjMyIi8+PHBhdGggZD0iTTIwMCAxODUuOTRjLTIuMzQgMzIuNDgtMjYuNzIgNTguMDYtNTMgNTguMDZzLTUwLjctMjUuNTctNTMtNTguMDZDOTEuNjEgMTUyLjE1IDExNS4zNCAxMjggMTQ3IDEyOHM1NS4zOSAyNC43NyA1MyA1Ny45NHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMzIiLz48cGF0aCBkPSJNMjA2IDMwNmMtMTguMDUtOC4yNy0zNy45My0xMS40NS01OS0xMS40NS01MiAwLTEwMi4xIDI1Ljg1LTExNC42NSA3Ni4yLTEuNjUgNi42NiAyLjUzIDEzLjI1IDkuMzcgMTMuMjVIMTU0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS13aWR0aD0iMzIiLz48L3N2Zz4=')
+    .attr('src', '')
+    .attr(
+      'xlink:href',
+      'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpb25pY29uIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHRpdGxlPlBlb3BsZTwvdGl0bGU+PHBhdGggZD0iTTQwMiAxNjhjLTIuOTMgNDAuNjctMzMuMSA3Mi02NiA3MnMtNjMuMTItMzEuMzItNjYtNzJjLTMtNDIuMzEgMjYuMzctNzIgNjYtNzJzNjkgMzAuNDYgNjYgNzJ6IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjMyIi8+PHBhdGggZD0iTTMzNiAzMDRjLTY1LjE3IDAtMTI3Ljg0IDMyLjM3LTE0My41NCA5NS40MS0yLjA4IDguMzQgMy4xNSAxNi41OSAxMS43MiAxNi41OWgyNjMuNjVjOC41NyAwIDEzLjc3LTguMjUgMTEuNzItMTYuNTlDNDYzLjg1IDMzNS4zNiA0MDEuMTggMzA0IDMzNiAzMDR6IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjMyIi8+PHBhdGggZD0iTTIwMCAxODUuOTRjLTIuMzQgMzIuNDgtMjYuNzIgNTguMDYtNTMgNTguMDZzLTUwLjctMjUuNTctNTMtNTguMDZDOTEuNjEgMTUyLjE1IDExNS4zNCAxMjggMTQ3IDEyOHM1NS4zOSAyNC43NyA1MyA1Ny45NHoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMzIiLz48cGF0aCBkPSJNMjA2IDMwNmMtMTguMDUtOC4yNy0zNy45My0xMS40NS01OS0xMS40NS01MiAwLTEwMi4xIDI1Ljg1LTExNC42NSA3Ni4yLTEuNjUgNi42NiAyLjUzIDEzLjI1IDkuMzcgMTMuMjVIMTU0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS13aWR0aD0iMzIiLz48L3N2Zz4='
+    )
   // Person's Avatar
   nodeEnter
     .append('image')
@@ -197,9 +208,9 @@ function render(config) {
   const nodeLink = nodeEnter
     .append('a')
     .attr('class', PERSON_LINK_CLASS)
-    .attr('display', d => (d.person.link ? '' : 'none'))
-    .attr('xlink:href', d => d.person.link)
-    .on('click', datum => {
+    .attr('display', (d) => (d.person.link ? '' : 'none'))
+    .attr('xlink:href', (d) => d.person.link)
+    .on('click', (datum) => {
       d3.event.stopPropagation()
       // TODO: fire link click handler
       if (onPersonLinkClick) {
@@ -209,7 +220,7 @@ function render(config) {
 
   iconLink({
     svg: nodeLink,
-    x: nodeWidth-20,
+    x: nodeWidth - 20,
     y: 8,
   })
 

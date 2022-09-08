@@ -12,12 +12,15 @@ import Otp from './Pages/Otp'
 import Home from './Pages/Home/Home'
 import Sidemenu from './Pages/Home/Sidemenu'
 import Complaint from './Pages/Complaint'
+import Navbar from './Pages/Home/Navbar'
+import Profile from './Pages/Profile'
 function App(){
    
   const Dashboard =()=>(
     <div id='root' style={{overflow:"hidden"}}>
       <Sidemenu />
-      <Outlet />
+      <Navbar/>
+      <div id='root' style={{marginLeft:"60px"}}><Outlet /></div>
     </div>
   )
   const Auth =()=>(
@@ -30,11 +33,12 @@ function App(){
       <Routes>
         <Route element={<Dashboard />}>
           <Route exact path="/" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
+          <Route exact path="/profile" element={localStorage.getItem("token")? <Profile/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/mchart" element={localStorage.getItem("token")? <Chart/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/complaint" element={localStorage.getItem("token")? <Complaint/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/chart" element={localStorage.getItem("token")? <MChart/> : <Navigate replace to="/login"/>}></Route>
           <Route exact path="/home" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
-          <Route exact path="/react-org-chart" element={localStorage.getItem("token")? <Home/> : <Navigate replace to="/login"/>}></Route>
+          <Route exact path="/react-org-chart" element={localStorage.getItem("token")? <Navigate replace to="/home"/> : <Navigate replace to="/login"/>}></Route>
         </Route>
         <Route element={<Auth />}>
           <Route exact path="/login" element={<LoginForm/>}></Route>

@@ -81,11 +81,11 @@ function renderLines(config = {}) {
           },
           {
             x: d.source.x + parseInt(nodeWidth / 2),
-            y: d.target.y - margin.top / 2,
+            y: d.target.y - d.target.height + nodeHeight/2 - margin.top / 2,
           },
           {
             x: d.target.x + parseInt(nodeWidth / 2),
-            y: d.target.y - margin.top / 2,
+            y: d.target.y - d.target.height + nodeHeight/2 - margin.top / 2,
           },
           {
             x: d.target.x + parseInt(nodeWidth / 2),
