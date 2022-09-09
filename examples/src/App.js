@@ -17,10 +17,9 @@ import Profile from './Pages/Profile'
 function App(){
    
   const Dashboard =()=>(
-    <div id='root' style={{overflow:"hidden"}}>
-      <Sidemenu />
+    <div id='root'>
       <Navbar/>
-      <div id='root' style={{marginLeft:"60px"}}><Outlet /></div>
+      <div id='root'><Outlet /></div>
     </div>
   )
   const Auth =()=>(

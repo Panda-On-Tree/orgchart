@@ -1,7 +1,7 @@
 .navbar-main{
     top: 0px;
     z-index: 9;
-    min-width: 100vw;
+    min-width: 100%;
     min-height: 8vh;
     background-color: #52575d;   
     display: flex;
