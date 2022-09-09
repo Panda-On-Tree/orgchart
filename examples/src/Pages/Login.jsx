@@ -42,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <div>
-      <div className=" flex-r container">
+      <div className=" flex-r containers">
         <div className="flex-r login-wrapper">
           <div className="login-text">
             <div className="logo">

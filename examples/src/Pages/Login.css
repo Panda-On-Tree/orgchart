@@ -20,7 +20,7 @@
   flex-direction: row;
 }
 
-.container {
+.containers {
    cursor: default;
   width: 100%;
   min-height: 100vh;
