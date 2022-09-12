@@ -2,6 +2,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { baseurl } from '../api/apiConfig'
 import './Profile.css'
+import avatar from './assets/profile.jpg'
+
 function Profile() {
   const [eData, setEData] = useState()
   const [mData, setMData] = useState()
@@ -57,8 +59,8 @@ function Profile() {
     <div class="img-area">
       <div class="inner-area">
         <img
-          src={eData?.image?`data:image/jpeg;base64,${eData.image}`:""}
-          alt="twitter"
+          src={eData?.image?`data:image/jpeg;base64,${eData.image}`:avatar}
+          alt="Profile pic"
         />
       </div>
     </div>

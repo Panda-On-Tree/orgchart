@@ -1,56 +1,54 @@
-.comp-main{
-    min-height: 100vh;
-    margin-left: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-background: #dedede;
+.comp-main {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ecf0f3;
 
 }
-.comp-main> form{
-    max-width: 40vw !important;
-    margin: 0px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
+.comp-main > form {
+  max-width: 40vw !important;
+  margin: 0px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.comp-inner{
-display: flex;
-flex-direction: column;
-background-color: rgb(243, 243, 243);
-padding: 5%;
-min-height: 60vh;
-justify-content: flex-start;
-align-items: flex-start;
-border-radius: 15px;
-background: #dedede;
-box-shadow:  5px 5px 10px #cecece,
-             -5px -5px 10px #cecece;
+.comp-inner {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(243, 243, 243);
+  padding: 5%;
+  min-height: 60vh;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 15px;
+  background: #ecf0f3;
+  
+  box-shadow: 5px 5px 10px #cecece, -5px -5px 10px #cecece;
 }
 
-.comp-inner> input{
-    flex: 0 !important;
-    margin-bottom: 5vh;
+.comp-inner > input {
+  flex: 0 !important;
+  margin-bottom: 5vh;
 }
-.comp-inner> select{
-    min-height: 6vh;
-    min-width: 15vw;
-    border: 1px solid rgb(77, 77, 77);
-    margin-bottom: 25vh;
-    border-radius: 3px;
-    outline: none;
-    border: none;
-    padding: 5px;
+.comp-inner > select {
+  min-height: 6vh;
+  min-width: 15vw;
+  border: 1px solid rgb(77, 77, 77);
+  margin-bottom: 25vh;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  padding: 5px;
 }
-.comp-inner> select:focus{
-outline: none;
+.comp-inner > select:focus {
+  outline: none;
 }
-.comp-inner> button{
-    min-height: 7vh;
-    min-width: 20vw;
-    border: none;
-    background-color: rgb(95, 191, 236);
-border-radius: 5px;
-font-size: 18px;
+.comp-inner > button {
+  min-height: 7vh;
+  min-width: 20vw;
+  border: none;
+  background-color: rgb(95, 191, 236);
+  border-radius: 5px;
+  font-size: 18px;
 }

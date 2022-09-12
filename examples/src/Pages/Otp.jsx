@@ -39,7 +39,7 @@ function Otp() {
 
   return (
     <div>
-        <div className=" flex-r container">
+        <div className=" flex-r containers">
                 <div className="flex-r login-wrapper">
                     <div className="login-text">
                         <div className="logo">
@@ -66,7 +66,7 @@ function Otp() {
                            
                             
 
-                            <button className="btn" type="submit">Verify</button>
+                            <button className="btns" type="submit">Verify</button>
                            
                         </form>
 

@@ -84,14 +84,14 @@ const LoginForm = () => {
               <div className="check">
                 <a
                   style={{ color: 'red', fontSize: '14px' }}
-                  href="/forget-password"
+                  href="/ess/forget-password"
                 >
                   Forget Password?
                 </a>
               </div>
 
               <button
-                className="btn"
+                className="btns"
                 style={{ padding: '10px 20px' }}
                 type="submit"
               >

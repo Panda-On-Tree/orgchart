@@ -17,7 +17,7 @@ import Profile from './Pages/Profile'
 function App(){
    
   const Dashboard =()=>(
-    <div id='root'>
+    <div id='root' className='dashboard-main'>
       <Navbar/>
       <div id='root'><Outlet /></div>
     </div>

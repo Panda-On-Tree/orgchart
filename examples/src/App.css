@@ -9,13 +9,41 @@ body {
     'Segoe UI Symbol';
   -webkit-font-smoothing: antialiased;
 }
+
+.dashboard-main{
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+  
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
 #root,
 #react-org-chart {
   margin: 0;
-  cursor: move;
   height: 100%;
   width: 100%;
   background-color: #f7f9fa;
+}
+#react-org-chart{
+  cursor: move;
 }
 .org-chart-person-name {
   font-weight: 500;
@@ -47,10 +75,11 @@ body {
 
 .zoom-buttons {
   position: absolute;
-  top: 10vh;
+  top: 15vh;
   right: 20px !important;
   margin-right: 10px;
   display: flex;
+  text-align: center;
 }
 
 .download-buttons {
@@ -62,12 +91,13 @@ body {
 .zoom-button {
   width: 40px;
   height: 40px;
-  display: block !important;
-  margin: 8px;
+  display: flex;
+  padding: 5% !important;
+border-radius: 300px !important ;
 }
 
 .btn {
-
+background-color: white !important;
   font-size: 0.875rem;
   text-transform: none;
   text-decoration-line: none;
@@ -84,18 +114,32 @@ body {
 }
 
 .btn-outline-primary {
-  color: #374ea2;
-  border-color: #374ea2;
+  color: #374ea2 !important;
+  border-color: #374ea2 !important;
+}
+.btn-outline-primary :hover {
+  background-color: white !important;
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled):active {
   color: #fff;
-  background-color: #374ea2;
   border-color: #374ea2;
+}
+.btn:before{
+  background-color: white !important;
 }
 
 .github-link {
   font-size: 16px;
   margin-left: 8px;
   margin-right: 16px;
+}
+
+.stickys{
+  
+    position: fixed;
+    top: 0;
+    width: 100%;
+  
+  
 }

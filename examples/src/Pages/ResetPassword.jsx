@@ -36,7 +36,7 @@ function ResetPassword() {
     };
     return (
         <div>
-            <div className=" flex-r container">
+            <div className=" flex-r containers">
                 <div className="flex-r login-wrapper">
                     <div className="login-text">
                         <div className="logo">
@@ -72,7 +72,7 @@ function ResetPassword() {
 
 
 
-                            <button className="btn"type="submit">Update Password</button>
+                            <button className="btns" type="submit">Update Password</button>
 
                         </form>
 
