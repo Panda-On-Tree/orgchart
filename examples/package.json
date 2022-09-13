@@ -13,7 +13,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^3.3.0"
   },
-  "homepage": "/ess",
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unicef/react-org-chart.git"
