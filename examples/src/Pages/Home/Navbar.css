@@ -2726,8 +2726,8 @@
   
   .hero-wrap.style1 {
     /* background-color: #F5F6FA; */
-    background: url(../img/hero/banner-bg.jpg) no-repeat top center;
-    background-size: cover;
+   /*  background: url(../img/hero/banner-bg.jpg) no-repeat top center;
+    background-size: cover; */
   }
   
   .hero-wrap.style1 .hero-slide-item {
@@ -3677,7 +3677,7 @@
       font-size: 20px;
     }
     .hero-wrap {
-      margin-top: 75px;
+      margin-top: 0px;
     }
     .hero-wrap .hero-content {
       margin-bottom: 30px;
@@ -3790,7 +3790,7 @@
     }
     
     .hero-wrap {
-      margin-top: 97px;
+      margin-top: 0px;
     }
     .hero-wrap.style1 .hero-slide-item {
       padding: 50px 0 90px;
@@ -4102,3 +4102,5 @@
       right: 65px;
     }
   }
+
+  

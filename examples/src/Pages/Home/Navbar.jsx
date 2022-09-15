@@ -12,14 +12,12 @@ function Navbar() {
   useEffect(()=>{
     window.onscroll = function() {myFunction()};
    
-    // Get the navbar
   
     
-    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
     function myFunction() {
       var navbar = document.getElementById("sticky");
     
-      // Get the offset position of the navbar
+      
       var sticky = navbar.offsetTop;
       if (window.pageYOffset > sticky) {
         navbar.classList.add("stickys")
@@ -67,11 +65,11 @@ function Navbar() {
   }
 
   return (
-    <header style={{ display: 'block', position:"",backgroundColor:"#f7f9fa" }} id="sticky" class="animate__animated  header-wrap style1">
+    <header style={{ display: 'block', position:"",backgroundColor:"#f7f9fa"}} id="sticky" class="animate__animated  header-wrap style1">
       <div class="header-bottom">
         <div class="container">
           <nav class="navbar navbar-expand-md navbar-light">
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand">
               <img class="" src={logo2} alt="logo" />
             </a>
             <div
@@ -106,7 +104,7 @@ function Navbar() {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a class="nav-link">
                     Utilities
                     <i class="icon-arrow-down"></i>
                   </a>
@@ -140,6 +138,16 @@ function Navbar() {
                     </li>
                   </ul>
                 </li>
+                <li class="nav-item">
+                  <a
+                    onClick={() => {
+                      navigate('/aboutus')
+                    }}
+                    class="nav-link"
+                  >
+                    About Us
+                  </a>
+                </li>
                 <li
                   class="nav-item"
                   style={{
@@ -149,8 +157,8 @@ function Navbar() {
                     alignItems: 'center',
                   }}
                 >
-                  <a href="#" class="nav-link">
-                    {eData?.name_of_the_eployee}
+                  <a class="nav-link">
+                    {eData?.name_of_the_eployee?eData.name_of_the_eployee:"Your Name"}
                     <i class="icon-arrow-down"></i>
                   </a>
                   <ul class="dropdown-menu">
@@ -182,7 +190,7 @@ function Navbar() {
                   </ul>
                   <img
                      src= {eData?.image?`data:image/jpeg;base64,${eData.image}`:avatar}
-                    style={{ maxHeight: '35px', borderRadius: '20px' }}
+                    style={{ maxHeight: '40px', width:"40px" , borderRadius: '20px' }}
                     alt=""
                   />
                 </li>
@@ -191,7 +199,7 @@ function Navbar() {
           </nav>
           <div class="mobile-bar-wrap">
             <div class="mobile-menu d-lg-none">
-              <a href="javascript:void(0)">
+              <a>
                 <i class="icon-menu2"></i>
               </a>
             </div>
