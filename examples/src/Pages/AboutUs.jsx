@@ -1,5 +1,6 @@
 import React from 'react'
 import vision from "./assets/vison.svg"
+import Footer from './Home/Footer'
 function AboutUs() {
   return (
     <div style={{overflowX:"hidden" , minHeight:"101vh"}}>
@@ -11,7 +12,7 @@ function AboutUs() {
                                 <span  style={{fontSize:"26px" , marginBottom:"3vh"}}>Vision &amp; Mission</span>
                                 <h2 style={{fontSize:"20px"}} >Be a market leader for all our products</h2>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Loo make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                <div class="ptb-30"><a href="#" class="btn">Read More</a></div>
+                                <div class="ptb-30"><a class="btn">Read More</a></div>
                          </div>
                         </div>
                         <div class="col-lg-6 ps-lg-0">
@@ -67,6 +68,7 @@ function AboutUs() {
                         </div>
                 </div>
             </section>
+            <Footer />
     </div>
   )
 }

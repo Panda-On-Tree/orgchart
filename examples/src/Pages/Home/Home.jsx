@@ -2,10 +2,11 @@ import React from 'react'
 import self from "../assets/self_service.svg"
 import './Home.css'
 import MChart from '../MChart'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import Footer from './Footer'
 
 function Home() {
+  let navigate = useNavigate()
   return (
     <div>
       <section class="hero-wrap style1">
@@ -17,7 +18,10 @@ function Home() {
                                     <div class="hero-content">
                                         <h1 style={{minWidth:"37vw"}}>Welcome to Microtek Employee Self Service </h1>
                                         <div class="hero-btn">
-                                            <a class="btn">Read More</a>
+                                            <a onClick={(e)=>{
+                                              e.preventDefault();
+                                              navigate('/aboutus')
+                                            }} class="btn">Read More</a>
                                             
                                         </div>
                                     </div>

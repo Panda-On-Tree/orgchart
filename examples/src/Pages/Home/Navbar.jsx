@@ -9,34 +9,31 @@ import { useNavigate } from 'react-router-dom'
 function Navbar() {
   let navigate = useNavigate()
 
-  useEffect(()=>{
-    window.onscroll = function() {myFunction()};
-   
-  
-    
+  useEffect(() => {
+    window.onscroll = function () {
+      myFunction()
+    }
+
     function myFunction() {
-      var navbar = document.getElementById("sticky");
-    
-      
-      var sticky = navbar.offsetTop;
+      var navbar = document.getElementById('sticky')
+
+      var sticky = navbar.offsetTop
       if (window.pageYOffset > sticky) {
-        navbar.classList.add("stickys")
-        navbar.classList.add("animate__slideInDown")
+        navbar.classList.add('stickys')
+        navbar.classList.add('animate__slideInDown')
         //navbar.classList.add("animate__slow")
-        navbar.classList.remove("animate__slow")
+        navbar.classList.remove('animate__slow')
 
-        navbar.classList.remove("animate__fadeIn")
-
+        navbar.classList.remove('animate__fadeIn')
       } else {
-        navbar.classList.remove("stickys");
-        navbar.classList.remove("animate__slideInDown");
-        navbar.classList.add("animate__slow")
+        navbar.classList.remove('stickys')
+        navbar.classList.remove('animate__slideInDown')
+        navbar.classList.add('animate__slow')
 
-        navbar.classList.add("animate__fadeIn")
-
+        navbar.classList.add('animate__fadeIn')
       }
     }
-  },[])
+  }, [])
 
   const [eData, setEData] = useState()
   useEffect(() => {
@@ -65,7 +62,11 @@ function Navbar() {
   }
 
   return (
-    <header style={{ display: 'block', position:"",backgroundColor:"#f7f9fa"}} id="sticky" class="animate__animated  header-wrap style1">
+    <header
+      style={{ display: 'block', position: '', backgroundColor: '#f7f9fa' }}
+      id="sticky"
+      class="animate__animated  header-wrap style1"
+    >
       <div class="header-bottom">
         <div class="container">
           <nav class="navbar navbar-expand-md navbar-light">
@@ -105,7 +106,7 @@ function Navbar() {
                 </li>
                 <li class="nav-item">
                   <a class="nav-link">
-                    Utilities
+                    Useful Links
                     <i class="icon-arrow-down"></i>
                   </a>
                   <ul class="dropdown-menu">
@@ -126,6 +127,15 @@ function Navbar() {
                                         </li>
                                     </ul>
                                 </li> */}
+                    <li class="nav-item">
+                      <a target="_blank" href='https://microtek.tech/itop'>CMDB Tool</a>
+                    </li>
+                    <li class="nav-item">
+                      <a target="_blank" href='https://microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
+                    </li>
+                    <li class="nav-item">
+                      <a target="_blank" href='https://microtek.tech/capex/login.php'>Capex Portal</a>
+                    </li>
                     <li class="nav-item">
                       <a
                         onClick={() => {
@@ -158,7 +168,9 @@ function Navbar() {
                   }}
                 >
                   <a class="nav-link">
-                    {eData?.name_of_the_eployee?eData.name_of_the_eployee:"Your Name"}
+                    {eData?.name_of_the_eployee
+                      ? eData.name_of_the_eployee
+                      : 'Your Name'}
                     <i class="icon-arrow-down"></i>
                   </a>
                   <ul class="dropdown-menu">
@@ -189,8 +201,16 @@ function Navbar() {
                     </li>
                   </ul>
                   <img
-                     src= {eData?.image?`data:image/jpeg;base64,${eData.image}`:avatar}
-                    style={{ maxHeight: '40px', width:"40px" , borderRadius: '20px' }}
+                    src={
+                      eData?.image
+                        ? `data:image/jpeg;base64,${eData.image}`
+                        : avatar
+                    }
+                    style={{
+                      maxHeight: '40px',
+                      width: '40px',
+                      borderRadius: '20px',
+                    }}
                     alt=""
                   />
                 </li>
