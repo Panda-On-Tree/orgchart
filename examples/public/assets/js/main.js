@@ -1,4 +1,8 @@
+$( document ).ready(function() {
+    console.log( "ready!" );
+});
 (function ($) {
+    console.log("hello");
     "use strict";    
     //Tweenmax js
     $('.hero-wrap').mousemove(function (e) {
@@ -45,53 +49,55 @@
     });
 
     // Responsive mmenu
-    $(window).on('resize', function() {
+    $(window).on('load', function() {
         if($(window).width() <= 1199) {
+            console.log("here");
             $('.collapse.navbar-collapse').removeClass('collapse');
         }else{
             $('.navbar-collapse').addClass('collapse');
         }
-    });
-    $('.mobile-menu a').on('click', function() {
-        $('.main-menu-wrap').addClass('open');
-        $('.collapse.navbar-collapse').removeClass('collapse');
-    });
-
-    $('.mobile_menu a').on('click', function () {
-        $(this).parent().toggleClass('open');
-        $('.main-menu-wrap').toggleClass('open');
-    });
-
-    $('.menu-close').on('click', function () {
-        $('.main-menu-wrap').removeClass('open')
-    });
-    $('.mobile-top-bar').on('click', function () {
-        $('.header-top').addClass('open')
-    });
-    $('.close-header-top button').on('click', function () {
-        $('.header-top').removeClass('open')
-    });
-    var $offcanvasNav = $('.navbar-nav'),
-    $offcanvasNavSubMenu = $offcanvasNav.find('.dropdown-menu');
-    $offcanvasNavSubMenu.parent().prepend('<span class="menu-expand"><i class="icon-arrow-down"></i></span>');
-    $offcanvasNavSubMenu.slideUp();
-    $offcanvasNav.on('click', 'li a, li .menu-expand', function (e) {
-        var $this = $(this);
-        if (($this.attr('href') === '#' || $this.hasClass('menu-expand'))) {
-            e.preventDefault();
-            if ($this.siblings('ul:visible').length) {
-                $this.siblings('ul').slideUp('slow');
-            } else {
-                $this.closest('li').siblings('li').find('ul:visible').slideUp('slow');
-                $this.siblings('ul').slideDown('slow');
+        $('.mobile-menu a').on('click', function() {
+            $('.main-menu-wrap').addClass('open');
+            $('.collapse.navbar-collapse').removeClass('collapse');
+        });
+    
+        $('.mobile_menu a').on('click', function () {
+            $(this).parent().toggleClass('open');
+            $('.main-menu-wrap').toggleClass('open');
+        });
+    
+        $('.menu-close').on('click', function () {
+            $('.main-menu-wrap').removeClass('open')
+        });
+        $('.mobile-top-bar').on('click', function () {
+            $('.header-top').addClass('open')
+        });
+        $('.close-header-top button').on('click', function () {
+            $('.header-top').removeClass('open')
+        });
+        var $offcanvasNav = $('.navbar-nav'),
+        $offcanvasNavSubMenu = $offcanvasNav.find('.dropdown-menu');
+        $offcanvasNavSubMenu.parent().prepend('<span class="menu-expand"><i class="icon-arrow-down"></i></span>');
+        $offcanvasNavSubMenu.slideUp();
+        $offcanvasNav.on('click', 'li a, li .menu-expand', function (e) {
+            var $this = $(this);
+            if (($this.attr('href') === '#' || $this.hasClass('menu-expand'))) {
+                e.preventDefault();
+                if ($this.siblings('ul:visible').length) {
+                    $this.siblings('ul').slideUp('slow');
+                } else {
+                    $this.closest('li').siblings('li').find('ul:visible').slideUp('slow');
+                    $this.siblings('ul').slideDown('slow');
+                }
             }
-        }
-        if ($this.is('a') || $this.is('span') || $this.attr('class').match(/\b(menu-expand)\b/)) {
-            $this.parent().toggleClass('menu-open');
-        } else if ($this.is('li') && $this.attr('class').match(/\b('dropdown-menu')\b/)) {
-            $this.toggleClass('menu-open');
-        }
+            if ($this.is('a') || $this.is('span') || $this.attr('class').match(/\b(menu-expand)\b/)) {
+                $this.parent().toggleClass('menu-open');
+            } else if ($this.is('li') && $this.attr('class').match(/\b('dropdown-menu')\b/)) {
+                $this.toggleClass('menu-open');
+            }
+        });
     });
+   
 
     // Scroll animation
     AOS.init();

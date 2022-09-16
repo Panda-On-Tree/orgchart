@@ -14,7 +14,7 @@ function Home() {
                     <div class="hero-slide-item">
                         <div class="container">
                             <div class="row align-items-center gx-5">
-                                <div class="col-xl-5 col-lg-6">
+                                <div class="col-xl-5 col-lg-6 set-width ">
                                     <div class="hero-content">
                                         <h1 style={{minWidth:"37vw"}}>Welcome to Microtek Employee Self Service </h1>
                                         <div class="hero-btn">
@@ -26,7 +26,7 @@ function Home() {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-7 col-lg-6">
+                                <div class="col-xl-7 col-lg-6 set-width">
                                     <div class="hero-img-wrap">
                                         <img class="hero-img" src={self} alt="Image"/>
                                     </div>
@@ -37,7 +37,7 @@ function Home() {
                     
                 </div>
             </section>
-    <section class="product">
+    <section class="product" >
     <div>
     <div class="content-title ptb-30 text-center">
         <h2>Useful Links</h2>
