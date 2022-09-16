@@ -16,6 +16,7 @@
     url('../fonts/icomoon.ttf') format('truetype'),
     url('../fonts/icomoon.woff') format('woff'),
     url('../fonts/icomoon.svg') format('svg');
+  
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -37,7 +38,12 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+  .ri-pages-line{
+    content: "\EFBF";
+  }
+  .icon-self-dec:before {
+    content: "\e920" !important;
+  }
   .icon-ecg-icon:before {
     content: "\e900";
   }
@@ -4103,4 +4109,24 @@
     }
   }
 
-  
+  @media (min-width: 768px){
+    .col-md-3 {
+      flex: 0 0 auto;
+      width: 33.3%;
+  }
+  }
+  @media only screen and (max-width: 991px){
+.hero-wrap.style1 .hero-slide-item .hero-content {
+    margin-bottom: 35px;
+
+}
+.hero-img{
+  max-height: 20vh;
+  margin-left: 10px !important;
+}
+.hero-content h1{
+  max-width: 35vw;
+  font-size: 30px !important;
+}
+}
+

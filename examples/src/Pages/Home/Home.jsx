@@ -21,7 +21,7 @@ function Home() {
                                             <a onClick={(e)=>{
                                               e.preventDefault();
                                               navigate('/aboutus')
-                                            }} class="btn">Read More</a>
+                                            }} class="btn read-more-button">Read More</a>
                                             
                                         </div>
                                     </div>
@@ -47,7 +47,9 @@ function Home() {
         <li class="col-lg-4 col-md-3 col-sm-12">
             <div class="ps-list-content">
                 <a target="_blank" href="https://microtek.tech/itop">
-                    <span class="icon-patient-monitor"></span>
+                <span class="material-symbols-outlined">
+database
+</span>
                     <h4>CMDB Tool</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> 
                 </a>
@@ -56,7 +58,9 @@ function Home() {
         <li class="col-lg-4 col-md-3 col-sm-12">
             <div class="ps-list-content">
                 <a target="_blank" href="https://microtek.tech/Self-Declaration/login.php">
-                    <span class="icon-ecg-icon"></span>
+                <span class="material-symbols-outlined">
+app_registration
+</span>
                     <h4>Self Declaration</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> 
                 </a>
@@ -65,7 +69,9 @@ function Home() {
         <li class="col-lg-4 col-md-3 col-sm-12">
             <div class="ps-list-content">
                 <a target="_blank" href="https://microtek.tech/capex/login.php">
-                    <span class="icon-video-laryngoscope"></span>
+                <span class="material-symbols-outlined">
+description
+</span>
                     <h4>Capex</h4>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> 
                 </a>

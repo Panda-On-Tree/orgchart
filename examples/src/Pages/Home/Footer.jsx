@@ -96,7 +96,7 @@ H-57, Udyog Nagar, <br/> Rohtak Road Delhi-110041, 011-71255500</span>
             </div>
         </div>
     </div>
-    <p class="copyright-text"> &#169 <a>2022 MICROTEK</a>. All Rights Reserved.</p>
+    <p class="copyright-text"> <a>2022 MICROTEK</a>. All Rights Reserved.</p>
 </footer>
   )
 }
