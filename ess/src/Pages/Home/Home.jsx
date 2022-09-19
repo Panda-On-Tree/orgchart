@@ -38,7 +38,7 @@ function Home() {
                 </div>
             </section>
     <section class="product" >
-    <div>
+    <div >
     <div class="content-title ptb-30 text-center">
         <h2>Useful Links</h2>
     </div>

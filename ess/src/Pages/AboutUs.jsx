@@ -23,7 +23,7 @@ function AboutUs() {
                     </div>
                 </div>
             </section>
-            <section class="about-wrap style1 ptb-100">
+            <section class="about-wrap style1 ptb-100" >
                 <div class="container">
                         <div >
                             <div class="about-content">
