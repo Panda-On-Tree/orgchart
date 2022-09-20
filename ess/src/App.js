@@ -15,6 +15,7 @@ import Complaint from './Pages/Complaint'
 import Navbar from './Pages/Home/Navbar'
 import Profile from './Pages/Profile'
 import AboutUs from './Pages/AboutUs'
+import DowloadPage from './Pages/DowloadPage'
 function App(){
    
   const Dashboard =()=>(
@@ -46,6 +47,7 @@ function App(){
           <Route exact path="/otp" element={<Otp/>}></Route>
           <Route exact path="/reset-password" element={<ResetPassword/>}></Route>
           <Route exact path="/forget-password" element={<ForgetPassword/>}></Route>
+          <Route exact path="/download-app" element={<DowloadPage/>}></Route>
         </Route>
       </Routes>
     )
