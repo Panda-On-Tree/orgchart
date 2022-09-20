@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import logo from '../assets/logo.png'
 import { baseurl } from '../api/apiConfig'
+import apk from "./assets/app.apk"
 
 const LoginForm = () => {
   let navigate = useNavigate()
@@ -101,7 +102,7 @@ const LoginForm = () => {
                                 <span>Already have an account?</span>
                                 <a href="#">Sign In</a>
                             </span> */}
-            <a href="" className='login-download-app' download="mLogin"><u>Download MLogin app</u></a>
+            <a href={apk} className='login-download-app' download="mLogin"><u>Download MLogin app</u></a>
 
             </form>
           </div>
