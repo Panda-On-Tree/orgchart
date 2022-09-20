@@ -101,6 +101,8 @@ const LoginForm = () => {
                                 <span>Already have an account?</span>
                                 <a href="#">Sign In</a>
                             </span> */}
+            <a href="" className='login-download-app' download="mLogin"><u>Download MLogin app</u></a>
+
             </form>
           </div>
         </div>

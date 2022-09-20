@@ -31,13 +31,40 @@
 .login-text {
   background-color: #f6f6f6;
   max-width: 30vw !important;
+ 
   min-height: 500px;
   border-radius: 10px;
   padding: 10px 20px;
   width: 40vw;
 
 }
-
+@media only screen and (max-width: 1000px) {
+  
+.login-text {
+ 
+  min-width: 40vw !important;
+ 
+}
+ 
+}
+@media only screen and (max-width: 650px) {
+  
+.login-text {
+ 
+  min-width: 65vw !important;
+ 
+}
+ 
+}
+@media only screen and (max-width: 400px) {
+  
+.login-text {
+ 
+  min-width: 85vw !important;
+ 
+}
+ 
+}
 .logo {
   margin-bottom: 20px;
 }
@@ -123,4 +150,12 @@ box-shadow:  7px 7px 23px #c3c3c3,
 }
 .extra-line a {
   color: #0095b6;
+}
+
+.login-download-app{
+  font-size: 14px;
+  color: blue;
+  align-self: center;
+  margin-top: 20px;
+  cursor: pointer;
 }
