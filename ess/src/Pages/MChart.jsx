@@ -17,6 +17,8 @@ function MChart() {
   var configabc = {}
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log(token);
     const data = {
       parent_employee_id: localStorage.getItem('employee_id'),
     }
@@ -25,6 +27,7 @@ function MChart() {
       url: `${baseurl.base_url}/mhere/get-parent-node`,
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
       data,
     })
@@ -48,6 +51,7 @@ function MChart() {
       url: `${baseurl.base_url}/mhere/get-child`,
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
       data,
     }).then((res) => {
@@ -67,6 +71,7 @@ function MChart() {
       url: `${baseurl.base_url}/mhere/get-parent`,
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
       data,
     }).then((res) => {

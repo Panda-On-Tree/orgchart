@@ -25,6 +25,7 @@ function Complaint() {
         url: `${baseurl.base_url}/mhere/create-complaint`,
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
         },
         data,
       })
@@ -45,6 +46,7 @@ function Complaint() {
         url: `${baseurl.base_url}/mhere/assign-complaint`,
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
         },
         data,
       })
@@ -65,6 +67,7 @@ function Complaint() {
         url: `${baseurl.base_url}/mhere/close-complaint`,
         headers: {
           'Content-Type': 'multipart/form-data',
+          "Authorization": `Bearer ${localStorage.getItem('token')}`
         },
         data,
       })

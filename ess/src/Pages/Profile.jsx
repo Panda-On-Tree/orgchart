@@ -20,6 +20,7 @@ function Profile() {
       url: `${baseurl.base_url}/mhere/employee-data`,
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
       data,
     })
@@ -41,6 +42,7 @@ function Profile() {
       url: `${baseurl.base_url}/mhere/manager-data`,
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": `Bearer ${localStorage.getItem('token')}`
       },
       data,
     })
