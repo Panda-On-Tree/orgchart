@@ -2,10 +2,6 @@ import React, { useEffect } from 'react'
 import vision from "./assets/vison.svg"
 import Footer from './Home/Footer'
 function AboutUs() {
-
-    useEffect(() => {
-      localStorage.setItem('token', "asdfghj")
-    }, [])
     
   return (
     <div style={{overflowX:"hidden" , minHeight:"101vh"}}>
