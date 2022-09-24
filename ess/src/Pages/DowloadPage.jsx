@@ -1,7 +1,7 @@
 import React from 'react'
 import './DownloadPage.css';
 import logo from './img/logo2.png'
-import apk from "./assets/app.apk"
+import apk from "./assets/mLogin.apk"
 function DowloadPage() {
   return (
     <div className='download-main'>
