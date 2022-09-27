@@ -44,7 +44,7 @@ function MChart() {
     console.log(d);
     const data = {
       parent_employee_id: d.id,
-      parent_height: d.max_height + d.height
+      parent_height: d.max_height
     }
     return await axios({
       method: 'post',

@@ -51,11 +51,17 @@ function render(config) {
   config.nodes = nodes
 
   // Normalize for fixed-depth.
-  nodes.forEach(function (d) {
+  nodes.forEach(function (d,index) {
     if (sourceNode) {
-      console.log(sourceNode);
+        console.log(d);
+        if(d.parent){
+          console.log(d.parent.max_height);
+          d.y = d.depth * lineDepthY + d.node_height + d.parent.max_height
+        }
+        else{
+          d.y = d.depth * lineDepthY + d.node_height
+        }
       //console.log(d.height + sourceNode.max_height, d.person.name,d.height, sourceNode.max_height,"if");
-      d.y = d.depth * lineDepthY + d.height + d.max_height
     } else {
       console.log("inside if");
       d.y = d.depth * lineDepthY
