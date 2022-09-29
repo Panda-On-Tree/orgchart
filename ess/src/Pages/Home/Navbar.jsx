@@ -133,6 +133,12 @@ function Navbar() {
                       <a target="_blank" href='https://microtek.tech/capex/login.php'>Capex Portal</a>
                     </li>
                     <li class="nav-item">
+                      <a target="_blank" href='https://microtek.eisenvault.net/'>Eisen Vault</a>
+                    </li>
+                    <li class="nav-item">
+                      <a target="_blank" href='https://microtek.peoplestrong.com/altLogin.jsf'>PeopleStong Microtek</a>
+                    </li>
+                    <li class="nav-item">
                       <a
                         onClick={() => {
                           navigate('/complaint')
