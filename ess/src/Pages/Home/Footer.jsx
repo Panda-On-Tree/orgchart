@@ -45,7 +45,7 @@ H-57, Udyog Nagar, <br/> Rohtak Road Delhi-110041, 011-71255500</span>
 
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="footer-widget">
-                    <h3 class="footer-widget-title">Usefull Link</h3>
+                    <h3 class="footer-widget-title">Useful Link</h3>
                     <ul class="footer-menu list-style">
                         <li onClick={()=>{
                             navigate("/home")

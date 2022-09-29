@@ -96,18 +96,8 @@ function Navbar() {
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a
-                    onClick={() => {
-                      navigate('/chart')
-                    }}
-                    class="nav-link"
-                  >
-                    OrgChart
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link">
-                    Useful Links
+                    Our Services
                     <i class="icon-arrow-down"></i>
                   </a>
                   <ul class="dropdown-menu">
@@ -129,6 +119,11 @@ function Navbar() {
                                     </ul>
                                 </li> */}
                     <li class="nav-item">
+                      <a  onClick={() => {
+                      navigate('/chart')
+                    }}>Org Chart</a>
+                    </li>
+                    <li class="nav-item">
                       <a target="_blank" href='https://microtek.tech/itop'>CMDB Tool</a>
                     </li>
                     <li class="nav-item">
@@ -149,7 +144,7 @@ function Navbar() {
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item">
+                {/* <li class="nav-item">
                   <a
                     onClick={() => {
                       navigate('/aboutus')
@@ -158,7 +153,7 @@ function Navbar() {
                   >
                     About Us
                   </a>
-                </li>
+                </li> */}
                 <li
                   class="nav-item"
                   style={{

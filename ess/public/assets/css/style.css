@@ -2926,7 +2926,7 @@
        Product  Section  CSS
     -------------------------------*/
     .product-section {
-      background-image: url(../img/product-bg.png);
+     /*  background-image: url(../img/product-bg.png); */
       transition: 750ms ease-in-out;
       -webkit-transition: 750ms ease-in-out;
       -webkit-background-size: cover;
