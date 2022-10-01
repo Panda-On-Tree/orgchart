@@ -1,0 +1,11 @@
+.product-table-main{
+    margin-top: 5vh;
+    padding: 0% 2.5%;
+}
+.MuiTableCell-head{
+    z-index: 0 !important;
+}
+.MuiTableCell-body{
+    border-right: 1px solid rgba(224, 224, 224, 1);
+    
+}

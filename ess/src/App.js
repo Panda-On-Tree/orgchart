@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import './App.css'
-
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 
 import LoginForm from './Pages/Login'
@@ -18,6 +17,7 @@ import AboutUs from './Pages/AboutUs'
 import DowloadPage from './Pages/DowloadPage'
 import axios from 'axios'
 import { baseurl } from './api/apiConfig'
+import ProductCatalog from './Pages/ProductCatalog/ProductCatalog'
 function App() {
   let navigate = useNavigate()
 
@@ -103,6 +103,17 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <Complaint />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/product-catalog"
+          element={
+            localStorage.getItem('token') ? (
+              <ProductCatalog />
             ) : (
               <Navigate replace to="/login" />
             )
