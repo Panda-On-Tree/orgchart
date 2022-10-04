@@ -18,6 +18,8 @@ import DowloadPage from './Pages/DowloadPage'
 import axios from 'axios'
 import { baseurl } from './api/apiConfig'
 import ProductCatalog from './Pages/ProductCatalog/ProductCatalog'
+import ProductCatalogSearch from './Pages/ProductCatalog/ProductCatalogSearch'
+import ProductPartDescription from './Pages/ProductCatalog/ProductPartDescription'
 function App() {
   let navigate = useNavigate()
 
@@ -114,6 +116,28 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <ProductCatalog />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/product-catalog-search"
+          element={
+            localStorage.getItem('token') ? (
+              <ProductCatalogSearch />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/product-part-desc"
+          element={
+            localStorage.getItem('token') ? (
+              <ProductPartDescription />
             ) : (
               <Navigate replace to="/login" />
             )
