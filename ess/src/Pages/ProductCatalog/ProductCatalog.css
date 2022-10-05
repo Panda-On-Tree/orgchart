@@ -210,6 +210,34 @@ max-height: 80vh;
 .part-code-search{
     min-width: 15vw !important;
 }
+
+.search-part-base-button{
+    margin-bottom: 3vh;
+}
+
+/* part edit main page */
+.part-edit-main{
+    border-radius: 5px;
+    position: absolute;
+    z-index: 99;
+    width: 90vw;
+    min-height: 80vh;
+    max-height: 80vh;
+    background-color: rgb(234, 234, 234);
+    right: 0px;
+    left: 0px;
+    top: 3vh;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    box-shadow:  1px 1px 2px #cdcdcd,
+    -1px -1px 2px #cdcdcd;
+}
+/* part edit main page */
+
+
+
 @media only screen and (max-width: 950px) {
     
 .filter-inputs-main{

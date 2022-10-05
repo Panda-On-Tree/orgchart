@@ -14,6 +14,7 @@ function ProductCatalog() {
     const [filterOption3, setFilterOption3] = useState();
     const [inputToOption3, setInputToOption3] = useState({});
     const [attributes, setAttributes] = useState();
+    const [primaryAttributes, setPrimaryAttributes] = useState();
     const [partDataKeys, setPartDataKeys] = useState();
     const [partData, setPartData] = useState()
     const [searchData, setSearchData] = useState([]);
@@ -23,7 +24,10 @@ function ProductCatalog() {
     const [partInfo, setPartInfo] = useState({});
     const [partAttributeInfo, setPartAttributeInfo] = useState([]);
     const [partAttributeKeys, setPartAttributeKeys] = useState();
-    const [partCodeSearch, setPartCodeSearch] = useState()
+    const [partCodeSearch, setPartCodeSearch] = useState();
+    const [part_code, setPart_code] = useState("");
+    const [part_category, setPart_category] = useState("");
+    const [part_group, setPart_group] = useState("");
 
     const display = useRef(null);
     const backOpacity = useRef(null);
@@ -37,6 +41,8 @@ function ProductCatalog() {
             display.current.style.display = "block"
             backOpacity.current.style.display = "block"
             document.getElementById("root").style.overflow = "hidden"
+            document.getElementById("root").scrollTop = 0;
+           
         },
         selectableRowsHideCheckboxes: true
     };
@@ -93,6 +99,23 @@ function ProductCatalog() {
             .catch((err) => {
                 console.log(err);
             })
+        axios({
+            method: 'get',
+            url: `${baseurl.base_url}/mhere/primary-attribute`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                setPrimaryAttributes(res.data.data);
+                //setAttributeMaster(res.data.data);
+
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
     /* Axios api calls */
 
@@ -100,8 +123,6 @@ function ProductCatalog() {
         console.log(filterOption1);
         console.log("100" > "95");
     }, [filterOption1])
-
-
 
     function get() {
 
@@ -131,24 +152,28 @@ function ProductCatalog() {
         }
     }
 
-    function filterMasterData(multiFilter) {
-        console.log(multiFilter);
-        let filterdata = multiFilter.slice(1);
-        var filterAttributeData = partAttributeDataMaster;
-        var part_id_data;
-        if (!filterdata.length) {
-            setPartData(partDataMaster);
+    function filterMasterData(multiFilter,multiAttributeDataMaster,multiPartDataMaster) {
+        if(!multiFilter.length){
             return;
         }
+        console.log(multiFilter);
+        let filterdata = multiFilter;
+        var filterPartDataMaster = multiPartDataMaster? multiPartDataMaster : partDataMaster
+        var filterAttributeDataMaster = multiAttributeDataMaster? multiAttributeDataMaster : partAttributeDataMaster;
+        var filterAttributeData = multiAttributeDataMaster? multiAttributeDataMaster : partAttributeDataMaster;
+
+        var part_id_data;
+        if (!filterdata.length) {
+            setPartData(filterPartDataMaster);
+            return;
+        }
+        console.log(partAttributeDataMaster);
         filterdata.map((item) => {
             let attribute = JSON.parse(item.filter_attribute)
             let operation = item.filter_operation
             let value = item.filter_value
-            console.log(attribute.id);
             const abc = filterAttributeData.filter((item) => {
                 if (item.attribute_type_id == attribute.id)
-                    console.log(item.attribute_value, value);
-                console.log(item.attribute_value <= value);
                 switch (operation) {
                     case "greater_then":
                         if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) >= parseInt(value)) {
@@ -204,28 +229,105 @@ function ProductCatalog() {
                 }
 
             })
-            console.log(abc);
             part_id_data = abc.map((item) => {
                 return (
                     item.part_id
                 )
             })
-            console.log(part_id_data);
-            filterAttributeData = partAttributeDataMaster.filter((item) => {
+            filterAttributeData = filterAttributeDataMaster.filter((item) => {
                 if (part_id_data.includes(item.part_id)) {
                     return true
                 }
                 return false
             })
-            console.log(filterAttributeData);
         })
-        const tableDataMain = partDataMaster.filter((item) => {
+        const tableDataMain = filterPartDataMaster.filter((item) => {
             if (part_id_data.includes(item.part_id)) {
                 return true
             }
             return false
         })
+        console.log(tableDataMain);
         setPartData(tableDataMain);
+    }
+
+    function searchPartBase() {
+        const data = {
+            part_code: part_code,
+            part_category: part_category,
+            part_group: part_group
+        }
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/part-base-search`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res);
+                let attribute = [];
+                setPartDataMaster(res.data.data.part_data);
+                setPartAttributeDataMaster(res.data.data.part_attribute_data);
+                console.log(res.data.data.part_attribute_data);
+                res.data.data.part_attribute_data.map(item => {
+                    const data = {
+                        id: item.attribute_type_id,
+                        type: item.attribute_type,
+                        name: item.attribute_name,
+                        description: item.attribute_description
+                    }
+                    if (attribute.indexOf(data) < 0) {
+                        attribute.push(data);
+                    }
+                })
+                const uniqueIds = [];
+
+                const unique = attribute.filter(element => {
+                    const isDuplicate = uniqueIds.includes(element.id);
+
+                    if (!isDuplicate) {
+                        uniqueIds.push(element.id);
+
+                        return true;
+                    }
+
+                    return false;
+                });
+                console.log(unique);
+                setAttributes(unique);
+                let data = res.data.data.part_data;
+                let obj = res.data.data.part_data[0];
+                console.log(obj);
+                delete obj.created_at
+                delete obj.created_by
+                delete obj.updated_at
+                delete obj.updated_by
+                let arr = Object.keys(obj);
+                let new_arr = arr.map((item) => {
+                    let new_obj = {
+                        name: item,
+                        label: item.replace("_", " "),
+                        options: {
+                            filter: true,
+                            sort: true,
+                        }
+                    }
+                    return new_obj
+                })
+                //console.log(new_arr);
+
+                // console.log(arr);
+                setPartDataKeys(new_arr)
+                setPartData(data)
+                filterMasterData(filterData, res.data.data.part_attribute_data, res.data.data.part_data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     function getFilterList() {
@@ -322,8 +424,6 @@ function ProductCatalog() {
                 console.log(err);
             })
     }
-
-
     function clearAll() {
         setFilterData([]);
         setPartDataMaster("");
@@ -331,6 +431,9 @@ function ProductCatalog() {
         setPartData();
         setSearchData("");
         getAttributes();
+        setPart_category("");
+        setPart_code("");
+        setPart_group("");
     }
     function deleteFilter(item) {
         const filter = filterData.filter((data) => data.filter_attribute !== item.filter_attribute);
@@ -372,8 +475,8 @@ function ProductCatalog() {
         })
             .then((res) => {
                 console.log(res);
-                if(!res.data.dataFound){
-                    alert("No Data Found for Part Code :"+ partCodeSearch)
+                if (!res.data.dataFound) {
+                    alert("No Data Found for Part Code :" + partCodeSearch)
                     return
                 }
                 setPartInfo(res.data.data);
@@ -494,7 +597,7 @@ function ProductCatalog() {
                             setFilterOption3(e.target.value)
                         }}>
 
-                            <option value="" hidden>Select an option </option>
+                            <option value="" hidden>Select an option</option>
                             <option value="start_with">Start's With</option>
                             <option value="end_with">End's With</option>
                             <option value="contains">Contains</option>
@@ -503,7 +606,7 @@ function ProductCatalog() {
                             setFilterOption3(e.target.value)
                         }}>
 
-                            <option value="" hidden>Select an option </option>
+                            <option value="" hidden>Select an option</option>
                             <option value="greater_then">Greater Then</option>
                             <option value="less_then">Less Then</option>
                             <option value="equal">Equals</option>
@@ -527,15 +630,43 @@ function ProductCatalog() {
                     </div>
                 </div>
                 <div className='part-code-search-main'>
-                    <h5 className='search-heading' >Search By Part Code</h5>
-                    <div style={{ display: "flex", flexDirection: "row", gap: "15px" }}>
-                        <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" onChange={(e) => {
-                            setPartCodeSearch((e.target.value).toUpperCase())
+                    <h5 className='search-heading' >Search By : </h5>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginBottom: "15px" }}>
+                        <select className='product-filter-option1' name="cars" id="cars">
+                            <option value="part_code" hidden>Part Code</option>
+                        </select>
+                        <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_code} onChange={(e) => {
+                            setPart_code((e.target.value).toUpperCase())
                         }} name="" id="" />
-                        <button className='product-add-filter-button' onClick={() => {
-                            searchPart()
-                        }}>Search Part</button>
+                        {/* <button className='product-add-filter-button' onClick={() => {
+                            searchPartBase()
+                        }}>Search Part</button> */}
                     </div>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginBottom: "15px" }}>
+                        <select className='product-filter-option1' name="cars" id="cars">
+                            <option value="part_category" hidden>Part Category</option>
+                        </select>
+                        <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_category} onChange={(e) => {
+                            setPart_category((e.target.value).toUpperCase())
+                        }} name="" id="" />
+                        {/* <button className='product-add-filter-button' onClick={() => {
+                            searchPartBase()
+                        }}>Search Part</button> */}
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginBottom: "25px" }}>
+                        <select className='product-filter-option1' name="cars" id="cars">
+                            <option value="part_group" hidden>Part Group</option>
+                        </select>
+                        <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_group} onChange={(e) => {
+                            setPart_group((e.target.value).toUpperCase())
+                        }} name="" id="" />
+                        {/* <button className='product-add-filter-button' onClick={() => {
+                            searchPartBase()
+                        }}>Search Part</button> */}
+                    </div>
+                    <button className='product-add-filter-button search-part-base-button' onClick={() => {
+                        searchPartBase()
+                    }}>Search Part</button>
                 </div>
             </div>
             <MUIDataTable
@@ -552,7 +683,6 @@ function ProductCatalog() {
                     display.current.style.display = "none";
                     backOpacity.current.style.display = "none";
                     document.getElementById("root").style.overflow = "auto";
-
                 }}><span class="material-symbols-outlined">
                         close
                     </span></button>
@@ -584,6 +714,11 @@ function ProductCatalog() {
                             options={options}
                         ></MUIDataTable>
                     </div>
+                </div>
+            </main>
+            <main style={{ display: "none" }} className='part-edit-main'>
+                <div>
+                    
                 </div>
             </main>
         </div>
