@@ -23,9 +23,10 @@ function ProductCatalog() {
     const [partInfo, setPartInfo] = useState({});
     const [partAttributeInfo, setPartAttributeInfo] = useState([]);
     const [partAttributeKeys, setPartAttributeKeys] = useState();
-
+    const [partCodeSearch, setPartCodeSearch] = useState()
 
     const display = useRef(null);
+    const backOpacity = useRef(null);
     const options = {
         tableBodyMaxHeight: "60vh",
         responsive: "standard",
@@ -34,6 +35,7 @@ function ProductCatalog() {
             console.log(rowMeta);
             getPartInfo(rowData[0]);
             display.current.style.display = "block"
+            backOpacity.current.style.display = "block"
             document.getElementById("root").style.overflow = "hidden"
         },
         selectableRowsHideCheckboxes: true
@@ -134,7 +136,7 @@ function ProductCatalog() {
         let filterdata = multiFilter.slice(1);
         var filterAttributeData = partAttributeDataMaster;
         var part_id_data;
-        if(!filterdata.length){
+        if (!filterdata.length) {
             setPartData(partDataMaster);
             return;
         }
@@ -299,8 +301,21 @@ function ProductCatalog() {
                 delete obj.updated_at
                 delete obj.updated_by
                 let arr = Object.keys(obj);
-                console.log(arr);
-                setPartDataKeys(arr)
+                let new_arr = arr.map((item) => {
+                    let new_obj = {
+                        name: item,
+                        label: item.replace("_", " "),
+                        options: {
+                            filter: true,
+                            sort: true,
+                        }
+                    }
+                    return new_obj
+                })
+                //console.log(new_arr);
+
+                // console.log(arr);
+                setPartDataKeys(new_arr)
                 setPartData(data)
             })
             .catch((err) => {
@@ -337,6 +352,44 @@ function ProductCatalog() {
         setFilterData(filter);
     }
 
+    function searchPart() {
+        if (!partCodeSearch) {
+            alert("Input Part Code First")
+            return
+        }
+        const data = {
+            part_code: partCodeSearch
+        }
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/part-code-search`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res);
+                if(!res.data.dataFound){
+                    alert("No Data Found for Part Code :"+ partCodeSearch)
+                    return
+                }
+                setPartInfo(res.data.data);
+                setPartAttributeInfo(res.data.data.attribute);
+                let arr = Object.keys(res.data.data.attribute[0]);
+                console.log(arr);
+                setPartAttributeKeys(arr)
+                display.current.style.display = "block"
+                backOpacity.current.style.display = "block"
+                document.getElementById("root").style.overflow = "hidden"
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     const images = [
         {
             original: 'https://picsum.photos/id/1018/1000/600/',
@@ -355,117 +408,135 @@ function ProductCatalog() {
     return (
         <div className='product-table-main'>
             <h1 style={{ textAlign: "center", marginBottom: "5vh" }}>Part Catalogue</h1>
-            {filterData.slice(0, 1).map(item => {
-                console.log(item.filter_attribute);
-                return (
-                    <div id='filter-row' className='product-filter-main'>
-                        <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
-                            {attributeMaster?.map((attributeItem) => {
-                                return (
-                                    <option value={JSON.stringify(attributeItem)} id={attributeItem.name}>{attributeItem.name}</option>
-                                )
-                            })}
-                        </select>
-                        {JSON.parse(item.filter_attribute).type == "text" ? <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
 
-                            <option value="" hidden>Select an option </option>
-                            <option value="start_with">Start's With</option>
-                            <option value="end_with">End's With</option>
-                            <option value="contains">Contains</option>
-                            <option value="equal_string">Equals</option>
-                        </select> : <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
 
-                            <option value="" hidden>Select an option </option>
-                            <option value="greater_then">Greater Then</option>
-                            <option value="less_then">Less Then</option>
-                            <option value="equal">Equals</option>
-                        </select>}
-                        <input className='product-search' type="text" name="" id="" value={item.filter_value} disabled />
-
-                    </div>
-                )
-            })}
-            {filterData.slice(1).map(item => {
-                return (
-                    <div id='filter-row' className='product-filter-main'>
-                        <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
-                            {attributeMaster?.map((attributeItem) => {
-                                return (
-                                    <option value={JSON.stringify(attributeItem)} id={attributeItem.name}>{attributeItem.name}</option>
-                                )
-                            })}
-                        </select>
-                        {JSON.parse(item.filter_attribute).type == "text" ? <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
-
-                            <option value="" hidden>Select an option </option>
-                            <option value="start_with">Start's With</option>
-                            <option value="end_with">End's With</option>
-                            <option value="contains">Contains</option>
-                            <option value="equal_string">Equals</option>
-                        </select> : <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
-
-                            <option value="" hidden>Select an option </option>
-                            <option value="greater_then">Greater Then</option>
-                            <option value="less_then">Less Then</option>
-                            <option value="equal">Equals</option>
-                        </select>}
-                        <input className='product-search' type="text" name="" id="" value={item.filter_value} disabled />
-
-                        <button className='product-add-filter-button' onClick={e => {
-                            deleteFilter(item)
-                        }}>Clear Filter</button>
-                    </div>
-                )
-            })}
-            <div id='filter-row' className='product-filter-main'>
-                <select className='product-filter-option1' name="cars" id="cars" value={filterOption1} onChange={e => {
-                    setFilterOption1(e.target.value)
-                    console.log(JSON.parse(e.target.value));
-                    setInputToOption3(JSON.parse(e.target.value))
-
-                }}>
-
-                    <option value="" hidden>Select an option </option>
-                    {attributes?.map((item) => {
+            <div className='filter-inputs-main'>
+                <div>
+                    <h5 className='search-heading'>Search Using Filters</h5>
+                    {filterData.slice(0, 1).map(item => {
+                        console.log(item.filter_attribute);
                         return (
-                            <option value={JSON.stringify(item)} id={item.name}>{item.name}</option>
+                            <div id='filter-row' className='product-filter-main'>
+                                <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
+                                    {attributeMaster?.map((attributeItem) => {
+                                        return (
+                                            <option value={JSON.stringify(attributeItem)} id={attributeItem.name}>{attributeItem.name}</option>
+                                        )
+                                    })}
+                                </select>
+                                {JSON.parse(item.filter_attribute).type == "text" ? <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
+
+                                    <option value="" hidden>Select an option </option>
+                                    <option value="start_with">Start's With</option>
+                                    <option value="end_with">End's With</option>
+                                    <option value="contains">Contains</option>
+                                    <option value="equal_string">Equals</option>
+                                </select> : <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
+
+                                    <option value="" hidden>Select an option </option>
+                                    <option value="greater_then">Greater Then</option>
+                                    <option value="less_then">Less Then</option>
+                                    <option value="equal">Equals</option>
+                                </select>}
+                                <input className='product-search' type="text" name="" id="" value={item.filter_value} disabled />
+
+                            </div>
                         )
                     })}
-                </select>
-                {inputToOption3.type == "text" ? <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
-                    setFilterOption3(e.target.value)
-                }}>
+                    {filterData.slice(1).map(item => {
+                        return (
+                            <div id='filter-row' className='product-filter-main'>
+                                <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
+                                    {attributeMaster?.map((attributeItem) => {
+                                        return (
+                                            <option value={JSON.stringify(attributeItem)} id={attributeItem.name}>{attributeItem.name}</option>
+                                        )
+                                    })}
+                                </select>
+                                {JSON.parse(item.filter_attribute).type == "text" ? <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
 
-                    <option value="" hidden>Select an option </option>
-                    <option value="start_with">Start's With</option>
-                    <option value="end_with">End's With</option>
-                    <option value="contains">Contains</option>
-                    <option value="equal_string">Equals</option>
-                </select> : inputToOption3.type == "number" ? <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
-                    setFilterOption3(e.target.value)
-                }}>
+                                    <option value="" hidden>Select an option </option>
+                                    <option value="start_with">Start's With</option>
+                                    <option value="end_with">End's With</option>
+                                    <option value="contains">Contains</option>
+                                    <option value="equal_string">Equals</option>
+                                </select> : <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
 
-                    <option value="" hidden>Select an option </option>
-                    <option value="greater_then">Greater Then</option>
-                    <option value="less_then">Less Then</option>
-                    <option value="equal">Equals</option>
-                </select> : null}
-                <input type="text" name="" className='product-search' id="" value={filterOption2} onChange={e => {
-                    console.log(e.target.value);
-                    setFilterOption2(e.target.value)
-                }} />
+                                    <option value="" hidden>Select an option </option>
+                                    <option value="greater_then">Greater Then</option>
+                                    <option value="less_then">Less Then</option>
+                                    <option value="equal">Equals</option>
+                                </select>}
+                                <input className='product-search' type="text" name="" id="" value={item.filter_value} disabled />
 
-            </div>
-            <div className='product-filter-main-button'>
-                <button className='product-add-filter-button' onClick={() => {
-                    get()
-                }}>Search / Add Filter +</button>
-                <button className='product-add-filter-button' onClick={() => {
-                    clearAll();
-                }}>Clear All Filter </button>
-                {/* <button className='product-add-filter-button' onClick={() => {
-                    getFilterList()
-                }}>Search Part</button> */}
+                                <button className='product-add-filter-button' onClick={e => {
+                                    deleteFilter(item)
+                                }}>Clear Filter</button>
+                            </div>
+                        )
+                    })}
+                    <div id='filter-row' className='product-filter-main'>
+                        <select className='product-filter-option1' name="cars" id="cars" value={filterOption1} onChange={e => {
+                            setFilterOption1(e.target.value)
+                            console.log(JSON.parse(e.target.value));
+                            setInputToOption3(JSON.parse(e.target.value))
+
+                        }}>
+
+                            <option value="" hidden>Select an option </option>
+                            {attributes?.map((item) => {
+                                return (
+                                    <option value={JSON.stringify(item)} id={item.name}>{item.name}</option>
+                                )
+                            })}
+                        </select>
+                        {inputToOption3.type == "text" ? <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
+                            setFilterOption3(e.target.value)
+                        }}>
+
+                            <option value="" hidden>Select an option </option>
+                            <option value="start_with">Start's With</option>
+                            <option value="end_with">End's With</option>
+                            <option value="contains">Contains</option>
+                            <option value="equal_string">Equals</option>
+                        </select> : inputToOption3.type == "number" ? <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
+                            setFilterOption3(e.target.value)
+                        }}>
+
+                            <option value="" hidden>Select an option </option>
+                            <option value="greater_then">Greater Then</option>
+                            <option value="less_then">Less Then</option>
+                            <option value="equal">Equals</option>
+                        </select> : null}
+                        <input type="text" name="" className='product-search' id="" value={filterOption2} onChange={e => {
+                            console.log(e.target.value);
+                            setFilterOption2(e.target.value)
+                        }} />
+
+                    </div>
+                    <div className='product-filter-main-button'>
+                        <button className='product-add-filter-button' onClick={() => {
+                            get()
+                        }}>Search / Add Filter +</button>
+                        <button className='product-add-filter-button' onClick={() => {
+                            clearAll();
+                        }}>Clear All Filter </button>
+                        {/* <button className='product-add-filter-button' onClick={() => {
+                            getFilterList()
+                            }}>Search Part</button> */}
+                    </div>
+                </div>
+                <div className='part-code-search-main'>
+                    <h5 className='search-heading' >Search By Part Code</h5>
+                    <div style={{ display: "flex", flexDirection: "row", gap: "15px" }}>
+                        <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" onChange={(e) => {
+                            setPartCodeSearch((e.target.value).toUpperCase())
+                        }} name="" id="" />
+                        <button className='product-add-filter-button' onClick={() => {
+                            searchPart()
+                        }}>Search Part</button>
+                    </div>
+                </div>
             </div>
             <MUIDataTable
                 title={"Product Part List"}
@@ -473,9 +544,13 @@ function ProductCatalog() {
                 columns={partDataKeys}
                 options={options}
             ></MUIDataTable>
+            <div className='background-opacity' ref={backOpacity}>
+
+            </div>
             <main style={{ display: "none" }} ref={display} className="part-desc-main">
                 <button className='button-close-part-desc' onClick={() => {
                     display.current.style.display = "none";
+                    backOpacity.current.style.display = "none";
                     document.getElementById("root").style.overflow = "auto";
 
                 }}><span class="material-symbols-outlined">
