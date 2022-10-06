@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import './App.css'
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
-
 import LoginForm from './Pages/Login'
 import Chart from './Pages/Chart'
 import ResetPassword from './Pages/ResetPassword'
@@ -20,12 +19,19 @@ import { baseurl } from './api/apiConfig'
 import ProductCatalog from './Pages/ProductCatalog/ProductCatalog'
 import ProductCatalogSearch from './Pages/ProductCatalog/ProductCatalogSearch'
 import ProductPartDescription from './Pages/ProductCatalog/ProductPartDescription'
+import '@shoelace-style/shoelace/dist/themes/light.css'
+import '@shoelace-style/shoelace/dist/shoelace.js'
+import '@shoelace-style/shoelace/dist/components/icon/icon.js';
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+  
+
 function App() {
   let navigate = useNavigate()
 
   useEffect(() => {
     verifyToken();
     setInterval(verifyToken, 1800000);
+    setBasePath('@shoelace-style/shoelace/dist');
   }, [])
 
   const Dashboard = () => (
