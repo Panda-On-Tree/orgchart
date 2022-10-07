@@ -195,6 +195,8 @@ function App() {
         ></Route>
       </Route>
       <Route element={<Auth />}>
+      <Route exact path="/download-app" element={<DowloadPage />}></Route>
+
         <Route exact path="/login" element={<LoginForm />}></Route>
         <Route exact path="/otp" element={<Otp />}></Route>
         <Route exact path="/reset-password" element={<ResetPassword />}></Route>
@@ -203,7 +205,6 @@ function App() {
           path="/forget-password"
           element={<ForgetPassword />}
         ></Route>
-        <Route exact path="/download-app" element={<DowloadPage />}></Route>
       </Route>
     </Routes>
   )

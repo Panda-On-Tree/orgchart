@@ -5,7 +5,7 @@ import $ from 'jquery';
 import { baseurl } from '../../api/apiConfig';
 import axios from 'axios';
 import ImageGallery from 'react-image-gallery';
-import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag } from '@shoelace-style/shoelace/dist/react';
+import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails } from '@shoelace-style/shoelace/dist/react';
 import UpdateProductCatalog from './UpdateProductCatalog';
 
 function ProductCatalog() {
