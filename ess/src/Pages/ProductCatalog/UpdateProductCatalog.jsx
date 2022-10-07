@@ -24,7 +24,6 @@ function UpdateProductCatalog(props) {
 
 
     useEffect(() => {
-        console.log(props.partInfo);
         setPartCode(props.partInfo.part_code)
         setPartCategory(props.partInfo.part_category)
         setPartGroup(props.partInfo.part_group)
@@ -139,13 +138,13 @@ function UpdateProductCatalog(props) {
             <SlDialog label="Enter Value Below" open={open} onSlAfterHide={() => setOpen(false)}>
                 <SlInput autofocus placeholder="Enter Value" value={attObj?.current?.attribute_value} onSlInput={e => { attObj.current.attribute_value = e.target.value }} />
 
-                <SlButton style={{ marginRight: "20px" }} slot="footer" variant="success" onClick={() => {
+                <SlButton style={{ marginRight: "20px" }} slot="footer" outline variant="success" onClick={() => {
                     updateAttributeValue()
                     setOpen(false)
                 }}>
                     Update
                 </SlButton>
-                <SlButton slot="footer" variant="danger" onClick={() => { setOpen(false); attObj.current.attribute_value = attValue }}>
+                <SlButton slot="footer" outline variant="danger" onClick={() => { setOpen(false); attObj.current.attribute_value = attValue }}>
                     Close
                 </SlButton>
             </SlDialog>
