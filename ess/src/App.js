@@ -23,7 +23,7 @@ import '@shoelace-style/shoelace/dist/themes/light.css'
 import '@shoelace-style/shoelace/dist/shoelace.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
-  
+
 
 function App() {
   let navigate = useNavigate()
@@ -48,6 +48,9 @@ function App() {
     </div>
   )
   const verifyToken = () => {
+    if(!localStorage.getItem('token')){
+      return;
+    }
     axios({
       method: 'post',
       url: `${baseurl.base_url}/mhere/verify-token`,
@@ -72,6 +75,8 @@ function App() {
   return (
     <Routes>
       <Route element={<Dashboard />}>
+     
+
         <Route
           exact
           path="/"
@@ -195,7 +200,6 @@ function App() {
         ></Route>
       </Route>
       <Route element={<Auth />}>
-      <Route exact path="/download-app" element={<DowloadPage />}></Route>
 
         <Route exact path="/login" element={<LoginForm />}></Route>
         <Route exact path="/otp" element={<Otp />}></Route>
@@ -206,6 +210,7 @@ function App() {
           element={<ForgetPassword />}
         ></Route>
       </Route>
+      <Route exact path="/download-app" element={<DowloadPage />}></Route>
     </Routes>
   )
 }

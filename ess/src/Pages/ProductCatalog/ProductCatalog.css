@@ -332,6 +332,6 @@ input.part-edit-input {
 
 .part-add-input-main::part(header){
    
-    margin-bottom: 3vh;
+   padding: 2%;
 }
 /* ADD / INsert part css */
