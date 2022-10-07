@@ -56,10 +56,10 @@ function Profile() {
   }
   return (
     <div className="wrapper-container" style={{ minHeight: '101vh' }}>
-      <div class="wrapper">
+      <div className="wrapper">
        
-        <div class="img-area">
-          <div class="inner-area">
+        <div className="img-area">
+          <div className="inner-area">
             <img
               src={
                 eData?.image ? `data:image/jpeg;base64,${eData.image}` : avatar
@@ -68,10 +68,10 @@ function Profile() {
             />
           </div>
         </div>
-        <div class="name"></div>
-        <div class="career">{eData?.department}</div>
-        <hr class="horizon" />
-        <div class="info">
+        <div className="name"></div>
+        <div className="career">{eData?.department}</div>
+        <hr className="horizon" />
+        <div className="info">
           <p>
             <u>Employee Id:</u> &nbsp; {eData?.new_e_code}
           </p>
@@ -82,10 +82,10 @@ function Profile() {
             <u>Email Id:</u> &nbsp; {eData?.mail_id_official}
           </p>
         </div>
-        <div class="flow">
-          <div class="name">Manager Details</div>
-          <hr class="horizon" />
-          <div class="info">
+        <div className="flow">
+          <div className="name">Manager Details</div>
+          <hr className="horizon" />
+          <div className="info">
             <p>
               <u>Name:</u> &nbsp; {mData?.fullname}{' '}
             </p>

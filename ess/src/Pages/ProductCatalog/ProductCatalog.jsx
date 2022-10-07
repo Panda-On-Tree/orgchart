@@ -5,6 +5,8 @@ import $ from 'jquery';
 import { baseurl } from '../../api/apiConfig';
 import axios from 'axios';
 import ImageGallery from 'react-image-gallery';
+import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag } from '@shoelace-style/shoelace/dist/react';
+import UpdateProductCatalog from './UpdateProductCatalog';
 
 function ProductCatalog() {
 
@@ -28,21 +30,31 @@ function ProductCatalog() {
     const [part_code, setPart_code] = useState("");
     const [part_category, setPart_category] = useState("");
     const [part_group, setPart_group] = useState("");
-
+    const displayModel = useRef(false)
+    const displayEdit = useRef(null);
     const display = useRef(null);
     const backOpacity = useRef(null);
     const options = {
         tableBodyMaxHeight: "60vh",
         responsive: "standard",
+        onCellClick: (colData, colMeta) => {
+            console.log(colData);
+            console.log(colMeta);
+        },
         onRowClick: (rowData, rowMeta) => {
             console.log(rowData);
             console.log(rowMeta);
             getPartInfo(rowData[0]);
+            console.log(displayModel);
             display.current.style.display = "block"
+            if (displayModel.current) {
+
+                display.current.style.display = "none"
+            }
             backOpacity.current.style.display = "block"
             document.getElementById("root").style.overflow = "hidden"
             document.getElementById("root").scrollTop = 0;
-           
+
         },
         selectableRowsHideCheckboxes: true
     };
@@ -53,6 +65,9 @@ function ProductCatalog() {
         //  console.log("hello world".startsWith("llo"));
 
     }, [])
+    useEffect(() => {
+        console.log("data is here");
+    }, [partData])
 
     /* Axios api calls */
     function getPartInfo(part_id) {
@@ -124,6 +139,14 @@ function ProductCatalog() {
         console.log("100" > "95");
     }, [filterOption1])
 
+    function closeEdit() {
+        displayModel.current = false
+        displayEdit.current.style.display = "none";
+        backOpacity.current.style.display = "none";
+        document.getElementById("root").style.overflow = "auto";
+    }
+
+
     function get() {
 
         console.log(attributes);
@@ -152,15 +175,15 @@ function ProductCatalog() {
         }
     }
 
-    function filterMasterData(multiFilter,multiAttributeDataMaster,multiPartDataMaster) {
-        if(!multiFilter.length){
+    function filterMasterData(multiFilter, multiAttributeDataMaster, multiPartDataMaster) {
+        if (!multiFilter.length) {
             return;
         }
         console.log(multiFilter);
         let filterdata = multiFilter;
-        var filterPartDataMaster = multiPartDataMaster? multiPartDataMaster : partDataMaster
-        var filterAttributeDataMaster = multiAttributeDataMaster? multiAttributeDataMaster : partAttributeDataMaster;
-        var filterAttributeData = multiAttributeDataMaster? multiAttributeDataMaster : partAttributeDataMaster;
+        var filterPartDataMaster = multiPartDataMaster ? multiPartDataMaster : partDataMaster
+        var filterAttributeDataMaster = multiAttributeDataMaster ? multiAttributeDataMaster : partAttributeDataMaster;
+        var filterAttributeData = multiAttributeDataMaster ? multiAttributeDataMaster : partAttributeDataMaster;
 
         var part_id_data;
         if (!filterdata.length) {
@@ -174,59 +197,59 @@ function ProductCatalog() {
             let value = item.filter_value
             const abc = filterAttributeData.filter((item) => {
                 if (item.attribute_type_id == attribute.id)
-                switch (operation) {
-                    case "greater_then":
-                        if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) >= parseInt(value)) {
-                            console.log(item);
-                            console.log(value, item.attribute_value);
-                            return true
-                        }
-                        return false
-                        break;
-                    case "less_then":
-                        if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) <= parseInt(value)) {
-                            return true
-                        }
-                        return false
-                        break;
-                    case "start_with":
-                        if (item.attribute_type_id == attribute.id && item.attribute_value.startsWith(value)) {
-                            return true
-                        }
-                        return false
+                    switch (operation) {
+                        case "greater_then":
+                            if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) >= parseInt(value)) {
+                                console.log(item);
+                                console.log(value, item.attribute_value);
+                                return true
+                            }
+                            return false
+                            break;
+                        case "less_then":
+                            if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) <= parseInt(value)) {
+                                return true
+                            }
+                            return false
+                            break;
+                        case "start_with":
+                            if (item.attribute_type_id == attribute.id && item.attribute_value.startsWith(value)) {
+                                return true
+                            }
+                            return false
 
-                        break;
-                    case "equal":
-                        if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) == parseInt(value)) {
-                            return true
-                        }
-                        return false
+                            break;
+                        case "equal":
+                            if (item.attribute_type_id == attribute.id && parseInt(item.attribute_value) == parseInt(value)) {
+                                return true
+                            }
+                            return false
 
-                        break;
-                    case "end_with":
-                        if (item.attribute_type_id == attribute.id && item.attribute_value.endsWith(value)) {
-                            return true
-                        }
-                        return false
+                            break;
+                        case "end_with":
+                            if (item.attribute_type_id == attribute.id && item.attribute_value.endsWith(value)) {
+                                return true
+                            }
+                            return false
 
-                        break;
-                    case "contains":
-                        if (item.attribute_type_id == attribute.id && item.attribute_value.includes(value)) {
-                            return true
-                        }
-                        return false
+                            break;
+                        case "contains":
+                            if (item.attribute_type_id == attribute.id && item.attribute_value.includes(value)) {
+                                return true
+                            }
+                            return false
 
-                        break;
-                    case "equal_string":
-                        if (item.attribute_type_id == attribute.id && item.attribute_value == value) {
-                            return true
-                        }
-                        return false
-                        break;
+                            break;
+                        case "equal_string":
+                            if (item.attribute_type_id == attribute.id && item.attribute_value == value) {
+                                return true
+                            }
+                            return false
+                            break;
 
-                    default:
-                        break;
-                }
+                        default:
+                            break;
+                    }
 
             })
             part_id_data = abc.map((item) => {
@@ -318,7 +341,32 @@ function ProductCatalog() {
                     }
                     return new_obj
                 })
-                //console.log(new_arr);
+                new_arr.push({
+                    name: "Edit",
+                    options: {
+                        filter: false,
+                        sort: false,
+                        empty: true,
+                        customBodyRenderLite: (dataIndex, rowIndex) => {
+
+                            return (
+                                <SlTag size="medium" className="tag-row" onClick={() => {
+                                    //alert(dataIndex + "hello " + rowIndex) ;
+                                    console.log(partData);
+                                    console.log(dataIndex);
+                                    console.log(rowIndex);
+                                    console.log("update button");
+                                    displayModel.current = true
+                                    console.log(displayModel);
+                                    displayEdit.current.style.display = "block"
+                                    display.current.style.display = "none"
+
+                                }} style={{ zIndex: "20", cursor:"pointer" }} >Update</SlTag>
+                            );
+                        }
+                    }
+                })
+                console.log(new_arr);
 
                 // console.log(arr);
                 setPartDataKeys(new_arr)
@@ -667,6 +715,7 @@ function ProductCatalog() {
                     <button className='product-add-filter-button search-part-base-button' onClick={() => {
                         searchPartBase()
                     }}>Search Part</button>
+
                 </div>
             </div>
             <MUIDataTable
@@ -683,7 +732,7 @@ function ProductCatalog() {
                     display.current.style.display = "none";
                     backOpacity.current.style.display = "none";
                     document.getElementById("root").style.overflow = "auto";
-                }}><span class="material-symbols-outlined">
+                }}><span className="material-symbols-outlined">
                         close
                     </span></button>
                 <div className='part-dec-container'>
@@ -701,7 +750,7 @@ function ProductCatalog() {
                                     <div className='desc-info-main'><p className='info-key'>Part Description :</p><p className='info-value'>{partInfo?.part_description}</p></div>
                                     <div className='desc-info-main'><p className='info-key'>Part Category :</p><p className='info-value'>{partInfo?.part_category}</p></div>
                                     <div className='desc-info-main'><p className='info-key'>Part Grounp :</p><p className='info-value'>{partInfo?.part_group}</p></div>
-                                    <div className='desc-info-main'><p className='info-key'>Part Status :</p><p className='info-value'>{partInfo?.staus}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Status :</p><p className='info-value'>{partInfo?.status}</p></div>
                                 </div>
                             </div>
                         </div>
@@ -716,11 +765,9 @@ function ProductCatalog() {
                     </div>
                 </div>
             </main>
-            <main style={{ display: "none" }} className='part-edit-main'>
-                <div>
-                    
-                </div>
-            </main>
+            <div ref={displayEdit} style={{ display: "none" }}>
+                <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} updateData={getPartInfo}></UpdateProductCatalog>
+            </div>
         </div>
     )
 }

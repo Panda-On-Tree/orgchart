@@ -233,6 +233,60 @@ max-height: 80vh;
     margin-bottom: auto;
     box-shadow:  1px 1px 2px #cdcdcd,
     -1px -1px 2px #cdcdcd;
+    padding: 1.5%;
+    display: flex;
+   
+}
+
+
+.part-edit-main-inner{
+    
+
+    min-width: 100%;
+}
+.part-edit-input-inner{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1% 2%;
+}
+.part-edit-input-main{
+    margin-bottom: 1%;
+}
+.part-edit-input{
+    flex-basis: 20%;
+    margin-right: 2.5%;
+    margin-bottom: 2%;
+}
+input.part-edit-input {
+    min-height: 50px;
+}
+.part-edit-input::part(form-control-label){
+    margin-bottom: 1rem;
+    color: rgb(37, 37, 37);
+}
+.part-edit-select::part(label){
+   font-size: 1.26rem;
+}
+.part-edit-input::part(menu){
+   font-size: 0.5rem;
+}
+
+.part-edit-input-main > h4{
+    margin-bottom: 1%;
+}
+
+.part-edit-main-container{
+    max-height: 100%;
+    min-width: 100%;
+    overflow-y: scroll;
+}
+
+@media only screen and (max-width: 1300px) {
+    .part-edit-input{
+        flex-basis: 30%;
+        margin-right: 2.5%;
+        margin-bottom: 2%;
+    } 
 }
 /* part edit main page */
 
@@ -247,3 +301,12 @@ max-height: 80vh;
     gap: 40px;
 }
   }
+
+
+.css-1q1u3t4-MuiTableRow-root{
+    z-index: -1 !important;
+}
+
+.tag-row::part(base){
+    cursor: pointer;
+}

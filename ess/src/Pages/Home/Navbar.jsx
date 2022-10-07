@@ -66,107 +66,107 @@ function Navbar() {
     <header
       style={{ display: 'block', position: '', backgroundColor: '#f7f9fa' }}
       id="sticky"
-      class="animate__animated  header-wrap style1"
+      className="animate__animated  header-wrap style1"
     >
-      <div class="header-bottom">
-        <div class="container">
-          <nav class="navbar navbar-expand-md navbar-light">
-            <a class="navbar-brand">
-              <img class="" src={logo2} alt="logo" />
+      <div className="header-bottom">
+        <div className="container">
+          <nav className="navbar navbar-expand-md navbar-light">
+            <a className="navbar-brand">
+              <img className="" src={logo2} alt="logo" />
             </a>
             <div
-              class="collapse navbar-collapse main-menu-wrap"
+              className="collapse navbar-collapse main-menu-wrap"
               id="navbarSupportedContent"
             >
-              <div class="menu-close d-lg-none">
+              <div className="menu-close d-lg-none">
                 <a>
                   {' '}
-                  <i class="icon-close-icon"></i>
+                  <i className="icon-close-icon"></i>
                 </a>
               </div>
-              <ul class="navbar-nav ms-auto" style={{ gap: '20px' }}>
-                <li class="nav-item">
+              <ul className="navbar-nav ms-auto" style={{ gap: '20px' }}>
+                <li className="nav-item">
                   <a
                     onClick={() => {
                       navigate('/home')
                     }}
-                    class="nav-link"
+                    className="nav-link"
                   >
                     Home
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link">
+                <li className="nav-item">
+                  <a className="nav-link">
                     Our Services
-                    <i class="icon-arrow-down"></i>
+                    <i className="icon-arrow-down"></i>
                   </a>
-                  <ul class="dropdown-menu">
-                    {/*  <li class="nav-item">
-                                    <a href="electrocardiograph.html"  class="nav-link" title="Electrocardiograph">
+                  <ul className="dropdown-menu">
+                    {/*  <li className="nav-item">
+                                    <a href="electrocardiograph.html"  className="nav-link" title="Electrocardiograph">
                                         Electrocardiograph
-                                        <i class="icon-arrow-right"></i>
+                                        <i className="icon-arrow-right"></i>
                                     </a>
-                                    <ul class="dropdown-menu">
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">MT-508 -1000</a>
+                                    <ul className="dropdown-menu">
+                                        <li className="nav-item">
+                                            <a href="#" className="nav-link">MT-508 -1000</a>
                                         </li>
-                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">MT-600 -1000</a>
+                                         <li className="nav-item">
+                                            <a href="#" className="nav-link">MT-600 -1000</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">MT-1200 - 1000</a>
+                                        <li className="nav-item">
+                                            <a href="#" className="nav-link">MT-1200 - 1000</a>
                                         </li>
                                     </ul>
                                 </li> */}
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a  onClick={() => {
                       navigate('/chart')
                     }}>Org Chart</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a  onClick={() => {
                       navigate('/product-catalog')
                     }}>Product Catalog</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a target="_blank" href='https://microtek.tech/itop'>CMDB Tool</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a target="_blank" href='https://microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a target="_blank" href='https://microtek.tech/capex/login.php'>Capex Portal</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a target="_blank" href='https://microtek.eisenvault.net/'>Eisen Vault</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a target="_blank" href='https://microtek.peoplestrong.com/altLogin.jsf'>PeopleStong Microtek</a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a
                         onClick={() => {
                           navigate('/complaint')
                         }}
-                        class="nav-link"
+                        className="nav-link"
                       >
                         Complaint
                       </a>
                     </li>
                   </ul>
                 </li>
-                {/* <li class="nav-item">
+                {/* <li className="nav-item">
                   <a
                     onClick={() => {
                       navigate('/aboutus')
                     }}
-                    class="nav-link"
+                    className="nav-link"
                   >
                     About Us
                   </a>
                 </li> */}
                 <li
-                  class="nav-item"
+                  className="nav-item"
                   style={{
                     display: 'flex',
                     gap: '20px',
@@ -174,24 +174,24 @@ function Navbar() {
                     alignItems: 'center',
                   }}
                 >
-                  <a class="nav-link">
+                  <a className="nav-link">
                     {eData?.name_of_the_eployee
                       ? eData.name_of_the_eployee
                       : 'Your Name'}
-                    <i class="icon-arrow-down"></i>
+                    <i className="icon-arrow-down"></i>
                   </a>
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
+                  <ul className="dropdown-menu">
+                    <li className="nav-item">
                       <a
                         onClick={() => {
                           navigate('/profile')
                         }}
-                        class="nav-link"
+                        className="nav-link"
                       >
                         Profile
                       </a>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                       <a
                         onClick={(e) => {
                           e.preventDefault()
@@ -201,7 +201,7 @@ function Navbar() {
                           localStorage.removeItem('email')
                           navigate('/login')
                         }}
-                        class="nav-link"
+                        className="nav-link"
                       >
                         Logout
                       </a>
@@ -224,10 +224,10 @@ function Navbar() {
               </ul>
             </div>
           </nav>
-          <div class="mobile-bar-wrap">
-            <div class="mobile-menu d-lg-none">
+          <div className="mobile-bar-wrap">
+            <div className="mobile-menu d-lg-none">
               <a>
-                <i class="icon-menu2"></i>
+                <i className="icon-menu2"></i>
               </a>
             </div>
           </div>
