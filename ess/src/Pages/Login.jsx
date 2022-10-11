@@ -33,7 +33,7 @@ const LoginForm = () => {
         localStorage.setItem('fullname', response.data.name_of_the_employee)
         localStorage.setItem('email', response.data.email)
         localStorage.setItem('role', response.data.role)
-        navigate('/chart')
+        navigate('/home')
         window.location.reload()
       })
       .catch(function (err) {
