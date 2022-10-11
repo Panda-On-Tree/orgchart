@@ -4,7 +4,7 @@ import MUIDataTable from "mui-datatables";
 import { baseurl } from '../../api/apiConfig';
 import axios from 'axios';
 import ImageGallery from 'react-image-gallery';
-import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails, SlDialog } from '@shoelace-style/shoelace/dist/react';
+import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails, SlDialog, SlIcon } from '@shoelace-style/shoelace/dist/react';
 import UpdateProductCatalog from './UpdateProductCatalog';
 import { FileUpload } from 'primereact/fileupload';
 import { Button } from 'primereact/button';
@@ -34,9 +34,11 @@ function ProductCatalog() {
     const [addAttributeOption1, setAddAttributeOption1] = useState();
     const [addAttributeOption2, setAddAttributeOption2] = useState();
     const [addPartAttributeData, setAddPartAttributeData] = useState([]);
+    const [attributeImage, setAttributeImage] = useState([])
     const [partStatus, setPartStatus] = useState()
     const [partImages, setPatImages] = useState([])
     const [openStatus, setOpenStatus] = useState(false);
+    const [openImage, setOpenImage] = useState(false);
     const displayModel = useRef(false)
     const displayEdit = useRef(null);
     const display = useRef(null);
@@ -65,6 +67,11 @@ function ProductCatalog() {
             document.getElementById("root").scrollTop = 0;
 
         },
+        selectableRowsHideCheckboxes: true
+    };
+    const optionsAtt = {
+        tableBodyMaxHeight: "60vh",
+        responsive: "standard",
         selectableRowsHideCheckboxes: true
     };
 
@@ -129,9 +136,74 @@ function ProductCatalog() {
                 console.log(res);
                 setPartInfo(res.data.data);
                 setPartAttributeInfo(res.data.data.attribute);
-                let arr = Object.keys(res.data.data.attribute[0]);
+                console.log(res.data.data.attribute[0]);
+                let obj = res.data.data.attribute[0]
+                delete obj.attribute_type_id;
+
+                let arr = Object.keys(obj);
+                let new_arr = arr.map((item) => {
+                    let new_obj = {
+                        name: item,
+                        label: item.replace("_", " "),
+                        options: {
+                            filter: true,
+                            sort: true,
+                        }
+                    }
+                    return new_obj
+                })
+                new_arr.push({
+                    name: "Images",
+                    options: {
+                        filter: false,
+                        sort: false,
+                        empty: true,
+                        customBodyRenderLite: (dataIndex, rowIndex) => {
+                            return (
+
+                                <SlTag variant='primary' size="medium" className="tag-row" onClick={() => {
+                                    console.log(res.data.data.attribute[dataIndex].attribute_id);
+                                    const data ={
+                                        attribute_id:res.data.data.attribute[dataIndex].attribute_id
+                                    }
+                                    axios({
+                                        method: 'post',
+                                        url: `${baseurl.base_url}/mhere/get-attribute-image`,
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            "Authorization": `Bearer ${localStorage.getItem('token')}`
+                                        },
+                                        data
+                                    })
+                                    .then((res)=>{
+                                        console.log(res.data.data);
+                                        let arr =[]
+
+                                        res.data.data.map((item)=>{
+                                            let obj ={
+                                                original : item.image
+                                            }
+                                            arr.push(obj)
+                                        })
+                                        console.log(arr);
+                                        setAttributeImage(arr)
+                                        if(attributeImage){
+                                            setOpenImage(true)
+                                        }
+                                    })
+                                    .catch((err)=>{
+                                        console.log(err);
+                                    })
+                                }} style={{ zIndex: "20", cursor: "pointer" }} >
+                                    view
+
+                                </SlTag>
+                            );
+                        }
+                    }
+                })
                 console.log(arr);
-                setPartAttributeKeys(arr)
+                setPartAttributeKeys(new_arr)
             })
             .catch((err) => {
                 console.log(err);
@@ -777,8 +849,7 @@ function ProductCatalog() {
                 display.current.style.display = "none";
                 document.getElementById("root").style.overflow = "auto";
                 setOpenStatus(false)
-
-
+                displayModel.current = false
             })
             .catch((err) => {
                 console.log(err);
@@ -1092,16 +1163,16 @@ function ProductCatalog() {
                     </div>
                     <div className='part-desc-table'>
                         <MUIDataTable
-                            title={"Product Part List"}
+                            title={"Product Attribute List"}
                             data={partAttributeInfo}
                             columns={partAttributeKeys}
-                            options={options}
+                            options={optionsAtt}
                         ></MUIDataTable>
                     </div>
                 </div>
             </main>
             <SlDialog label="Change status" open={openStatus} onSlRequestClose={() => {
-
+                displayModel.current = false
                 display.current.style.display = "none";
                 backOpacity.current.style.display = "none";
                 document.getElementById("root").style.overflow = "auto";
@@ -1128,9 +1199,16 @@ function ProductCatalog() {
                     backOpacity.current.style.display = "none"
                     display.current.style.display = "none";
                     document.getElementById("root").style.overflow = "auto";
+                    displayModel.current = false
                 }}>
                     Close
                 </SlButton>
+            </SlDialog>
+            <SlDialog className='attribute-image-modal' style={{ '--width': '50vw', '--height': '20vh' }} label="Images" open={openImage} onSlAfterHide={() => setOpenImage(false)}>
+
+                <div>
+                    <ImageGallery items={attributeImage} />
+                </div>
             </SlDialog>
             <div ref={displayEdit} style={{ display: "none" }}>
                 <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} attribute={attributes} updateData={getPartInfo}></UpdateProductCatalog>

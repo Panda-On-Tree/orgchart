@@ -422,3 +422,7 @@ font-size: 20px;
     background-color: #0ea5e9 !important;
     border-color: #0ea5e9 !important;
 }
+
+.attribute-image-modal::part(base){
+    min-height: 40vh;
+}

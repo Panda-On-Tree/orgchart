@@ -16,11 +16,13 @@ function UpdateProductCatalog(props) {
     const [partName, setPartName] = useState("")
     const [partDescription, setPartDescription] = useState("")
     const [attValue, setAttValue] = useState()
+    const [attID, setAttID] = useState()
     const [partAttributeInfoUpdate, setPartAttributeInfoUpdate] = useState()
     const [partAttributeInfoKeysUpdate, setPartAttributeInfoKeysUpdate] = useState()
 
     const [open, setOpen] = useState(false);
     const [openAtt, setOpenAtt] = useState(false);
+    const [openAttImageAdd, setOpenAttImageAdd] = useState(false);
     const attObj = useRef(null)
 
     const insertAttributeData = useRef({
@@ -61,6 +63,28 @@ function UpdateProductCatalog(props) {
                                 setOpen(true)
 
                             }} style={{ zIndex: "20" }} size="medium">Update</SlTag>
+                        );
+                    }
+                }
+            })
+            arr.push({
+                name: "Add Images",
+                options: {
+                    filter: false,
+                    sort: false,
+                    empty: true,
+                    customBodyRenderLite: (dataIndex, rowIndex) => {
+
+                        return (
+                            <SlTag className='tag-row' onClick={() => {
+                                //console.log(dataIndex);
+                                console.log(partAttributeInfoUpdate[dataIndex].attribute_id);
+                                setAttID(partAttributeInfoUpdate[dataIndex].attribute_id)
+                                // attObj.current = partAttributeInfoUpdate[dataIndex]
+                                //setAttValue(partAttributeInfoUpdate[dataIndex].attribute_value)
+                                setOpenAttImageAdd(true)
+
+                            }} style={{ zIndex: "20" }} size="medium">Add</SlTag>
                         );
                     }
                 }
@@ -213,6 +237,36 @@ function UpdateProductCatalog(props) {
              })
     }
 
+    function uploadAttImages(e){
+        console.log(e.files);
+        var formdata = new FormData();
+        e.files.map((item) => {
+            formdata.append("attribute_image", item)
+        })
+        formdata.append("attribute_id", attID)
+        formdata.append("employee_id", localStorage.getItem("employee_id"))
+
+        for (const value of formdata.values()) {
+            console.log(value);
+        }
+         axios({
+             method: 'post',
+             url: `${baseurl.base_url}/mhere/add-attribute-image`,
+             headers: {
+                 'Content-Type': 'application/json',
+                 "Authorization": `Bearer ${localStorage.getItem('token')}`
+             },
+             data:formdata
+         })
+             .then((res) => {
+                 console.log(res);
+                 e.options.clear()
+             })
+             .catch((err) => {
+                 console.log(err);
+             })
+    }
+
     return (
         <main className='part-edit-main'>
             <SlDialog label="Enter Value Below" open={open} onSlAfterHide={() => setOpen(false)}>
@@ -226,6 +280,17 @@ function UpdateProductCatalog(props) {
                 </SlButton>
                 <SlButton slot="footer" outline variant="danger" onClick={() => { setOpen(false); attObj.current.attribute_value = attValue }}>
                     Close
+                </SlButton>
+            </SlDialog>
+            <SlDialog label="Dialog" open={openAttImageAdd} style={{ '--width': '50vw' }} onSlAfterHide={() => setOpenAttImageAdd(false)}>
+            <div style={{ padding: "0% 2%" }}>
+                    <div className='edit-images-main card'>
+                        <FileUpload name="demo[]" customUpload uploadHandler={uploadAttImages} multiple accept="image/*" maxFileSize={1000000}
+                            emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
+                    </div>
+                </div>
+                <SlButton slot="footer" variant="primary" onClick={() => setOpenAttImageAdd(false)}>
+                Close
                 </SlButton>
             </SlDialog>
 

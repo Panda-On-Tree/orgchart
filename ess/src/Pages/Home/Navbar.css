@@ -22,7 +22,24 @@
   font-display: block;
 }
 
-  
+  .nv-main{
+    max-width: 100%;
+  }
+  @media only screen and (min-width: 1600px) {
+    .nv-main {
+      max-width: none !important;
+    }
+  }
+  @media only screen and (min-width: 1900px) {
+    .nv-main {
+      max-width: none !important;
+    }
+  }
+  @media only screen and (min-width: 768px) {
+    .nv-main {
+      max-width: none !important;
+    }
+  }
 
   [class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */

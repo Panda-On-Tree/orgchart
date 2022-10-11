@@ -69,7 +69,7 @@ function Navbar() {
       className="animate__animated  header-wrap style1"
     >
       <div className="header-bottom">
-        <div className="container">
+        <div className="container nv-main">
           <nav className="navbar navbar-expand-md navbar-light">
             <a className="navbar-brand">
               <img className="" src={logo2} alt="logo" />
