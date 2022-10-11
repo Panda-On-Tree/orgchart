@@ -59,9 +59,11 @@
 }
 
 .product-add-filter-button{
-    background-color: rgb(209, 209, 209);
+    /* background-color: rgb(209, 209, 209); */
+    background-color: #0284c7;
     /* margin: 50px;
     padding: 10px; */
+    color: white;
     min-width: fit-content;    
     border-radius: 2.5px;
     box-shadow:  0.5px 0.5px 0.5px #d8d5d5,
@@ -70,6 +72,9 @@
     border: none;
     margin-right: 20px;
     
+}
+.product-add-filter-button:hover{
+    background-color: #0ea5e9;
 }
 .product-filter-main-button{
     margin-bottom: 3vh;
@@ -392,4 +397,8 @@ font-size: 20px;
 
 .add-part-main-button{
     margin-top: 1%;
+}
+
+.att--edit-input::part(form-control-label){
+    margin-bottom: var(--sl-spacing-3x-small) !important;
 }

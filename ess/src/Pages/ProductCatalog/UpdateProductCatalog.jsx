@@ -19,9 +19,15 @@ function UpdateProductCatalog(props) {
     const [partAttributeInfoKeysUpdate, setPartAttributeInfoKeysUpdate] = useState()
 
     const [open, setOpen] = useState(false);
-
+    const [openAtt, setOpenAtt] = useState(false);
     const attObj = useRef(null)
-
+   
+    const insertAttributeData = useRef({
+        attribute_type_id:"",
+        attribute_value:"",
+        employee_id: localStorage.getItem('employee_id'),
+        part_id: props.partInfo.part_id
+    })
 
     useEffect(() => {
         setPartCode(props.partInfo.part_code)
@@ -31,7 +37,10 @@ function UpdateProductCatalog(props) {
         setPartDescription(props.partInfo.part_description)
         setPartStatus(props.partInfo.status)
         setPartAttributeInfoUpdate(props.partInfo.attribute)
+        insertAttributeData.current.part_id =  props.partInfo.part_id
         //console.log(props.partInfo.attribute[0]);
+        
+        console.log(props.attribute);
 
         if (props.partInfo.attribute) {
             let arr = Object.keys(props.partInfo.attribute[0]);
@@ -130,8 +139,47 @@ function UpdateProductCatalog(props) {
     const options = {
         tableBodyMaxHeight: "60vh",
         responsive: "standard",
-        selectableRowsHideCheckboxes: true
+        selectableRowsHideCheckboxes: true,
+        customToolbar: () => {
+            return (
+                <SlTag size="large" variant='primary' onClick={()=>{
+                    console.log(insertAttributeData.current); 
+                    setOpenAtt(true)
+                }} className="tag-row">Add New</SlTag>
+            );
+          }
     };
+     
+    function uploadNewAttribute(){
+      if(!insertAttributeData.current.attribute_value.trim() || !insertAttributeData.current.attribute_type_id.toString().trim()){
+        alert("Input All")
+        return
+      }
+      let data = {
+        data:[
+            insertAttributeData.current
+        ]
+      }
+      console.log(data);
+      axios({
+        method: 'post',
+        url: `${baseurl.base_url}/mhere/insert-attribute-data`,
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+        },
+        data
+    })
+        .then((res) => {
+            console.log(res);
+            setOpenAtt(false);
+            insertAttributeData.current.attribute_type_id = "";
+            insertAttributeData.current.attribute_value =""
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
 
     return (
         <main className='part-edit-main'>
@@ -151,6 +199,9 @@ function UpdateProductCatalog(props) {
 
             <button className='button-close-part-desc' onClick={() => {
                 props.onClose()
+                insertAttributeData.current.attribute_type_id = "";
+                insertAttributeData.current.attribute_value ="";
+                insertAttributeData.current.part_id="";
             }}><span className="material-symbols-outlined">
                     close
                 </span></button>
@@ -173,8 +224,8 @@ function UpdateProductCatalog(props) {
                             </SlSelect>
                             <SlInput className="part-edit-input" size='large' label="Part Group" clearable value={partGroup} onSlInput={e => { setPartGroup(e.target.value) }} />
                         </div>
-                        <SlButton onClick={() => {
-                            console.log("he;llo");
+                        <SlButton  onClick={() => {
+                            
                             sendUpdatedPartData()
                         }} size='large' style={{ minWidth: '15vw', minHeight: "50px", padding: '0% 2%' }} variant="neutral">Update</SlButton>
                     </div>
@@ -189,6 +240,40 @@ function UpdateProductCatalog(props) {
                     ></MUIDataTable>
                 </div>
             </div>
+            <SlDialog label="Add new Attribute" open={openAtt} onSlRequestClose={()=>{setOpenAtt(false)}} >
+                <div>
+                <SlSelect className="part-edit-input"  size='large' label="Attribute Name"  onSlChange={e => {
+                    insertAttributeData.current.attribute_type_id = e.target.value
+                 }}>
+                   
+                    {
+                        props?.attribute?.map((item)=>{
+                            return(
+                                <SlMenuItem className='part-edit-select' value={item.id}>{item.name}</SlMenuItem>
+                            )
+                        })
+                    }
+                   
+
+
+                </SlSelect>
+                <SlInput className="part-edit-input" size='large' label="Attribute Name" value={insertAttributeData.current.attribute_value} onSlInput={e => {
+                        insertAttributeData.current.attribute_value = e.target.value
+                    } } clearable />
+                </div>
+                <SlButton slot="footer" style={{marginRight:"20px"}} variant="primary" onClick={()=>{
+                    console.log( insertAttributeData.current);
+                    uploadNewAttribute()
+                }}>
+                    Upload
+                </SlButton>
+                <SlButton slot="footer" variant="primary" onClick={() => {
+                     insertAttributeData.current.attribute_type_id = "";
+                     insertAttributeData.current.attribute_value =""
+                    setOpenAtt(false)}}>
+                    Close
+                </SlButton>
+            </SlDialog>
         </main>
     )
 }
