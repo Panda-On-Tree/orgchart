@@ -4,9 +4,10 @@ import MUIDataTable from "mui-datatables";
 import { baseurl } from '../../api/apiConfig';
 import axios from 'axios';
 import ImageGallery from 'react-image-gallery';
-import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails } from '@shoelace-style/shoelace/dist/react';
+import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails, SlDialog } from '@shoelace-style/shoelace/dist/react';
 import UpdateProductCatalog from './UpdateProductCatalog';
-
+import { FileUpload } from 'primereact/fileupload';
+import { Button } from 'primereact/button';
 function ProductCatalog() {
 
     const [filterData, setFilterData] = useState([]);
@@ -33,7 +34,9 @@ function ProductCatalog() {
     const [addAttributeOption1, setAddAttributeOption1] = useState();
     const [addAttributeOption2, setAddAttributeOption2] = useState();
     const [addPartAttributeData, setAddPartAttributeData] = useState([]);
-    const [partImages , setPatImages] = useState([])
+    const [partStatus, setPartStatus] = useState()
+    const [partImages, setPatImages] = useState([])
+    const [openStatus, setOpenStatus] = useState(false);
     const displayModel = useRef(false)
     const displayEdit = useRef(null);
     const display = useRef(null);
@@ -70,14 +73,14 @@ function ProductCatalog() {
         getAttributes()
         console.log(loadingRef.current);
         //  console.log("hello world".startsWith("llo"));
-
+        console.log(localStorage.getItem('role'));
     }, [])
     useEffect(() => {
         console.log("data is here");
     }, [partData])
 
     /* Axios api calls */
-    function getPartImages(part_id){
+    function getPartImages(part_id) {
         const data = {
             part_id: part_id
         }
@@ -91,12 +94,20 @@ function ProductCatalog() {
             },
             data
         })
-        .then((res)=>{
-            console.log(res.data.data);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+            .then((res) => {
+                console.log(res.data.data);
+                let images = []
+                let obj = {}
+                res.data.data.map((item) => {
+                    obj.original = item.image
+                    images.push(obj);
+                })
+                console.log(images);
+                setPatImages(images)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
 
@@ -371,31 +382,55 @@ function ProductCatalog() {
                     }
                     return new_obj
                 })
-                new_arr.push({
-                    name: "Update",
-                    options: {
-                        filter: false,
-                        sort: false,
-                        empty: true,
-                        customBodyRenderLite: (dataIndex, rowIndex) => {
+                if (localStorage.getItem('role') == 'admin' || localStorage.getItem('role') == 'sadmin') {
+                    new_arr.push({
+                        name: "Update",
+                        options: {
+                            filter: false,
+                            sort: false,
+                            empty: true,
+                            customBodyRenderLite: (dataIndex, rowIndex) => {
 
-                            return (
-                                <SlTag size="medium" className="tag-row" onClick={() => {
-                                    //alert(dataIndex + "hello " + rowIndex) ;
-                                    console.log(partData);
-                                    console.log(dataIndex);
-                                    console.log(rowIndex);
-                                    console.log("update button");
-                                    displayModel.current = true
-                                    console.log(displayModel);
-                                    displayEdit.current.style.display = "block"
-                                    display.current.style.display = "none"
+                                return (
+                                    <SlTag size="medium" className="tag-row" onClick={() => {
+                                        //alert(dataIndex + "hello " + rowIndex) ;
+                                        console.log(partData);
+                                        console.log(dataIndex);
+                                        console.log(rowIndex);
+                                        console.log("update button");
+                                        displayModel.current = true
+                                        console.log(displayModel);
+                                        displayEdit.current.style.display = "block"
+                                        display.current.style.display = "none"
 
-                                }} style={{ zIndex: "20", cursor: "pointer" }} >Update</SlTag>
-                            );
+                                    }} style={{ zIndex: "20", cursor: "pointer" }} >Update</SlTag>
+                                );
+                            }
                         }
-                    }
-                })
+                    })
+                }
+                if (localStorage.getItem('role') == 'sadmin') {
+                    new_arr.push({
+                        name: "Change Status",
+                        options: {
+                            filter: false,
+                            sort: false,
+                            empty: true,
+                            customBodyRenderLite: (dataIndex, rowIndex) => {
+
+                                return (
+                                    <SlTag size="medium" className="tag-row" onClick={() => {
+                                        //alert(dataIndex + "hello " + rowIndex) ;
+                                        displayModel.current = true
+                                        display.current.style.display = "none"
+                                        setOpenStatus(true)
+
+                                    }} style={{ zIndex: "20", cursor: "pointer" }} >Change</SlTag>
+                                );
+                            }
+                        }
+                    })
+                }
                 console.log(new_arr);
 
                 // console.log(arr);
@@ -611,7 +646,7 @@ function ProductCatalog() {
         part_category: "",
         part_name: "",
         part_description: "",
-        status: "",
+        status: "pending",
         part_group: "",
         employee_id: localStorage.getItem("employee_id")
     })
@@ -657,6 +692,18 @@ function ProductCatalog() {
             .then((res) => {
                 console.log(res);
                 loadingRef.current = false
+                setAddPartAttributeData([]);
+                document.getElementById("add-part-form").reset();
+                newPartData.current =
+                {
+                    part_code: "",
+                    part_category: "",
+                    part_name: "",
+                    part_description: "",
+                    status: "pending",
+                    part_group: "",
+                    employee_id: localStorage.getItem("employee_id")
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -667,8 +714,8 @@ function ProductCatalog() {
 
     }
 
-    function sendNewAttributeData(){
-        if(!newAttributeData.current.attribute_name.trim() || !newAttributeData.current.attribute_type.toString().trim() || !newAttributeData.current.attribute_priority.toString().trim() || !newAttributeData.current.attribute_description.toString().trim()){
+    function sendNewAttributeData() {
+        if (!newAttributeData.current.attribute_name.trim() || !newAttributeData.current.attribute_type.toString().trim() || !newAttributeData.current.attribute_priority.toString().trim() || !newAttributeData.current.attribute_description.toString().trim()) {
             alert("Input All Field")
             return
         }
@@ -685,110 +732,161 @@ function ProductCatalog() {
             .then((res) => {
                 console.log(res);
                 newAttributeData.current.attribute_description = ""
-                newAttributeData.current.attribute_name =""
-                newAttributeData.current.attribute_priority =""
-                newAttributeData.current.attribute_type =""
-                
+                newAttributeData.current.attribute_name = ""
+                newAttributeData.current.attribute_priority = ""
+                newAttributeData.current.attribute_type = ""
+
             })
             .catch((err) => {
                 console.log(err);
-               
+
             })
 
     }
+    /* 
+        function uploadImages(e){
+            console.log(e.files);
+        } */
 
+    function changePartStatus() {
+        if (!partStatus) {
+            alert("Select One status")
+            return
+        }
+
+        const data = {
+            part_id: partInfo.part_id,
+            status: partStatus,
+            employee_id: localStorage.getItem("employee_id")
+        }
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/update-part-status`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res);
+                setPartStatus("");
+                searchPartBase()
+                backOpacity.current.style.display = "none"
+                display.current.style.display = "none";
+                document.getElementById("root").style.overflow = "auto";
+                setOpenStatus(false)
+
+
+            })
+            .catch((err) => {
+                console.log(err);
+
+            })
+    }
 
 
     return (
         <div className='product-table-main'>
             <h1 style={{ textAlign: "center", marginBottom: "5vh" }}>Part Catalogue</h1>
 
-            <SlDetails className='part-add-input-main' summary="Add New Part">
+            {localStorage.getItem('role') != 'user' ? <div>
+                <SlDetails className='part-add-input-main' summary="Add New Part">
 
-                <div className='part-add-input-inner'>
-                    <SlInput maxlength={50} size="large" className="part-add-input" label="Part Code" onSlChange={(e) => { newPartData.current.part_code = e.target.value }} />
-                    <SlInput maxlength={100} size="large" className="part-add-input" label="Part Name" onSlChange={(e) => { newPartData.current.part_name = e.target.value }} />
-                    <SlInput maxlength={100} size="large" className="part-add-input" label="Part Category" onSlChange={(e) => { newPartData.current.part_category = e.target.value }} />
-                    <SlInput maxlength={30} size="large" className="part-add-input" label="Part Group" onSlChange={(e) => { newPartData.current.part_group = e.target.value }} />
-                    <SlInput maxlength={250} size="large" className="part-add-input" label="Part Description" onSlChange={(e) => { newPartData.current.part_description = e.target.value }} />
-                    <SlInput maxlength={20} size="large" className="part-add-input" label="Part Status" onSlChange={(e) => { newPartData.current.status = e.target.value }} />
-                </div>
-                <div className='part-add-attribute-main'>
-                    <div>
-                        <h5 className='search-heading'>Add Attributes</h5>
-                        {addPartAttributeData.map(item => {
-                            return (
-                                <div id='filter-row' className='product-filter-main'>
-                                    <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
-                                        {attributeMaster?.map((attributeItem) => {
-                                            return (
-                                                <option value={JSON.stringify(attributeItem)} id={attributeItem.name}>{attributeItem.name}</option>
-                                            )
-                                        })}
-                                    </select>
-                                    <input className='product-search' type="text" name="" id="" value={item.filter_value} disabled />
-
-                                    <button className='product-add-filter-button' onClick={e => {
-                                        deleteAddPartAttribute(item)
-                                    }}>Clear Filter</button>
-                                </div>
-                            )
-                        })}
-                        <div id='filter-row' className='product-filter-main'>
-                            <select className='product-filter-option1' name="cars" id="cars" value={addAttributeOption1} onChange={e => {
-                                setAddAttributeOption1(e.target.value)
-                                console.log(JSON.parse(e.target.value));
-                            }}>
-
-                                <option value="" hidden>Select an option </option>
-                                {addPartAttributeMaster?.map((item) => {
-                                    return (
-                                        <option value={JSON.stringify(item)} id={item.name}>{item.name}</option>
-                                    )
-                                })}
-                            </select>
-                            <input type="text" name="" className='product-search' id="" value={addAttributeOption2} onChange={e => {
-
-                                setAddAttributeOption2(e.target.value);
-                            }} />
-
+                    <form id="add-part-form">
+                        <div className='part-add-input-inner'>
+                            <SlInput maxlength={50} size="large" className="part-add-input" label="Part Code" onSlChange={(e) => { newPartData.current.part_code = e.target.value }} />
+                            <SlInput maxlength={100} size="large" className="part-add-input" label="Part Name" onSlChange={(e) => { newPartData.current.part_name = e.target.value }} />
+                            <SlInput maxlength={100} size="large" className="part-add-input" label="Part Category" onSlChange={(e) => { newPartData.current.part_category = e.target.value }} />
+                            <SlInput maxlength={30} size="large" className="part-add-input" label="Part Group" onSlChange={(e) => { newPartData.current.part_group = e.target.value }} />
+                            <SlInput maxlength={250} size="large" className="part-add-input" label="Part Description" onSlChange={(e) => { newPartData.current.part_description = e.target.value }} />
+                            {/*  <SlInput maxlength={20} size="large" className="part-add-input" label="Part Status" onSlChange={(e) => { newPartData.current.status = e.target.value }} /> */}
                         </div>
-                        <div className='product-filter-main-button'>
-                            <button className='product-add-filter-button' onClick={() => {
-                                addPartAttribute();
-                            }}>Add Attribute</button>
-                            {/* <button className='product-add-filter-button' onClick={() => {
-                            getFilterList()
-                            }}>Search Part</button> */}
+                    </form>
+                    <div className='part-add-attribute-main'>
+                        <div>
+                            <h5 className='search-heading'>Add Attributes</h5>
+                            {addPartAttributeData.map(item => {
+                                return (
+                                    <div id='filter-row' className='product-filter-main'>
+                                        <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
+                                            {attributeMaster?.map((attributeItem) => {
+                                                return (
+                                                    <option value={JSON.stringify(attributeItem)} id={attributeItem.name}>{attributeItem.name}</option>
+                                                )
+                                            })}
+                                        </select>
+                                        <input className='product-search' type="text" name="" id="" value={item.filter_value} disabled />
+
+                                        <button className='product-add-filter-button' onClick={e => {
+                                            deleteAddPartAttribute(item)
+                                        }}>Clear Filter</button>
+                                    </div>
+                                )
+                            })}
+                            <div id='filter-row' className='product-filter-main'>
+                                <select className='product-filter-option1' name="cars" id="cars" value={addAttributeOption1} onChange={e => {
+                                    setAddAttributeOption1(e.target.value)
+                                    console.log(JSON.parse(e.target.value));
+                                }}>
+
+                                    <option value="" hidden>Select an option </option>
+                                    {addPartAttributeMaster?.map((item) => {
+                                        return (
+                                            <option value={JSON.stringify(item)} id={item.name}>{item.name}</option>
+                                        )
+                                    })}
+                                </select>
+                                <input type="text" name="" className='product-search' id="" value={addAttributeOption2} onChange={e => {
+
+                                    setAddAttributeOption2(e.target.value);
+                                }} />
+
+                            </div>
+                            <div className='product-filter-main-button'>
+                                <button className='product-add-filter-button' onClick={() => {
+                                    addPartAttribute();
+                                }}>Add Attribute</button>
+                                {/* <button className='product-add-filter-button' onClick={() => {
+            getFilterList()
+            }}>Search Part</button> */}
+                            </div>
                         </div>
                     </div>
-                </div>
+                    {/*  <div style={{padding:"0% 2%"}}>
+<div className='edit-images-main card'>
+<FileUpload name="demo[]" customUpload uploadHandler={uploadImages} url=""  multiple accept="image/*" maxFileSize={1000000}
+    emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
+</div>
+</div> */}
 
-                <SlButton {...(loadingRef.current && { loading: true })} size='large' className='add-part-main-button' onClick={() => {
+                    <SlButton {...(loadingRef.current && { loading: true })} size='large' className='add-part-main-button' onClick={() => {
 
-                    sendAddPartData()
-                }} variant="primary">Submit
-                </SlButton>
+                        sendAddPartData()
+                    }} variant="primary">Submit
+                    </SlButton>
 
-            </SlDetails>
-            <SlDetails className='part-add-input-main' summary="Add New Attribute">
-                <div className='part-add-input-inner'>
-                    <SlSelect className="part-edit-input att--edit-input" size='large' label="Attribute Type" onSlChange={(e) => {
-                        newAttributeData.current.attribute_type = e.target.value
-                    }}>
-                        <SlMenuItem className='part-edit-select' value="text" >Text</SlMenuItem>
-                        <SlMenuItem className='part-edit-select' value="number">Number</SlMenuItem>
-                    </SlSelect>
-                    <SlInput defaultValue="" maxlength={20}  size="large" className="part-add-input" clearable label="Attribute Name" onSlChange={(e) => { newAttributeData.current.attribute_name = e.target.value }} />
-                    <SlInput maxlength={10} type="number" size="large" className="part-add-input" clearable label="Attribute Priority" onSlChange={(e) => { newAttributeData.current.attribute_priority = e.target.value }} />
-                    <SlInput maxlength={250} size="large" className="part-add-input" clearable label="Attribute Description" onSlChange={(e) => { newAttributeData.current.attribute_description = e.target.value }} />
-                </div>
-                <SlButton size='large' className='add-part-main-button' onClick={() => {
-                    console.log(newAttributeData.current);
-                    sendNewAttributeData()
-                }} variant="primary">Submit</SlButton>
+                </SlDetails>
+                <SlDetails className='part-add-input-main' summary="Add New Attribute">
+                    <div className='part-add-input-inner'>
+                        <SlSelect className="part-edit-input att--edit-input" size='large' label="Attribute Type" onSlChange={(e) => {
+                            newAttributeData.current.attribute_type = e.target.value
+                        }}>
+                            <SlMenuItem className='part-edit-select' value="text" >Text</SlMenuItem>
+                            <SlMenuItem className='part-edit-select' value="number">Number</SlMenuItem>
+                        </SlSelect>
+                        <SlInput defaultValue="" maxlength={20} size="large" className="part-add-input" clearable label="Attribute Name" onSlChange={(e) => { newAttributeData.current.attribute_name = e.target.value }} />
+                        <SlInput maxlength={10} type="number" size="large" className="part-add-input" clearable label="Attribute Priority" onSlChange={(e) => { newAttributeData.current.attribute_priority = e.target.value }} />
+                        <SlInput maxlength={250} size="large" className="part-add-input" clearable label="Attribute Description" onSlChange={(e) => { newAttributeData.current.attribute_description = e.target.value }} />
+                    </div>
+                    <SlButton size='large' className='add-part-main-button' onClick={() => {
+                        console.log(newAttributeData.current);
+                        sendNewAttributeData()
+                    }} variant="primary">Submit</SlButton>
 
-            </SlDetails>
+                </SlDetails>
+            </div> : null}
             <div className='filter-inputs-main'>
                 <SlDetails className='part-filter-input-main-first' open summary="Search Part Using Filter">
                     <div className='filter-inputs-main'>
@@ -977,7 +1075,7 @@ function ProductCatalog() {
 
                         <div className='part-desc-image-data-main'>
                             <div className='part-desc-image-main'>
-                                <ImageGallery items={images} />
+                                <ImageGallery items={partImages} />
                             </div>
                             <div className='part-desc-data-main'>
                                 <h1 style={{ textAlign: "center", fontSize: "24px" }}>Part Description</h1>
@@ -1002,6 +1100,38 @@ function ProductCatalog() {
                     </div>
                 </div>
             </main>
+            <SlDialog label="Change status" open={openStatus} onSlRequestClose={() => {
+
+                display.current.style.display = "none";
+                backOpacity.current.style.display = "none";
+                document.getElementById("root").style.overflow = "auto";
+                setOpenStatus(false)
+            }} >
+                <SlSelect className="part-edit-input" size='large' label="Status" value={partStatus} onSlChange={(e) => {
+                    setPartStatus(e.target.value)
+                }} >
+                    <SlMenuItem className='part-edit-select' value="approved">Approved</SlMenuItem>
+                    <SlMenuItem className='part-edit-select' value="pending">Pending</SlMenuItem>
+                    <SlMenuItem className='part-edit-select' value="unactive">Unactive</SlMenuItem>
+
+
+
+                </SlSelect>
+                <SlButton style={{ marginRight: "20px" }} slot="footer" variant="primary" onClick={() => {
+                    changePartStatus()
+                }}>
+                    Change
+                </SlButton>
+                <SlButton slot="footer" variant="primary" onClick={() => {
+                    setOpenStatus(false)
+                    setPartStatus("");
+                    backOpacity.current.style.display = "none"
+                    display.current.style.display = "none";
+                    document.getElementById("root").style.overflow = "auto";
+                }}>
+                    Close
+                </SlButton>
+            </SlDialog>
             <div ref={displayEdit} style={{ display: "none" }}>
                 <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} attribute={attributes} updateData={getPartInfo}></UpdateProductCatalog>
             </div>

@@ -22,7 +22,7 @@
 /* Product catalog Search */
 .product-search{
     display: block;
-    background-color: rgb(230, 230, 230);
+    background-color: rgb(255, 255, 255);
     /* margin: 50px;
     padding: 10px; */
     max-width: 250px;
@@ -30,6 +30,7 @@
     box-shadow:  0.5px 0.5px 0.5px #d8d5d5,
              -0.5px -0.5px 0px #f0f0f0;
     padding: 10px;
+    border: 1px solid rgb(225, 225, 225);
 }
 .product-filter-main{
     display: flex;
@@ -45,7 +46,7 @@
     box-shadow:  1px 1px 2px #cdcdcd,
              -1px -1px 2px #cdcdcd;
     min-width:13vw;
-    
+    background-color: #e2e2e2;
 
 }
 .product-filter-option2{
@@ -158,6 +159,10 @@
 .part-desc-image-main{
     max-width: 40vw;
     flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
 }
 .part-desc-data-desc{
     margin-top: 3vh;
@@ -401,4 +406,19 @@ font-size: 20px;
 
 .att--edit-input::part(form-control-label){
     margin-bottom: var(--sl-spacing-3x-small) !important;
+}
+
+
+.p-fileupload-choose> input{
+    display: none;
+}
+
+
+.p-button{
+    background-color: #0284c7;
+    border-color: #0ea5e9;
+}
+.p-button:hover{
+    background-color: #0ea5e9 !important;
+    border-color: #0ea5e9 !important;
 }

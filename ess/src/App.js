@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react'
 import './App.css'
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import 'primeicons/primeicons.css';
+import "primereact/resources/primereact.min.css";
+//import 'primereact/resources/themes/bootstrap4-light-blue/theme.css'
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import LoginForm from './Pages/Login'
 import Chart from './Pages/Chart'
