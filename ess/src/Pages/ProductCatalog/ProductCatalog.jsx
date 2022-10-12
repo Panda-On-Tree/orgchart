@@ -104,8 +104,8 @@ function ProductCatalog() {
             .then((res) => {
                 console.log(res.data.data);
                 let images = []
-                let obj = {}
                 res.data.data.map((item) => {
+                    let obj = {}
                     obj.original = item.image
                     images.push(obj);
                 })
