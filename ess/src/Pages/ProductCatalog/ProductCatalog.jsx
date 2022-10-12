@@ -138,7 +138,7 @@ function ProductCatalog() {
                 setPartAttributeInfo(res.data.data.attribute);
                 console.log(res.data.data.attribute[0]);
                 let obj = res.data.data.attribute[0]
-                delete obj.attribute_type_id;
+                
 
                 let arr = Object.keys(obj);
                 let new_arr = arr.map((item) => {

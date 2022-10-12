@@ -59,6 +59,7 @@ function UpdateProductCatalog(props) {
                             <SlTag className='tag-row' onClick={() => {
                                 console.log(dataIndex);
                                 attObj.current = partAttributeInfoUpdate[dataIndex]
+                                console.log(partAttributeInfoUpdate[dataIndex]);
                                 setAttValue(partAttributeInfoUpdate[dataIndex].attribute_value)
                                 setOpen(true)
 
