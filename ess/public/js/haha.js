@@ -1,3 +1,3 @@
-$( document ).ready(function() {
+w$( document ).ready(function() {
     console.log( "ready! haha" );
 });
