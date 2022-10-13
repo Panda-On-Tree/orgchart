@@ -6,6 +6,7 @@ import { baseurl } from '../../api/apiConfig';
 import MUIDataTable from "mui-datatables";
 import { FileUpload } from 'primereact/fileupload';
 import { Button } from 'primereact/button';
+import image from '../img/hero/banner-img1.png'
 function UpdateProductCatalog(props) {
 
 
@@ -19,10 +20,11 @@ function UpdateProductCatalog(props) {
     const [attID, setAttID] = useState()
     const [partAttributeInfoUpdate, setPartAttributeInfoUpdate] = useState()
     const [partAttributeInfoKeysUpdate, setPartAttributeInfoKeysUpdate] = useState()
-
+    const [attImageDel, setAttImageDel] = useState()
     const [open, setOpen] = useState(false);
     const [openAtt, setOpenAtt] = useState(false);
     const [openAttImageAdd, setOpenAttImageAdd] = useState(false);
+    const [openAttImageDel, setOpenAttImageDel] = useState(false);
     const attObj = useRef(null)
 
     const insertAttributeData = useRef({
@@ -32,6 +34,7 @@ function UpdateProductCatalog(props) {
         part_id: props.partInfo.part_id
     })
 
+  
     useEffect(() => {
         setPartCode(props.partInfo.part_code)
         setPartCategory(props.partInfo.part_category)
@@ -42,6 +45,8 @@ function UpdateProductCatalog(props) {
         setPartAttributeInfoUpdate(props.partInfo.attribute)
         insertAttributeData.current.part_id = props.partInfo.part_id
         //console.log(props.partInfo.attribute[0]);
+
+        console.log(props.images);
 
         console.log(props.attribute);
 
@@ -77,7 +82,8 @@ function UpdateProductCatalog(props) {
                     customBodyRenderLite: (dataIndex, rowIndex) => {
 
                         return (
-                            <SlTag className='tag-row' onClick={() => {
+                            <div>
+                                <SlTag className='tag-row' onClick={() => {
                                 //console.log(dataIndex);
                                 console.log(partAttributeInfoUpdate[dataIndex].attribute_id);
                                 setAttID(partAttributeInfoUpdate[dataIndex].attribute_id)
@@ -85,7 +91,19 @@ function UpdateProductCatalog(props) {
                                 //setAttValue(partAttributeInfoUpdate[dataIndex].attribute_value)
                                 setOpenAttImageAdd(true)
 
-                            }} style={{ zIndex: "20" }} size="medium">Add</SlTag>
+                            }} style={{ zIndex: "20" , marginRight:"10px" }} size="medium">Add</SlTag>
+                                <SlTag className='tag-row' onClick={() => {
+                                //console.log(dataIndex);
+                               // console.log(partAttributeInfoUpdate[dataIndex].attribute_id);
+                                //setAttID(partAttributeInfoUpdate[dataIndex].attribute_id)
+                                // attObj.current = partAttributeInfoUpdate[dataIndex]
+                                //setAttValue(partAttributeInfoUpdate[dataIndex].attribute_value)
+                             
+                                getAttributeImages(partAttributeInfoUpdate[dataIndex].attribute_id)
+
+                            }} style={{ zIndex: "20" }} size="medium">Delete</SlTag>
+                               
+                            </div>
                         );
                     }
                 }
@@ -95,6 +113,8 @@ function UpdateProductCatalog(props) {
         }
 
     }, [props])
+
+   
 
     function updateAttributeValue() {
         if (!(attValue.trim())) {
@@ -209,7 +229,7 @@ function UpdateProductCatalog(props) {
 
     function uploadImages(e) {
         console.log(e.files);
-      
+
         var formdata = new FormData();
         e.files.map((item) => {
             formdata.append("part_image", item)
@@ -220,25 +240,25 @@ function UpdateProductCatalog(props) {
         for (const value of formdata.values()) {
             console.log(value);
         }
-         axios({
-             method: 'post',
-             url: `${baseurl.base_url}/mhere/add-part-image`,
-             headers: {
-                 'Content-Type': 'application/json',
-                 "Authorization": `Bearer ${localStorage.getItem('token')}`
-             },
-             data:formdata
-         })
-             .then((res) => {
-                 console.log(res);
-                 e.options.clear()
-             })
-             .catch((err) => {
-                 console.log(err);
-             })
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/add-part-image`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data: formdata
+        })
+            .then((res) => {
+                console.log(res);
+                e.options.clear()
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    function uploadAttImages(e){
+    function uploadAttImages(e) {
         console.log(e.files);
         var formdata = new FormData();
         e.files.map((item) => {
@@ -250,23 +270,79 @@ function UpdateProductCatalog(props) {
         for (const value of formdata.values()) {
             console.log(value);
         }
-         axios({
-             method: 'post',
-             url: `${baseurl.base_url}/mhere/add-attribute-image`,
-             headers: {
-                 'Content-Type': 'application/json',
-                 "Authorization": `Bearer ${localStorage.getItem('token')}`
-             },
-             data:formdata
-         })
-             .then((res) => {
-                 console.log(res);
-                 e.options.clear()
-             })
-             .catch((err) => {
-                 console.log(err);
-             })
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/add-attribute-image`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data: formdata
+        })
+            .then((res) => {
+                console.log(res);
+                e.options.clear()
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
+
+    function getAttributeImages(item){
+        console.log(item);
+        const data ={
+            attribute_id: item
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/get-attribute-image`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res);
+                setAttImageDel(res.data.data)
+                setOpenAttImageDel(true)
+               
+            })
+            .catch((err) => {
+                console.log(err);
+            }) 
+    }
+
+    function delImage(path,i){
+
+        console.log(path);
+        const data = {
+            "data":[
+                {
+                    "image_path": path
+                }
+            ],
+            "employee_id":localStorage.getItem('employee_id')
+        }
+
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/delete-image`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res);
+                document.getElementById(path+i).style.display= "none"
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
 
     return (
         <main className='part-edit-main'>
@@ -283,15 +359,37 @@ function UpdateProductCatalog(props) {
                     Close
                 </SlButton>
             </SlDialog>
-            <SlDialog label="Dialog" open={openAttImageAdd} style={{ '--width': '50vw' }} onSlAfterHide={() => setOpenAttImageAdd(false)}>
-            <div style={{ padding: "0% 2%" }}>
+            <SlDialog label="Add images" open={openAttImageAdd} style={{ '--width': '50vw' }} onSlAfterHide={() => setOpenAttImageAdd(false)}>
+                <div style={{ padding: "0% 2%" }}>
                     <div className='edit-images-main card'>
                         <FileUpload name="demo[]" customUpload uploadHandler={uploadAttImages} multiple accept="image/*" maxFileSize={1000000}
                             emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
                     </div>
                 </div>
                 <SlButton slot="footer" variant="primary" onClick={() => setOpenAttImageAdd(false)}>
-                Close
+                    Close
+                </SlButton>
+            </SlDialog>
+            <SlDialog label="Delete images" open={openAttImageDel} style={{ '--width': '70vw' }} onSlAfterHide={() => setOpenAttImageDel(false)}>
+                <div style={{ padding: "0% 2%" }}>
+                <div className="del-image-part-main">
+                {attImageDel?.map((item,i)=>{
+                    return(
+                        <div id={item.image_path+i} className='del-image-container'>
+                            <img src={item.image} alt="" />
+                            <button className='image-delete-button' onClick={()=>{
+                                 delImage(item.image_path,i)
+                            }} ><span className="material-symbols-outlined">
+                                close
+                            </span></button>
+                        </div>
+                    )
+                })}
+                
+                    </div>
+                </div>
+                <SlButton slot="footer" variant="primary" onClick={() => setOpenAttImageDel(false)}>
+                    Close
                 </SlButton>
             </SlDialog>
 
@@ -327,6 +425,23 @@ function UpdateProductCatalog(props) {
                     <div className='edit-images-main card'>
                         <FileUpload name="demo[]" customUpload uploadHandler={uploadImages} multiple accept="image/*" maxFileSize={1000000}
                             emptyTemplate={<p className="m-0">Drag and drop files to here to upload.</p>} />
+                    </div>
+                    <div className="del-image-part-main">
+                        
+                        {props?.images?.map((item,i)=>{
+                            return(
+                        <div id={item.image_path+i} className='del-image-container'>
+                            <img src={item.image} alt="" />
+                            <button className='image-delete-button' onClick={()=>{
+                                delImage(item.image_path,i)
+                            }} ><span className="material-symbols-outlined">
+                                close
+                            </span></button>
+                        </div>
+                            )
+                        })}
+                        
+                        
                     </div>
                 </div>
 

@@ -37,6 +37,7 @@ function ProductCatalog() {
     const [attributeImage, setAttributeImage] = useState([])
     const [partStatus, setPartStatus] = useState()
     const [partImages, setPatImages] = useState([])
+    const [partUpdateImages, setPatUpdateImages] = useState([])
     const [openStatus, setOpenStatus] = useState(false);
     const [openImage, setOpenImage] = useState(false);
     const displayModel = useRef(false)
@@ -103,6 +104,7 @@ function ProductCatalog() {
         })
             .then((res) => {
                 console.log(res.data.data);
+                setPatUpdateImages(res.data.data)
                 let images = []
                 res.data.data.map((item) => {
                     let obj = {}
@@ -166,6 +168,7 @@ function ProductCatalog() {
                                     const data ={
                                         attribute_id:res.data.data.attribute[dataIndex].attribute_id
                                     }
+                                    console.log(data);
                                     axios({
                                         method: 'post',
                                         url: `${baseurl.base_url}/mhere/get-attribute-image`,
@@ -1211,7 +1214,7 @@ function ProductCatalog() {
                 </div>
             </SlDialog>
             <div ref={displayEdit} style={{ display: "none" }}>
-                <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} attribute={attributes} updateData={getPartInfo}></UpdateProductCatalog>
+                <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} attribute={attributes} images={partUpdateImages} updateData={getPartInfo}></UpdateProductCatalog>
             </div>
         </div>
     )

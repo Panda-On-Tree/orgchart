@@ -426,3 +426,41 @@ font-size: 20px;
 .attribute-image-modal::part(base){
     min-height: 40vh;
 }
+.del-image-part-main{
+    min-height: 100%;
+    min-width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin: 2% 0%;
+   
+    box-shadow:  1px 1px 2px #cdcdcd,
+    -1px -1px 2px #cdcdcd;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2%;
+    gap: 20px;
+    overflow-x: scroll;
+}
+
+.del-image-container{
+    position: relative;
+    max-width: 15vw;
+    min-width: 15vw;
+   min-height: 100%;
+    padding: 1%;
+    box-shadow:  1px 1px 2px #cdcdcd,
+    -1px -1px 2px #cdcdcd;
+}
+
+.image-delete-button{
+    position: absolute;
+    border: none;
+    top: -5%;
+    right: -5%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    padding: 1%;
+    justify-content: center;
+
+}
