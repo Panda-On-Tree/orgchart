@@ -1155,6 +1155,7 @@ function ProductCatalog() {
                                 <h1 style={{ textAlign: "center", fontSize: "24px" }}>Part Description</h1>
                                 <div className='part-desc-data-desc'>
                                     <div className='desc-info-main'><p className='info-key'>Part ID :</p><p className='info-value'>{partInfo?.part_id}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Code :</p><p className='info-value'>{partInfo?.part_code}</p></div>
                                     <div className='desc-info-main'><p className='info-key'>Part Name :</p><p className='info-value'>{partInfo?.part_name}</p></div>
                                     <div className='desc-info-main'><p className='info-key'>Part Description :</p><p className='info-value'>{partInfo?.part_description}</p></div>
                                     <div className='desc-info-main'><p className='info-key'>Part Category :</p><p className='info-value'>{partInfo?.part_category}</p></div>
