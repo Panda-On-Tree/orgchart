@@ -46,7 +46,7 @@ function Home() {
     <ul class="row ps-list">
         <li class="col-lg-4 col-md-3 col-sm-12">
             <div class="ps-list-content">
-                <a target="_blank" href="https://microtek.tech/itop">
+                <a target="_blank" href="https://internal.microtek.tech/itop">
                 <span class="material-symbols-outlined">
 database
 </span>
@@ -57,7 +57,7 @@ database
         </li>
         <li class="col-lg-4 col-md-3 col-sm-12">
             <div class="ps-list-content">
-                <a target="_blank" href="https://microtek.tech/Self-Declaration/login.php">
+                <a target="_blank" href="https://internal.microtek.tech/Self-Declaration/login.php">
                 <span class="material-symbols-outlined">
 app_registration
 </span>
@@ -68,7 +68,7 @@ app_registration
         </li>
         <li class="col-lg-4 col-md-3 col-sm-12">
             <div class="ps-list-content">
-                <a target="_blank" href="https://microtek.tech/capex/login.php">
+                <a target="_blank" href="https://internal.microtek.tech/capex/login.php">
                 <span class="material-symbols-outlined">
 description
 </span>

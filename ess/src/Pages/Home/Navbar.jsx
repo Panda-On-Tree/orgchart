@@ -129,13 +129,13 @@ function Navbar() {
                     }}>Product Catalog</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://microtek.tech/itop'>CMDB Tool</a>
+                      <a target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
+                      <a target="_blank" href='https://internal.microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://microtek.tech/capex/login.php'>Capex Portal</a>
+                      <a target="_blank" href='https://internal.microtek.tech/capex/login.php'>Capex Portal</a>
                     </li>
                     <li className="nav-item">
                       <a target="_blank" href='https://microtek.eisenvault.net/'>Eisen Vault</a>

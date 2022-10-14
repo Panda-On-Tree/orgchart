@@ -72,22 +72,22 @@ H-57, Udyog Nagar, <br/> Rohtak Road Delhi-110041, 011-71255500</span>
                     </a>
                     <ul class="social-profile style1 list-style">
                         <li>
-                            <a href="https://www.facebook.com/MicrotekOfficial">
+                            <a target="_blank" href="https://www.facebook.com/MicrotekOfficial">
                                 <i class="icon-facebook-icon"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="https://twitter.com/MicrotekOfcl">
+                            <a target="_blank" href="https://twitter.com/MicrotekOfcl">
                                 <i class="icon-twitter-icon"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.youtube.com/channel/UCbBs6cIkMn5cLg1q8U2TQyQ">
+                            <a target="_blank" href="https://www.youtube.com/channel/UCbBs6cIkMn5cLg1q8U2TQyQ">
                                 <i class="icon-youtube-icon"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.linkedin.com/company/microtekofficial">
+                            <a target="_blank" href="https://www.linkedin.com/company/microtekofficial">
                                 <i class="icon-linkedin-icon"></i>
                             </a>
                         </li>
