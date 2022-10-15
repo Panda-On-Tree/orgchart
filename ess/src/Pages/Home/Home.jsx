@@ -48,10 +48,10 @@ function Home() {
             <div class="ps-list-content">
                 <a target="_blank" href="https://internal.microtek.tech/itop">
                 <span class="material-symbols-outlined">
-database
-</span>
+                    database
+                    </span>
                     <h4>CMDB Tool</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> 
+                    <p>IT Management Tool For Incident , change , Asset , Problem Management within the Organisation</p> 
                 </a>
             </div> 
         </li>
@@ -62,7 +62,7 @@ database
 app_registration
 </span>
                     <h4>Self Declaration</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> 
+                    <p>Tool for declaring assets onwned by employee </p> 
                 </a>
             </div>
         </li>
@@ -73,7 +73,43 @@ app_registration
 description
 </span>
                     <h4>Capex</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> 
+                    <p>Tool to raise and approve a capEx</p> 
+                </a>
+            </div>
+        </li>
+        <li class="col-lg-4 col-md-3 col-sm-12">
+            <div class="ps-list-content">
+                <a target="_blank" href="https://microtek.peoplestrong.com/altLogin.jsf">
+                <span class="material-symbols-outlined">
+description
+</span>
+                    <h4>People Strong Microtek</h4>
+                    <p>HRMS tool to ease the manual process for employees</p> 
+                </a>
+            </div>
+        </li>
+        <li class="col-lg-4 col-md-3 col-sm-12">
+            <div class="ps-list-content">
+                <a target="_blank" href="https://microtek.eisenvault.net/">
+                <span class="material-symbols-outlined">
+description
+</span>
+                    <h4>Eisen Vault</h4>
+                    <p>Document Management System with security</p> 
+                </a>
+            </div>
+        </li>
+        <li class="col-lg-4 col-md-3 col-sm-12">
+            <div class="ps-list-content">
+                <a target="_blank" onClick={e =>{
+                    e.preventDefault();
+                    navigate('/chart');
+                }}>
+                <span class="material-symbols-outlined">
+description
+</span>
+                    <h4>Org Chart</h4>
+                    <p>Representation of Employee Hierarchy within the Organisation</p> 
                 </a>
             </div>
         </li>
