@@ -27,6 +27,7 @@ import '@shoelace-style/shoelace/dist/themes/light.css'
 import '@shoelace-style/shoelace/dist/shoelace.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+import Policy from './Pages/Policy/Policy';
 
 
 function App() {
@@ -164,6 +165,17 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <AboutUs />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/policy"
+          element={
+            localStorage.getItem('token') ? (
+              <Policy />
             ) : (
               <Navigate replace to="/login" />
             )

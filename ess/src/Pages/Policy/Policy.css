@@ -1,0 +1,51 @@
+.policy-main{
+    display: flex;
+    min-width: 100%;
+    min-height: 100%
+}
+.policy-main-left{
+    min-width: 20vw;
+    min-height: 100%;
+    padding: 2% 2%;
+    box-shadow:  1px 1px 2px #acacac,
+    -0.5px -0.5px 0px #f0f0f0;
+}
+.policy-tree-item::part(label){
+    font-size: 18px;
+}
+.policy-tree-item::part(expand-button){
+    transform: scale(1.5);
+}
+
+.policy-tree-item{
+    margin-bottom: 10px;
+}
+
+.policy-menu-item::part(label){
+    font-size: 18px;
+    
+}
+
+.policy-menu-item::part(base){
+    padding: 3% 0%;
+
+}
+.policy-main-right{
+    padding: 3%;
+}
+.policy-right-list-container{
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+}
+
+.policy-right-list-item > a{
+    color: blue;
+    font-size: 14px;
+
+}
+.policy-right-list-item > h4{
+    color: rgb(29, 29, 29);
+    font-size: 20px;
+
+}

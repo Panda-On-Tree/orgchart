@@ -9,7 +9,7 @@ function Home() {
   let navigate = useNavigate()
   return (
     <div>
-      <section class="hero-wrap style1">
+     {/*  <section class="hero-wrap style1">
                 <div class="hero-slider-one">
                     <div class="hero-slide-item">
                         <div class="container">
@@ -36,7 +36,7 @@ function Home() {
                     </div>
                     
                 </div>
-            </section>
+            </section> */}
     <section class="product" >
     <div >
     <div class="content-title ptb-30 text-center">
