@@ -129,6 +129,11 @@ function Navbar() {
                     }}>Product Catalog</a>
                     </li>
                     <li className="nav-item">
+                      <a  onClick={() => {
+                      navigate('/policy')
+                    }}>Policy</a>
+                    </li>
+                    <li className="nav-item">
                       <a target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
                     </li>
                     <li className="nav-item">
