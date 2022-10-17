@@ -18,8 +18,10 @@ body {
 .dashboard-main{
   display: flex;
   flex-direction: column;
-  scroll-behavior: smooth;
-  
+  scroll-behavior: smooth; 
+}
+.dashboard-inner{
+  max-height: 100%;
 }
 ::-webkit-scrollbar {
   width: 10px;

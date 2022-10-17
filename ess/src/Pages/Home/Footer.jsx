@@ -8,7 +8,7 @@ function Footer() {
   return (
     <footer class="footer-wrap pt-30">
     <div class="container">
-        <div class="row newsletter mb-30">
+        {/* <div class="row newsletter mb-30">
             <div class="col-lg-5 col-md-6 d-flex align-items-center">
                 <i class="icon-mail-icon pe-2"></i>
                  <span>Get latest updates Subscribe to<br/> Our Newsletter</span>
@@ -23,7 +23,7 @@ function Footer() {
                     </button> 
                 </form>
             </div>
-        </div>
+        </div> */}
 
         <div class="row pb-20">
             <div class="col-lg-5 col-md-4 col-sm-4">
@@ -37,7 +37,7 @@ H-57, Udyog Nagar, <br/> Rohtak Road Delhi-110041, 011-71255500</span>
                         </li>
                        <li class="pb-10">
                         <i class="icon-mail-icon fs-3 pe-2"></i>
-                        <a href="mailto:marketing@microtekdirect.com">marketing@microtekdirect.com</a>
+                        <a href="mailto:marketing@microtekdirect.com">it.helpdesk@microtekdirect.com</a>
                     </li>
                     </ul>
                 </div>

@@ -7,28 +7,56 @@ import { baseurl } from '../../api/apiConfig';
 import { FileUpload } from 'primereact/fileupload';
 function Policy() {
     const [policyData, setPolicyData] = useState('');
+    const [deptList, setDeptList] = useState()
     const [data, setData] = useState()
     const [policy, setPolicy] = useState()
     const [newPolicy, setNewPolicy] = useState(false);
     const [updatePolicy, setUpdatePolicy] = useState(false);
     const [currentDepartmentAdmin, setCurrentDepartmentAdmin] = useState(false);
     const [deletePolicy, setDeletePolicy] = useState(false);
+    const [deletePolicyId, setDeletePolicyId] = useState("");
     const [updateTitle, setUpdateTitle] = useState("");
+    const [updateId, setUpdateId] = useState("");
+    const [updateDepartment, setUpdateDepartment] = useState("");
+    const [updateAccessto, setUpdateAccessto] = useState("");
     const [updateDescription, setUpdateDescription] = useState("");
     const [updateFile, setUpdateFile] = useState();
     const [newTitle, setNewTitle] = useState("");
+    const [newDeptAccess, setNewDeptAccess] = useState();
+    const [newDept, setNewDept] = useState();
+
     const [newDescription, setNewDescription] = useState("");
     const [newFile, setNewFile] = useState();
     const [dept, setDept] = useState(['it', 'sales', 'travelling', 'service', 'admin', 'hr'])
     useEffect(() => {
+        getDept()
 
     }, [])
+
+
+    function getDept() {
+        axios({
+            method: 'get',
+            url: `${baseurl.base_url}/mhere/get-department`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+            .then((res) => {
+                console.log(res);
+                setDeptList(res.data.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 
     function getPolicy(dept) {
         console.log(dept);
         const data = {
             department: dept,
-            access_to: "it"
+            access_to: localStorage.getItem('department')
         }
         console.log(data);
         axios({
@@ -44,24 +72,28 @@ function Policy() {
                 console.log(res.data);
                 const data = [];
                 const length = res.data.data.length;
+                console.log(length);
                 if (!length) {
                     setPolicy([]);
                 }
                 res.data.data.map((item, i) => {
-                    const linkSource = `data:application/pdf;base64,${res.data.data[0].file}`;
-                    return (fetch(linkSource)
+                    const linkSource = `data:application/pdf;base64,${item.file}`;
+
+                    fetch(linkSource)
                         .then(res => res.blob())
                         .then(blob => {
-                            const file = new File([blob], "File name", { type: "application/pdf" })
+                            const file = new File([blob], item.title, { type: "application/pdf" })
                             console.log(file);
                             var objectURL = URL.createObjectURL(file);
                             item.url = objectURL
                             data.push(item)
-                            if (i >= length - 1) {
+                            console.log(i);
+                            if (data.length >= length) {
                                 console.log(data);
                                 setPolicy(data);
                             }
-                        }))
+                        })
+
                 })
                 /* const linkSource = `data:application/pdf;base64,${res.data.data[0].file}`;
                 fetch(linkSource)
@@ -83,16 +115,83 @@ function Policy() {
         console.log(newTitle);
         console.log(newDescription);
         console.log(newFile);
+        var formdata = new FormData();
+        formdata.append("title", newTitle)
+        formdata.append("description", newDescription)
+        formdata.append("policy_file", newFile[0])
+        formdata.append("department", newDept)
+        formdata.append("access_to", newDeptAccess)
+        formdata.append("employee_id", localStorage.getItem('employee_id'))
+        for (const pair of formdata.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/add-policy`,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data: formdata
+        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     function updatePolicyFinal() {
-        console.log(updateTitle);
-        console.log(updateDescription);
-        console.log(updateFile);
+
+        var formdata = new FormData()
+        formdata.append("title", updateTitle)
+        formdata.append("description", updateDescription)
+        formdata.append("policy_file", updateFile)
+        formdata.append("department", updateDepartment)
+        formdata.append("access_to", updateAccessto)
+        formdata.append("id", updateId)
+        formdata.append("employee_id", localStorage.getItem('employee_id'))
+        for (const pair of formdata.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/update-policy`,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data: formdata
+        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
-    function deletePolicyFinal(id) {
-        console.log(id);
+    function deletePolicyFinal() {
+        console.log(deletePolicyId);
+        const data = {
+            id: deletePolicyId
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/delete-policy`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
     }
 
     return (
@@ -100,10 +199,12 @@ function Policy() {
 
             <div className='policy-main-left'>
                 <h3 style={{ marginBottom: '30px', textAlign: 'center' }}>Policy</h3>
-                <SlMenu style={{ maxWidth: '100%' }}>
-                    {dept.map((item) => {
+                <SlMenu style={{ maxWidth: '100%', maxHeight: '75vh', overflowX: 'hidden' }}>
+                    {deptList?.map((item) => {
                         return (
-                            <SlMenuItem style={{ borderBottom: '1px solid grey' }} value={item.toLowerCase()} onClick={(e) => {
+                            <SlMenuItem style={{ borderBottom: '1px solid grey' }} value={item.department.toLowerCase()} onClick={(e) => {
+                                setNewDept(e.target.value)
+
                                 getPolicy(e.target.value);
                                 if (localStorage.getItem("role") == "sadmin") {
                                     console.log("sadmin");
@@ -111,7 +212,7 @@ function Policy() {
                                 }
                                 if (localStorage.getItem("role") == "admin") {
                                     console.log(e.target.value);
-                                    if (e.target.value == "it") {
+                                    if (e.target.value.toLowerCase() == localStorage.getItem('department').toLowerCase()) {
                                         console.log("admin");
                                         setCurrentDepartmentAdmin(true);
                                     } // local
@@ -119,7 +220,7 @@ function Policy() {
                                         setCurrentDepartmentAdmin(false);
                                     }
                                 }
-                            }} className='policy-menu-item'>{item}</SlMenuItem>
+                            }} className='policy-menu-item'>{item.department}</SlMenuItem>
 
                         )
                     })}
@@ -130,25 +231,28 @@ function Policy() {
             </div>
             <div className='policy-main-right'>
                 <div>
-                    <SlDialog label="Dialog" open={newPolicy} onSlAfterHide={() => {
+                    <SlDialog style={{ '--width': '50vw' }} label="Add New Policy" open={newPolicy} onSlRequestClose={() => {
                         setNewPolicy(false);
                         setNewTitle("");
                         setNewDescription("");
                         setNewFile("");
                     }}>
-                        <SlInput label="Policy Title" value={newTitle} onSlInput={e => { setNewTitle(e.target.value) }} />
-                        <SlTextarea label="Policy Description" onSlInput={e => { setNewDescription(e.target.value) }} />
-                        <SlSelect placeholder="Select a few" multiple clearable>
-                            <SlMenuItem value="option-1">Option 1</SlMenuItem>
-                            <SlMenuItem value="option-2">Option 2</SlMenuItem>
-                            <SlMenuItem value="option-3">Option 3</SlMenuItem>
-                            <SlDivider />
-                            <SlMenuItem value="option-4">Option 4</SlMenuItem>
-                            <SlMenuItem value="option-5">Option 5</SlMenuItem>
-                            <SlMenuItem value="option-6">Option 6</SlMenuItem>
+                        <SlInput style={{ marginBottom: '20px' }} label="Policy Title" value={newTitle} onSlInput={e => { setNewTitle(e.target.value) }} />
+                        <SlTextarea style={{ marginBottom: '20px' }} label="Policy Description" onSlInput={e => { setNewDescription(e.target.value) }} />
+                        <SlSelect onSlChange={(e) => {
+                            setNewDeptAccess(String(e.target.value))
+                        }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" multiple clearable>
+                            {deptList?.map((item) => {
+                                return (
+                                    <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >{item.department}</SlMenuItem>
+                                )
+                            })}
+
                         </SlSelect>
                         <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setNewFile(e.target.files) }} />
-                        <SlButton slot="footer" variant="primary" onClick={() => {
+                        <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
                             setNewPolicy(false);
                             addPolicy();
                         }}>
@@ -156,53 +260,40 @@ function Policy() {
                         </SlButton>
                     </SlDialog>
                     {currentDepartmentAdmin ?
-                        <SlButton variant="primary" onClick={() => setNewPolicy(true)}>
+                        <SlButton size='large' className='policy-button' variant="primary" style={{ marginBottom: "5vh" }} onClick={() => setNewPolicy(true)}>
                             Add New Policy
                         </SlButton> : null}
                 </div>
                 <ul className='policy-right-list-container'>
 
-                    {policy?.length ? null : "NO Policy For This Department"}
+                    {policy?.length ? null : <p>"No Policy Found For This Department"</p>}
                     {
                         policy?.map((item) => {
+
                             return (
                                 <li className='policy-right-list-item'>
                                     <h4>{item.title}</h4>
                                     <p>{item.description}</p>
-                                    <a id="link" href={item.url} target="_blank">View Policy</a>
-                                    <SlDialog label="Dialog" open={updatePolicy} onSlAfterHide={() => setUpdatePolicy(false)}>
-                                        <SlInput label="Policy Title" value={updateTitle} onSlInput={e => { setUpdateTitle(e.currentTarget.value) }} />
-                                        <SlTextarea label="Policy Description" value={updateDescription} onSlInput={e => { setUpdateDescription(e.target.value) }} />
-                                        <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setUpdateFile(e.target.files) }} />
-                                        <SlButton slot="footer" variant="primary" onClick={() => {
-                                            setUpdatePolicy(false);
-                                            updatePolicyFinal();
-                                        }}>
-                                            Update
-                                        </SlButton>
-                                    </SlDialog>
+                                    <a style={{ marginRight: '20px' }} id="link" href={item.url} target="_blank">View Policy</a>
+
                                     {currentDepartmentAdmin ?
-                                        <SlButton variant="primary" onClick={() => {
-                                            setUpdatePolicy(true);
+                                        <SlButton size='large' className='policy-button' style={{ marginRight: '20px' }} variant="primary" onClick={() => {
+                                            setUpdateDepartment(item.department)
+                                            setUpdateAccessto(item.access_to)
+                                            console.log(item.access_to);
                                             setUpdateTitle(item.title);
                                             setUpdateDescription(item.description);
+                                            setUpdateId(item.id)
+                                            setUpdatePolicy(true);
+
                                         }}>
                                             Update Policy
                                         </SlButton> : null}
-                                    <SlDialog label="Dialog" open={deletePolicy} onSlAfterHide={() => setDeletePolicy(false)}>
-                                        Are you Sure You Want to DELETE this Policy
-                                        <SlButton slot="footer" variant="primary" onClick={() => {
-                                            setDeletePolicy(false);
-                                            deletePolicyFinal(item.id);
-                                        }}>
-                                            Delete
-                                        </SlButton>
-                                        <SlButton slot="footer" variant="primary" onClick={() => setDeletePolicy(false)}>
-                                            Cancle
-                                        </SlButton>
-                                    </SlDialog>
+
                                     {currentDepartmentAdmin ?
-                                        <SlButton variant="primary" onClick={() => setDeletePolicy(true)}>
+                                        <SlButton size='large' className='policy-button' style={{ marginRight: '20px' }} variant="primary" onClick={() => {
+                                            setDeletePolicyId(item.id)
+                                        setDeletePolicy(true)}}>
                                             Delete Policy
                                         </SlButton> : null}
                                 </li>
@@ -213,6 +304,43 @@ function Policy() {
 
                 </ul>
             </div>
+            <SlDialog style={{ '--width': '50vw' }} label="Add Policy" open={updatePolicy} onSlRequestClose={() => { setUpdatePolicy(false); }}>
+                <SlInput style={{ marginBottom: '2vh' }} label="Policy Title" value={updateTitle} onSlInput={e => { setUpdateTitle(e.currentTarget.value) }} />
+                <SlTextarea style={{ marginBottom: '2vh' }} label="Policy Description" value={updateDescription} onSlInput={e => { setUpdateDescription(e.target.value) }} />
+                <SlSelect value={updateAccessto.split(",")} onSlChange={(e) => {
+                    setUpdateAccessto(String(e.target.value))
+                   
+                }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" multiple clearable>
+                    {deptList?.map((item) => {
+                        return (
+                            <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {
+                                
+                            }} >{item.department}</SlMenuItem>
+                        )
+                    })}
+
+                </SlSelect>
+                <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setUpdateFile(e.target.files) }} />
+               
+                <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
+                    setUpdatePolicy(false);
+                    updatePolicyFinal();
+                }}>
+                    Update
+                </SlButton>
+            </SlDialog>
+            <SlDialog label="Confirmation" style={{'--width': '25vw'}} open={deletePolicy} onSlAfterHide={() => setDeletePolicy(false)}>
+                Are you Sure You Want to DELETE this Policy?
+                <SlButton size='large' className='policy-button' variant="danger" style={{marginRight:'20px'}} slot="footer"  onClick={() => {
+                    setDeletePolicy(false);
+                    deletePolicyFinal();
+                }}>
+                    Delete
+                </SlButton>
+                <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => setDeletePolicy(false)}>
+                    Cancel
+                </SlButton>
+            </SlDialog>
         </div>
     )
 }

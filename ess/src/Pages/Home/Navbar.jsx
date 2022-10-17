@@ -18,7 +18,7 @@ function Navbar() {
       var navbar = document.getElementById('sticky')
 
       var sticky = navbar.offsetTop
-      if (window.pageYOffset > sticky) {
+      if (window.pageYOffset-50 > sticky) {
         navbar.classList.add('stickys')
         navbar.classList.add('animate__slideInDown')
         //navbar.classList.add("animate__slow")

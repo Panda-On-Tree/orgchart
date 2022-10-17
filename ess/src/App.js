@@ -42,7 +42,7 @@ function App() {
   const Dashboard = () => (
     <div id="root" className="dashboard-main">
       <Navbar />
-      <div id="root">
+      <div id="root" className='dashboard-inner'>
         <Outlet />
       </div>
     </div>
