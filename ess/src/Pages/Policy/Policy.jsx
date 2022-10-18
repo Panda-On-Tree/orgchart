@@ -241,7 +241,7 @@ function Policy() {
                         <SlTextarea style={{ marginBottom: '20px' }} label="Policy Description" onSlInput={e => { setNewDescription(e.target.value) }} />
                         <SlSelect onSlChange={(e) => {
                             setNewDeptAccess(String(e.target.value))
-                        }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" multiple clearable>
+                        }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
                             {deptList?.map((item) => {
                                 return (
                                     <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {
@@ -310,7 +310,7 @@ function Policy() {
                 <SlSelect value={updateAccessto.split(",")} onSlChange={(e) => {
                     setUpdateAccessto(String(e.target.value))
                    
-                }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" multiple clearable>
+                }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
                     {deptList?.map((item) => {
                         return (
                             <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {

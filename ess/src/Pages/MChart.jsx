@@ -126,6 +126,7 @@ function MChart() {
 
           {downloadingChart && <div>Downloading chart</div>}
         </div>
+        <div id='root'>
         <OrgChart
           tree={tree}
           downloadImageId={downloadImageId}
@@ -157,6 +158,7 @@ function MChart() {
             return childrenData
           }}
         />
+        </div>
       </React.Fragment>
     )
   }

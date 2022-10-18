@@ -28,16 +28,22 @@ import '@shoelace-style/shoelace/dist/shoelace.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
 import Policy from './Pages/Policy/Policy';
+import MyTeam from './Pages/MyTeam/MyTeam';
+import ManageUsers from './Pages/ManageUsers/ManageUsers';
 
 
 function App() {
   let navigate = useNavigate()
 
   useEffect(() => {
+   
+   
     verifyToken();
     setInterval(verifyToken, 1800000);
     setBasePath('@shoelace-style/shoelace/dist');
   }, [])
+
+ 
 
   const Dashboard = () => (
     <div id="root" className="dashboard-main">
@@ -177,6 +183,30 @@ function App() {
             localStorage.getItem('token') ? (
               <Policy />
             ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/my-team"
+          element={
+            localStorage.getItem('token') ? (
+              <MyTeam />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/manage-users"
+          element={
+            localStorage.getItem('token') ? localStorage.getItem('role') == 'sadmin'?(
+              <ManageUsers />
+            ) : (
+              <Navigate replace to="/login" />
+            ):(
               <Navigate replace to="/login" />
             )
           }

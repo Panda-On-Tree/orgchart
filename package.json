@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "d3-save-svg": "0.0.2",
+    "google": "^2.1.0",
     "jspdf": "^1.5.3"
   }
 }

@@ -18,7 +18,7 @@ function Navbar() {
       var navbar = document.getElementById('sticky')
 
       var sticky = navbar.offsetTop
-      if (window.pageYOffset-50 > sticky) {
+      if (window.pageYOffset - 50 > sticky) {
         navbar.classList.add('stickys')
         navbar.classList.add('animate__slideInDown')
         //navbar.classList.add("animate__slow")
@@ -28,9 +28,9 @@ function Navbar() {
       } else {
         navbar.classList.remove('stickys')
         navbar.classList.remove('animate__slideInDown')
-        navbar.classList.add('animate__slow')
+      // navbar.classList.add('animate__slow')
 
-        navbar.classList.add('animate__fadeIn')
+        //navbar.classList.add('animate__fadeIn')
       }
     }
   }, [])
@@ -119,19 +119,19 @@ function Navbar() {
                                     </ul>
                                 </li> */}
                     <li className="nav-item">
-                      <a  onClick={() => {
-                      navigate('/chart')
-                    }}>Org Chart</a>
+                      <a onClick={() => {
+                        navigate('/chart')
+                      }}>Org Chart</a>
                     </li>
                     <li className="nav-item">
-                      <a  onClick={() => {
-                      navigate('/product-catalog')
-                    }}>Product Catalog</a>
+                      <a onClick={() => {
+                        navigate('/product-catalog')
+                      }}>Product Catalog</a>
                     </li>
                     <li className="nav-item">
-                      <a  onClick={() => {
-                      navigate('/policy')
-                    }}>Policy</a>
+                      <a onClick={() => {
+                        navigate('/policy')
+                      }}>Policy</a>
                     </li>
                     <li className="nav-item">
                       <a target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
@@ -158,6 +158,18 @@ function Navbar() {
                         Complaint
                       </a>
                     </li>
+                    {localStorage.getItem('role') == 'sadmin' ?
+                      <li className="nav-item">
+                        <a
+                          onClick={() => {
+                            navigate('/manage-users')
+                          }}
+                          className="nav-link"
+                        >
+                          Manage User
+                        </a>
+                      </li>
+                      : null}
                   </ul>
                 </li>
                 {/* <li className="nav-item">
@@ -194,6 +206,16 @@ function Navbar() {
                         className="nav-link"
                       >
                         Profile
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        onClick={() => {
+                          navigate('/my-team')
+                        }}
+                        className="nav-link"
+                      >
+                        My Team
                       </a>
                     </li>
                     <li className="nav-item">
