@@ -58,6 +58,10 @@ function Policy() {
             department: dept,
             access_to: localStorage.getItem('department')
         }
+        if(localStorage.getItem('role') == 'sadmin')
+        {
+            data.access_to = "";
+        }
         console.log(data);
         axios({
             method: 'post',

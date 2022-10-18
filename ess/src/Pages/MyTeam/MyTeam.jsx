@@ -86,7 +86,7 @@ function MyTeam() {
         <div className='policy-main'>
 
             <div className='policy-main-left'>
-                <h3 style={{ marginBottom: '30px', textAlign: 'center' }}>Policy</h3>
+                <h3 style={{ marginBottom: '30px', textAlign: 'center' }}>My Team</h3>
                 <SlMenu style={{ maxWidth: '100%', maxHeight: '75vh', overflowX: 'hidden' }}>
                     {
                         team?.map((item, i) => {
@@ -106,6 +106,7 @@ function MyTeam() {
                 </SlMenu>
             </div>
             <div className='policy-main-right'>
+                <h2>Current Location :</h2>
                 {
                     currentLocation ?
                         <iframe src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBp3c2hhpEnBf06Zl84C9YpKb8f6vLy1Rw&q=${currentLocation.latitude},${currentLocation.longitude}`}
@@ -119,8 +120,11 @@ function MyTeam() {
                         allowFullScreen=""
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
-                        ></iframe > : <h4>seletct</h4>
+                        ></iframe > : null
                 }
+                <h2 style={{marginTop:'50px'}}>
+                    Employee Travel History : 
+                </h2>
                 {
                     employeePath ?
                         <img src={`https://maps.googleapis.com/maps/api/staticmap?&size=3000x3000&path=color:0x0000ff|weight:5${employeePath}&key=AIzaSyBp3c2hhpEnBf06Zl84C9YpKb8f6vLy1Rw`}
