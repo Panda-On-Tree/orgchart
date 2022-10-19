@@ -30,6 +30,8 @@ import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.j
 import Policy from './Pages/Policy/Policy';
 import MyTeam from './Pages/MyTeam/MyTeam';
 import ManageUsers from './Pages/ManageUsers/ManageUsers';
+import OutdoorDuty from './Pages/OutdoorDuty/OutdoorDuty';
+
 
 
 function App() {
@@ -187,6 +189,18 @@ function App() {
             )
           }
         ></Route>
+        <Route
+          exact
+          path="/od"
+          element={
+            localStorage.getItem('token') ? (
+              <OutdoorDuty />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        
         <Route
           exact
           path="/my-team"
