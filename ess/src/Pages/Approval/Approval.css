@@ -1,0 +1,25 @@
+.approval-main{
+    display: flex;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #f7f9fa;
+}
+.approval-main-left{
+    min-width: 20vw;
+    max-height:100%;
+   
+    padding: 2% 2%;
+    box-shadow:  1px 1px 2px #acacac,
+    -0.5px -0.5px 0px #f0f0f0;
+}
+
+
+.aproval-menu-item::part(label){
+    font-size: 18px;
+    
+}
+
+.aproval-menu-item::part(base){
+    padding: 3% 0%;
+
+}

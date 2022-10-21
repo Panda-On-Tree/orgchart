@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import './App.css'
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import 'primeicons/primeicons.css';
-import "primereact/resources/primereact.min.css";
+import 'primereact/resources/themes/lara-light-indigo/theme.css'
+import 'primeicons/primeicons.css'
+import 'primereact/resources/primereact.min.css'
 //import 'primereact/resources/themes/bootstrap4-light-blue/theme.css'
+
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import LoginForm from './Pages/Login'
 import Chart from './Pages/Chart'
@@ -25,34 +26,30 @@ import ProductCatalogSearch from './Pages/ProductCatalog/ProductCatalogSearch'
 import ProductPartDescription from './Pages/ProductCatalog/ProductPartDescription'
 import '@shoelace-style/shoelace/dist/themes/light.css'
 import '@shoelace-style/shoelace/dist/shoelace.js'
-import '@shoelace-style/shoelace/dist/components/icon/icon.js';
-import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
-import Policy from './Pages/Policy/Policy';
-import MyTeam from './Pages/MyTeam/MyTeam';
-import ManageUsers from './Pages/ManageUsers/ManageUsers';
-import OutdoorDuty from './Pages/OutdoorDuty/OutdoorDuty';
-
-
+import '@shoelace-style/shoelace/dist/components/icon/icon.js'
+import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
+import Policy from './Pages/Policy/Policy'
+import MyTeam from './Pages/MyTeam/MyTeam'
+import ManageUsers from './Pages/ManageUsers/ManageUsers'
+import Approval from './Pages/Approval/Approval'
+import Leave from './Pages/Leave/Leave'
 
 function App() {
   let navigate = useNavigate()
 
   useEffect(() => {
-   
-   
-    verifyToken();
-    setInterval(verifyToken, 1800000);
-    setBasePath('@shoelace-style/shoelace/dist');
+    verifyToken()
+    setInterval(verifyToken, 1800000)
+    setBasePath('@shoelace-style/shoelace/dist')
   }, [])
-
- 
 
   const Dashboard = () => (
     <div id="root" className="dashboard-main">
       <Navbar />
-      <div id="root" className='dashboard-inner'>
+      <div id="root" className="dashboard-inner">
         <Outlet />
       </div>
+      
     </div>
   )
   const Auth = () => (
@@ -61,8 +58,8 @@ function App() {
     </div>
   )
   const verifyToken = () => {
-    if(!localStorage.getItem('token')){
-      return;
+    if (!localStorage.getItem('token')) {
+      return
     }
     axios({
       method: 'post',
@@ -88,8 +85,6 @@ function App() {
   return (
     <Routes>
       <Route element={<Dashboard />}>
-     
-
         <Route
           exact
           path="/"
@@ -129,6 +124,17 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <Complaint />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/leaves"
+          element={
+            localStorage.getItem('token') ? (
+              <Leave />
             ) : (
               <Navigate replace to="/login" />
             )
@@ -191,18 +197,6 @@ function App() {
         ></Route>
         <Route
           exact
-          path="/od"
-          element={
-            localStorage.getItem('token') ? (
-              <OutdoorDuty />
-            ) : (
-              <Navigate replace to="/login" />
-            )
-          }
-        ></Route>
-        
-        <Route
-          exact
           path="/my-team"
           element={
             localStorage.getItem('token') ? (
@@ -214,13 +208,26 @@ function App() {
         ></Route>
         <Route
           exact
-          path="/manage-users"
+          path="/approval"
           element={
-            localStorage.getItem('token') ? localStorage.getItem('role') == 'sadmin'?(
-              <ManageUsers />
+            localStorage.getItem('token') ? (
+              <Approval />
             ) : (
               <Navigate replace to="/login" />
-            ):(
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/manage-users"
+          element={
+            localStorage.getItem('token') ? (
+              localStorage.getItem('role') == 'sadmin' ? (
+                <ManageUsers />
+              ) : (
+                <Navigate replace to="/login" />
+              )
+            ) : (
               <Navigate replace to="/login" />
             )
           }
@@ -260,7 +267,6 @@ function App() {
         ></Route>
       </Route>
       <Route element={<Auth />}>
-
         <Route exact path="/login" element={<LoginForm />}></Route>
         <Route exact path="/otp" element={<Otp />}></Route>
         <Route exact path="/reset-password" element={<ResetPassword />}></Route>
@@ -271,6 +277,7 @@ function App() {
         ></Route>
       </Route>
       <Route exact path="/download-app" element={<DowloadPage />}></Route>
+      
     </Routes>
   )
 }

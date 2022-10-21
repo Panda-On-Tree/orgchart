@@ -15,7 +15,7 @@ function Navbar() {
     }
 
     function myFunction() {
-      var navbar = document.getElementById('sticky')
+     /*  var navbar = document.getElementById('sticky')
 
       var sticky = navbar.offsetTop
       if (window.pageYOffset - 50 > sticky) {
@@ -31,7 +31,7 @@ function Navbar() {
       // navbar.classList.add('animate__slow')
 
         //navbar.classList.add('animate__fadeIn')
-      }
+      } */
     }
   }, [])
 
@@ -216,6 +216,26 @@ function Navbar() {
                         className="nav-link"
                       >
                         My Team
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        onClick={() => {
+                          navigate('/leaves')
+                        }}
+                        className="nav-link"
+                      >
+                        Leave
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a
+                        onClick={() => {
+                          navigate('/approval')
+                        }}
+                        className="nav-link"
+                      >
+                        Approval Tasks
                       </a>
                     </li>
                     <li className="nav-item">

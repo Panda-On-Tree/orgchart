@@ -16,7 +16,7 @@ function MyTeam() {
     function getTeam() {
 
         const data = {
-            "parent_employee_id": 53994
+            "parent_employee_id": localStorage.getItem("employee_id")
         }
 
         axios({
@@ -42,7 +42,7 @@ function MyTeam() {
 
 
         const data = {
-            "employee_id": "56148"
+            "employee_id": i
         }
 
         axios({
@@ -122,9 +122,9 @@ function MyTeam() {
                         referrerPolicy="no-referrer-when-downgrade"
                         ></iframe > : null
                 }
-                <h2 style={{marginTop:'50px'}}>
+               {employeePath?  <h2 style={{marginTop:'50px'}}>
                     Employee Travel History : 
-                </h2>
+                </h2>:null}
                 {
                     employeePath ?
                         <img src={`https://maps.googleapis.com/maps/api/staticmap?&size=3000x3000&path=color:0x0000ff|weight:5${employeePath}&key=AIzaSyBp3c2hhpEnBf06Zl84C9YpKb8f6vLy1Rw`}

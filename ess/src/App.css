@@ -1,6 +1,6 @@
 html,
 body {
-  overflow-x: hidden;
+ 
   margin: 0;
   height: 100%;
   width: 100%;
@@ -20,9 +20,10 @@ body {
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth; 
+ 
 }
 .dashboard-inner{
-  max-height: 100%;
+ 
 }
 ::-webkit-scrollbar {
   width: 10px;
@@ -45,6 +46,7 @@ body {
 
 #root,
 #react-org-chart {
+  overflow-x: hidden !important;
   margin: 0;
   height: 100%;
   width: 100%;

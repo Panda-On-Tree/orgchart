@@ -30,10 +30,30 @@ function Policy() {
     const [dept, setDept] = useState(['it', 'sales', 'travelling', 'service', 'admin', 'hr'])
     useEffect(() => {
         getDept()
+        
+        getLeave()
 
     }, [])
 
-
+    function getLeave(){
+        const data = {
+            employee_id: localStorage.getItem('employee_id'),
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/abc`,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data,
+          })
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+    }
     function getDept() {
         axios({
             method: 'get',

@@ -29,6 +29,7 @@ const LoginForm = () => {
       .then(function (response) {
         console.log(response)
         localStorage.setItem('employee_id', response.data.new_e_code)
+        localStorage.setItem('manager_id', response.data.reporting_manager_id)
         localStorage.setItem('token', response.data.token)
         localStorage.setItem('fullname', response.data.name_of_the_employee)
         localStorage.setItem('email', response.data.email)
