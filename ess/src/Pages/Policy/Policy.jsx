@@ -24,36 +24,22 @@ function Policy() {
     const [newTitle, setNewTitle] = useState("");
     const [newDeptAccess, setNewDeptAccess] = useState();
     const [newDept, setNewDept] = useState();
-
+    const [departmentForPolicies, setDepartmentForPolicies] = useState([]);
     const [newDescription, setNewDescription] = useState("");
     const [newFile, setNewFile] = useState();
+    const [gradeList, setGradeList] = useState();
+    const [bandList, setBandList] = useState();
+    const [updateGradeList, setUpdateGradeList] = useState("");
+    const [updateBandList, setUpdateBandList] = useState("");
+    const [gradeListFull, setGradeListFull] = useState();
+    const [bandListFull, setBandListFull] = useState();
     const [dept, setDept] = useState(['it', 'sales', 'travelling', 'service', 'admin', 'hr'])
     useEffect(() => {
         getDept()
-        
-        getLeave()
-
+        getDeptPolicy();
+        getBandGrade();
     }, [])
 
-    function getLeave(){
-        const data = {
-            employee_id: localStorage.getItem('employee_id'),
-        }
-        axios({
-            method: 'post',
-            url: `${baseurl.base_url}/mhere/abc`,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            data,
-          })
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(err=>{
-                console.log(err);
-            })
-    }
     function getDept() {
         axios({
             method: 'get',
@@ -71,16 +57,62 @@ function Policy() {
                 console.log(err);
             })
     }
+    function getDeptPolicy() {
+        const data = {
+            department: localStorage.getItem('role') == "sadmin"? "" : localStorage.getItem('department'),
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/get-department-policies`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res);
+                setDepartmentForPolicies(res.data.data)
+                console.log(res.data.data.length);
+                if(!res.data.data.length){
+                    setDepartmentForPolicies([{department: localStorage.getItem('department')}]);
+                }
+                const has_department = false;
+                res.data.data.map((item, i)=>{
+                    if(localStorage.getItem('department') == item.department){
+                        has_department = true;
+                    }
+                    if(i >= res.data.data.length){
+                        if(!has_department){
+                            res.data.data.push({
+                                department: localStorage.getItem('department')
+                            })
+                            setDepartmentForPolicies(res.data.data);
+                        }
+                    }
+                })
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 
     function getPolicy(dept) {
         console.log(dept);
         const data = {
             department: dept,
-            access_to: localStorage.getItem('department')
+            access_to: localStorage.getItem('department'),
+            access_to_band: localStorage.getItem('band'),
+            access_to_grade: localStorage.getItem('grade'),
         }
         if(localStorage.getItem('role') == 'sadmin')
         {
             data.access_to = "";
+        }
+        if(localStorage.getItem('role') != 'user')
+        {
+            data.access_to_band = "";
+            data.access_to_grade = "";
         }
         console.log(data);
         axios({
@@ -145,6 +177,8 @@ function Policy() {
         formdata.append("policy_file", newFile[0])
         formdata.append("department", newDept)
         formdata.append("access_to", newDeptAccess)
+        formdata.append("access_to_grade", gradeList)
+        formdata.append("access_to_band", bandList)
         formdata.append("employee_id", localStorage.getItem('employee_id'))
         for (const pair of formdata.entries()) {
             console.log(`${pair[0]}, ${pair[1]}`);
@@ -166,6 +200,25 @@ function Policy() {
             })
     }
 
+    function getBandGrade(){
+        axios({
+            method: 'get',
+            url: `${baseurl.base_url}/mhere/get-grade-band`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                setGradeListFull(res.data.data.grade);
+                setBandListFull(res.data.data.band);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     function updatePolicyFinal() {
 
         var formdata = new FormData()
@@ -175,6 +228,8 @@ function Policy() {
         formdata.append("department", updateDepartment)
         formdata.append("access_to", updateAccessto)
         formdata.append("id", updateId)
+        formdata.append("access_to_grade", updateGradeList)
+        formdata.append("access_to_band", updateBandList)
         formdata.append("employee_id", localStorage.getItem('employee_id'))
         for (const pair of formdata.entries()) {
             console.log(`${pair[0]}, ${pair[1]}`);
@@ -224,7 +279,7 @@ function Policy() {
             <div className='policy-main-left'>
                 <h3 style={{ marginBottom: '30px', textAlign: 'center' }}>Policy</h3>
                 <SlMenu style={{ maxWidth: '100%', maxHeight: '75vh', overflowX: 'hidden' }}>
-                    {deptList?.map((item) => {
+                    {departmentForPolicies?.map((item) => {
                         return (
                             <SlMenuItem style={{ borderBottom: '1px solid grey' }} value={item.department.toLowerCase()} onClick={(e) => {
                                 setNewDept(e.target.value)
@@ -263,14 +318,39 @@ function Policy() {
                     }}>
                         <SlInput style={{ marginBottom: '20px' }} label="Policy Title" value={newTitle} onSlInput={e => { setNewTitle(e.target.value) }} />
                         <SlTextarea style={{ marginBottom: '20px' }} label="Policy Description" onSlInput={e => { setNewDescription(e.target.value) }} />
+                        <h3>Access To </h3>
                         <SlSelect onSlChange={(e) => {
                             setNewDeptAccess(String(e.target.value))
-                        }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
+                        }} label='Department:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
                             {deptList?.map((item) => {
                                 return (
                                     <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {
                                         console.log(e.target.value);
                                     }} >{item.department}</SlMenuItem>
+                                )
+                            })}
+
+                        </SlSelect>
+                        <SlSelect onSlChange={(e) => {
+                            setBandList(String(e.target.value))
+                        }} label='Band:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
+                            {bandListFull?.map((item) => {
+                                return (
+                                    <SlMenuItem value={item.band.toLowerCase()} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >{item.band}</SlMenuItem>
+                                )
+                            })}
+
+                        </SlSelect>
+                        <SlSelect onSlChange={(e) => {
+                            setGradeList(String(e.target.value))
+                        }} label='Grade:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
+                            {gradeListFull?.map((item) => {
+                                return (
+                                    <SlMenuItem value={item.grade.toLowerCase()} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >{item.grade}</SlMenuItem>
                                 )
                             })}
 
@@ -293,7 +373,7 @@ function Policy() {
                     {policy?.length ? null : <p>"No Policy Found For This Department"</p>}
                     {
                         policy?.map((item) => {
-
+                            console.log(item);
                             return (
                                 <li className='policy-right-list-item'>
                                     <h4>{item.title}</h4>
@@ -309,7 +389,8 @@ function Policy() {
                                             setUpdateDescription(item.description);
                                             setUpdateId(item.id)
                                             setUpdatePolicy(true);
-
+                                            setUpdateBandList(item.access_to_band);
+                                            setUpdateGradeList(item.access_to_grade);
                                         }}>
                                             Update Policy
                                         </SlButton> : null}
@@ -344,6 +425,30 @@ function Policy() {
                     })}
 
                 </SlSelect>
+                <SlSelect value={updateBandList.split(",")} onSlChange={(e) => {
+                            setUpdateBandList(String(e.target.value))
+                        }} label='Band:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
+                            {bandListFull?.map((item) => {
+                                return (
+                                    <SlMenuItem value={item.band.toLowerCase()} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >{item.band}</SlMenuItem>
+                                )
+                            })}
+
+                        </SlSelect>
+                        <SlSelect value={updateGradeList.split(",")} onSlChange={(e) => {
+                            setUpdateGradeList(String(e.target.value))
+                        }} label='Grade:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
+                            {gradeListFull?.map((item) => {
+                                return (
+                                    <SlMenuItem value={item.grade.toLowerCase()} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >{item.grade}</SlMenuItem>
+                                )
+                            })}
+
+                        </SlSelect>
                 <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setUpdateFile(e.target.files) }} />
                
                 <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {

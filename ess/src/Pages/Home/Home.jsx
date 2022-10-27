@@ -1,14 +1,62 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import self from "../assets/self_service.svg"
 import './Home.css'
 import MChart from '../MChart'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Footer from './Footer'
+import axios from 'axios'
+import { baseurl } from '../../api/apiConfig'
 
 function Home() {
   let navigate = useNavigate()
+
+    const [policyBanner, setPolicyBanner] = useState([])
+    useEffect(()=>{
+        getPolicyBanner()
+    },[])
+
+
+    function getPolicyBanner() {
+
+        const data = {
+            "access_to": localStorage.getItem("department")
+        }
+
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/get-policy-banner`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res.data);
+                setPolicyBanner(res.data.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+    }
+
+
   return (
     <div>
+        <div>
+            <marquee behavior="sliding" direction="left" onClick={()=>{
+                navigate("/policy")
+            }}><div style={{display:'inline-flex'}}>
+            <p>Few new policies has been added for your department ! &#160;</p> {
+                policyBanner?.map((item, i)=>{
+                    var str  = ` ${i+1}. ${item.title}(${item.department}) `
+                    return (
+                        <p style={{color:'red'}} className='marque-text'>{str}&#160;</p>
+                    )
+                })
+            }</div></marquee>
+        </div>
      {/*  <section class="hero-wrap style1">
                 <div class="hero-slider-one">
                     <div class="hero-slide-item">

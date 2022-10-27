@@ -2,7 +2,7 @@ import { SlMenu, SlMenuItem } from '@shoelace-style/shoelace/dist/react'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { baseurl } from '../../api/apiConfig';
-
+import './MyTeam.css'
 function MyTeam() {
 
 
@@ -39,8 +39,6 @@ function MyTeam() {
     }
 
     function getEmployeeAttendence(i) {
-
-
         const data = {
             "employee_id": i
         }
@@ -92,6 +90,8 @@ function MyTeam() {
                         team?.map((item, i) => {
                             return (
                                 <SlMenuItem id={"teamitem" + i} style={{ borderBottom: '1px solid grey' }} value={item.employee_id} className='policy-menu-item' onClick={(e) => {
+                                    setCurrentLocation()
+                                    setEmployeePath()
                                     getEmployeeAttendence(e.target.value)
                                 }}>{item.name}</SlMenuItem>
                             )
@@ -105,8 +105,8 @@ function MyTeam() {
 
                 </SlMenu>
             </div>
-            <div className='policy-main-right'>
-                <h2>Current Location :</h2>
+            <div className='myteam-main-right'>
+                {currentLocation? <h2>Current Location :</h2>: <h2 style={{margin:'auto', color:'grey', textAlign:'center'}} >No Data Available For Today</h2>}
                 {
                     currentLocation ?
                         <iframe src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBp3c2hhpEnBf06Zl84C9YpKb8f6vLy1Rw&q=${currentLocation.latitude},${currentLocation.longitude}`}
