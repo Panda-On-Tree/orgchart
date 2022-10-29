@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from 'react-router';
 import logo from '../assets/logo.png'
 import { baseurl } from '../api/apiConfig'
-
+import { toast } from 'react-toastify';
 
 import axios from 'axios';
 function Otp() {
@@ -28,10 +28,34 @@ function Otp() {
         })
         .then(function(response){
           console.log(response);
-      navigate("/reset-password", {state:{username:data.username}})
+          toast.success('Otp verified', {
+            position: 'top-right',
+            autoClose: 1200,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: 'colored',
+            onClose: () => {
+            },
+          })
+           navigate("/reset-password", {state:{username:data.username}})
 
         })
         .catch(function(err){
+          toast.error('Wrong Otp', {
+            position: 'top-right',
+            autoClose: 1200,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: 'colored',
+            onClose: () => {
+            },
+          })
           console.log(err);
         })
       };

@@ -8,6 +8,8 @@ import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails, SlDialog, Sl
 import UpdateProductCatalog from './UpdateProductCatalog';
 import { FileUpload } from 'primereact/fileupload';
 import { Button } from 'primereact/button';
+import { toast } from 'react-toastify';
+
 function ProductCatalog() {
 
     const [filterData, setFilterData] = useState([]);
@@ -408,6 +410,16 @@ function ProductCatalog() {
         })
             .then((res) => {
                 console.log(res);
+                toast.success('Part Searched', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 let attribute = [];
                 setPartDataMaster(res.data.data.part_data);
                 setPartAttributeDataMaster(res.data.data.part_attribute_data);
@@ -469,12 +481,10 @@ function ProductCatalog() {
                                 return (
                                     <SlTag size="medium" className="tag-row" onClick={() => {
                                         //alert(dataIndex + "hello " + rowIndex) ;
-                                        console.log(partData);
-                                        console.log(dataIndex);
-                                        console.log(rowIndex);
-                                        console.log("update button");
+                                        document.getElementById("root").scrollTo({ top: 0, behavior: 'smooth' });
+                                       
                                         displayModel.current = true
-                                        console.log(displayModel);
+                                       
                                         displayEdit.current.style.display = "block"
                                         display.current.style.display = "none"
 
@@ -515,6 +525,16 @@ function ProductCatalog() {
             })
             .catch((err) => {
                 console.log(err);
+                toast.success('An error occured', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
             })
     }
 
@@ -765,6 +785,16 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
+                toast.success('Part Added successfully', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 console.log(res);
                 loadingRef.current = false
                 setAddPartAttributeData([]);
@@ -782,6 +812,16 @@ function ProductCatalog() {
             })
             .catch((err) => {
                 console.log(err);
+                toast.error(err.response.data.message, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 loadingRef.current = false
             })
 
@@ -806,6 +846,16 @@ function ProductCatalog() {
         })
             .then((res) => {
                 console.log(res);
+                toast.success('Attribute Added successfully', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 newAttributeData.current.attribute_description = ""
                 newAttributeData.current.attribute_name = ""
                 newAttributeData.current.attribute_priority = ""
@@ -813,6 +863,16 @@ function ProductCatalog() {
 
             })
             .catch((err) => {
+                toast.error('Part Added successfully', {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 console.log(err);
 
             })
@@ -1214,7 +1274,7 @@ function ProductCatalog() {
                     <ImageGallery items={attributeImage} />
                 </div>
             </SlDialog>
-            <div ref={displayEdit} style={{ display: "none" }}>
+            <div ref={displayEdit} style={{ display: "none"}}>
                 <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} attribute={attributes} images={partUpdateImages} updateData={getPartInfo}></UpdateProductCatalog>
             </div>
         </div>

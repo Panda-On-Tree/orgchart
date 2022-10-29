@@ -28,6 +28,7 @@ function Approval() {
       options: {
         filter: true,
         sort: true,
+        display: false
       },
     },
     {

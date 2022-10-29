@@ -6,7 +6,7 @@ import axios from 'axios'
 import logo from '../assets/logo.png'
 import { baseurl } from '../api/apiConfig'
 import apk from "./assets/mLogin.apk"
-
+import { toast } from 'react-toastify';
 const LoginForm = () => {
   let navigate = useNavigate()
   const [error, setError] = useState()
@@ -37,15 +37,77 @@ const LoginForm = () => {
         localStorage.setItem('band', response.data.band)
         localStorage.setItem('role', response.data.role)
         localStorage.setItem('department', response.data.department)
-        navigate('/home')
-        window.location.reload()
+
+        if(response.data.is_first_login){
+          const data ={
+              username: response.data.new_e_code
+          }
+
+          axios({
+            method:"post",
+            url:`${baseurl.base_url}/mhere/send-otp`,
+            headers:{
+              "Content-Type": "application/json",
+            },
+            data,
+          })
+          .then(function(response){
+            navigate("/otp", {state:{username:data.username}})
+          })
+          .catch(function(err){
+            console.log(err);
+          })
+          return
+        }
+        toast.success('Login successful', {
+          position: "top-right",
+          autoClose: 1500,
+
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: "colored",
+          onClose: ()=>{
+            navigate('/home')
+            window.location.reload()
+          }
+          });
+     //   navigate('/home')
+       // window.location.reload()
       })
       .catch(function (err) {
         console.log(err)
         if(err.response.data)
-          {setError(err.response.data.message)}
+          {setError(err.response.data.message)
+            toast.error(err.response.data.message, {
+              position: "top-right",
+              autoClose: 2000,
+    
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+              theme: "colored",
+              
+              });
+          }
           else{
-            setError("Something Went wrong, Please try again after sometime")
+            //setError("Something Went wrong, Please try again after sometime")
+            toast.error('Something Went wrong, Please try again after sometime', {
+              position: "top-right",
+              autoClose: 2000,
+    
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+              theme: "colored",
+              
+              });
           }
       })
   }

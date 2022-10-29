@@ -64,13 +64,13 @@ function Navbar() {
 
   return (
     <header
-      style={{ display: 'block', position: '', backgroundColor: '#f7f9fa' }}
+      style={{ display: 'block', backgroundColor: '#f7f9fa'}}
       id="sticky"
       className="animate__animated  header-wrap style1"
     >
       <div className="header-bottom">
         <div className="container nv-main">
-          <nav className="navbar navbar-expand-md navbar-light">
+          <nav className="nav-img navbar navbar-expand-md navbar-light">
             <a className="navbar-brand">
               <img className="" src={logo2} alt="logo" />
             </a>

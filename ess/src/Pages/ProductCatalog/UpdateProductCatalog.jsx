@@ -82,7 +82,7 @@ function UpdateProductCatalog(props) {
                     customBodyRenderLite: (dataIndex, rowIndex) => {
 
                         return (
-                            <div>
+                            <div style={{display:'flex'}}>
                                 <SlTag className='tag-row' onClick={() => {
                                 //console.log(dataIndex);
                                 console.log(partAttributeInfoUpdate[dataIndex].attribute_id);

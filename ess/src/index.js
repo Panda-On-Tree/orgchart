@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(
 <BrowserRouter basename='/ess/'>
-<App />
+    <App />
+    <ToastContainer limit={1} style={{zIndex:'99999999'}}/>
 </BrowserRouter>
 , document.getElementById('root'));
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import self from "../assets/self_service.svg"
-import './Home.css'
+//import './Home.css'
 import MChart from '../MChart'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Footer from './Footer'

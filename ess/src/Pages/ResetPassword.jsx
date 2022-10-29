@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import logo from '../assets/logo.png'
 import { baseurl } from '../api/apiConfig'
+import { toast } from 'react-toastify';
 
 function ResetPassword() {
 
@@ -27,11 +28,35 @@ function ResetPassword() {
         })
             .then(function (response) {
                 console.log(response);
+                toast.success('Your Password Has been reset', {
+                    position: 'top-right',
+                    autoClose: 1200,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: 'colored',
+                    onClose: () => {
+                    },
+                  })
                 navigate("/login")
                 
             })
             .catch(function (err) {
                 console.log(err);
+                toast.error(err.response.data.message, {
+                    position: 'top-right',
+                    autoClose: 1200,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: 'colored',
+                    onClose: () => {
+                    },
+                  })
             })
     };
     return (
