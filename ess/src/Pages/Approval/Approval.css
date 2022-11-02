@@ -29,3 +29,19 @@
     flex-grow: 1;
    
 }
+
+.leave-dates-main{
+
+}
+
+.leave-dates-inner{
+    display: flex;
+    flex-direction: row;
+}
+.leave-dates-inner > h4{
+    font-weight: normal;
+}
+
+.leaveChangeButton{
+    margin-right: 30px;
+}

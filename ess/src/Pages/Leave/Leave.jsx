@@ -235,14 +235,14 @@ function Leave() {
                 }
             </SlSelect>
             <SlSelect name='leave_type' value={leaveData.leave_type} onSlChange={leaveDataHandle} className='leave-select' label="leave Type">
-                <SlMenuItem value="casual_leave">Casual Leave</SlMenuItem>
-                <SlMenuItem value="earned_leave">Earned Leave</SlMenuItem>
+                <SlMenuItem value="od">OD</SlMenuItem>
+                {/* <SlMenuItem value="earned_leave">Earned Leave</SlMenuItem>
                 <SlMenuItem value="election_leave">Election Leave</SlMenuItem>
                 <SlMenuItem value="leave_without_pay">Leave Without Pay</SlMenuItem>
                 <SlMenuItem value="restricted_holiday">Restricted Holiday</SlMenuItem>
                 <SlMenuItem value="short_leave">Short Leave</SlMenuItem>
                 <SlMenuItem value="half_day">Half Day</SlMenuItem>
-                <SlMenuItem value="sick_leave">Sick Leave</SlMenuItem>
+                <SlMenuItem value="sick_leave">Sick Leave</SlMenuItem> */}
             </SlSelect>
             <SlInput name='reason' value={leaveData.reason} onSlChange={leaveDataHandle} className='leave-select' label="Leave Reason" />
 
@@ -280,7 +280,7 @@ function Leave() {
                 options
 
             })
-      }} size="large">Your Leave</SlButton>
+      }} size="large">Your OD</SlButton>
       <SlButton onClick={()=>{
          setTableData({
             title:"Team Leave",
@@ -289,7 +289,7 @@ function Leave() {
             options
 
         })
-      }} size="large">Team Leave</SlButton>
+      }} size="large">Team OD</SlButton>
     </SlButtonGroup>
     </div >
    {/*  <div className='od-main-leave'>

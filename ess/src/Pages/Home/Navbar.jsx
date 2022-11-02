@@ -100,7 +100,7 @@ function Navbar() {
                     Our Services
                     <i className="icon-arrow-down"></i>
                   </a>
-                  <ul className="dropdown-menu">
+                  <ul className="dropdown-menu"  >
                     {/*  <li className="nav-item">
                                     <a href="electrocardiograph.html"  className="nav-link" title="Electrocardiograph">
                                         Electrocardiograph
@@ -119,34 +119,34 @@ function Navbar() {
                                     </ul>
                                 </li> */}
                     <li className="nav-item">
-                      <a onClick={() => {
+                      <a className='nav-link' onClick={() => {
                         navigate('/chart')
                       }}>Org Chart</a>
                     </li>
                     <li className="nav-item">
-                      <a onClick={() => {
+                      <a className='nav-link' onClick={() => {
                         navigate('/product-catalog')
                       }}>Product Catalog</a>
                     </li>
                     <li className="nav-item">
-                      <a onClick={() => {
+                      <a className='nav-link' onClick={() => {
                         navigate('/policy')
                       }}>Policy</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
+                      <a className='nav-link' target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://internal.microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
+                      <a className='nav-link' target="_blank" href='https://internal.microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://internal.microtek.tech/capex/login.php'>Capex Portal</a>
+                      <a className='nav-link' target="_blank" href='https://internal.microtek.tech/capex/login.php'>Capex Portal</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://microtek.eisenvault.net/'>Eisen Vault</a>
+                      <a className='nav-link' target="_blank" href='https://microtek.eisenvault.net/'>Eisen Vault</a>
                     </li>
                     <li className="nav-item">
-                      <a target="_blank" href='https://microtek.peoplestrong.com/altLogin.jsf'>PeopleStong Microtek</a>
+                      <a className='nav-link' target="_blank" href='https://microtek.peoplestrong.com/altLogin.jsf'>PeopleStong Microtek</a>
                     </li>
                     <li className="nav-item">
                       <a

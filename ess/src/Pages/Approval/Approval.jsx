@@ -6,6 +6,7 @@ import {
   SlMenu,
   SlMenuItem,
   SlSelect,
+  SlTextarea,
 } from '@shoelace-style/shoelace/dist/react'
 import axios from 'axios'
 import MUIDataTable from 'mui-datatables'
@@ -15,6 +16,7 @@ import './Approval.css'
 function Approval() {
   const [open, setOpen] = useState(false)
   const [approvalId, setApprovalId] = useState()
+  const [leaveData, setLeaveData] = useState()
   const [approvalIndex, setApprovalIndex] = useState()
   const [approvalData, setApprovalData] = useState()
   const [changeStatus, setChangeStatus] = useState({
@@ -117,7 +119,33 @@ function Approval() {
 
   function changeLeaveStatus(){
     const data = {
-        status: changeStatus.status,
+        status: "accepted",
+        approver_remarks: changeStatus.approver_remarks,
+        employee_id: localStorage.getItem("employee_id"),
+        approval_id: approvalId 
+      }
+      console.log(data)
+      setOpen(false)
+      axios({
+        method: 'post',
+        url: `${baseurl.base_url}/mhere/change-leave-status`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data,
+      })
+        .then(function (response) {
+          console.log(response)
+          
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  }
+  function changeLeaveStatusReject(){
+    const data = {
+        status: "rejected",
         approver_remarks: changeStatus.approver_remarks,
         employee_id: localStorage.getItem("employee_id"),
         approval_id: approvalId 
@@ -149,34 +177,66 @@ function Approval() {
     responsive: 'standard',
     selectableRowsHideCheckboxes: true,
     onRowClick: (rowData, rowMeta) => {
-      console.log(rowData)
-      setOpen(true)
-     setApprovalId(rowData[0])
-     
+    console.log(rowData)
+    setOpen(true)
+    setApprovalId(rowData[0])
+    const data ={
+        request_id: rowData[0]
+    }
+    axios({
+        method: 'post',
+        url: `${baseurl.base_url}/mhere/get-leave-for-approval`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        data,
+      })
+        .then(function (response) {
+          console.log(response)
+          setLeaveData(response.data.data)
+          
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
     },
   }
 
   return (
     <div className="approval-main">
-      <SlDialog  label="Dialog" open={open} style={{ '--width': '30vw', marginBottom:'20px' }} onSlRequestClose={() => setOpen(false)}>
-        <SlSelect onSlChange={(e)=>{
-            setChangeStatus({...changeStatus, ["status"]:e.target.value})
-        }} label='Change Status'>
-          <SlMenuItem value="approved">Approve</SlMenuItem>
-          <SlMenuItem value="rejected">Reject</SlMenuItem>
-        </SlSelect>
-        <SlInput onSlChange={(e)=>{
+      <SlDialog  label="Od Confirm" open={open} style={{ '--width': '40vw', marginBottom:'20px' }} onSlRequestClose={() => setOpen(false)}>
+        
+        <div className='leave-dates-main'>
+            <div className='leave-dates-inner'><h4 style={{textDecoration:'underline', marginRight:'10px'}}>Start Date :</h4><h4> 21 Oct,2021</h4></div>
+            <div className='leave-dates-inner'><h4 style={{textDecoration:'underline', marginRight:'10px'}}>Start Date :</h4><h4> 21 Oct,2021</h4></div>
+            
+        </div>
+
+        <SlTextarea onSlChange={(e)=>{
  setChangeStatus({...changeStatus, ["approver_remarks"]:e.target.value})
         }} label="Remarks" />
 
         <SlButton
+        className='leaveChangeButton'
           slot="footer"
-          variant="primary"
+          variant="success"
+          size='large'
           onClick={() => changeLeaveStatus()}
         >
-          Update
+          Accept
         </SlButton>
-        <SlButton slot="footer" variant="danger" onClick={() => setOpen(false)}>
+        <SlButton
+         className='leaveChangeButton'
+          slot="footer"
+          variant="danger"
+          size='large'
+          onClick={() => changeLeaveStatusReject()}
+        >
+          Reject
+        </SlButton>
+        <SlButton  className='leaveChangeButton' slot="footer" size='large' variant="neutral" onClick={() => setOpen(false)}>
           Close
         </SlButton>
       </SlDialog>
