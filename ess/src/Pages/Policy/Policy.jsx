@@ -8,6 +8,7 @@ import { FileUpload } from 'primereact/fileupload';
 function Policy() {
     const [policyData, setPolicyData] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState("")
+    const [deptartment, setDeptartment] = useState()
     const [deptList, setDeptList] = useState()
     const [data, setData] = useState()
     const [policy, setPolicy] = useState()
@@ -285,6 +286,7 @@ function Policy() {
             employee_id: localStorage.getItem("employee_id"),
             policy_id: id
         }
+        console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/accept-policy`,
@@ -296,6 +298,8 @@ function Policy() {
         })
         .then((res)=>{
             console.log(res);
+            getPolicy(deptartment);
+
         })
         .catch((err)=>{
             console.log(err);
@@ -312,7 +316,7 @@ function Policy() {
                         return (
                             <SlMenuItem style={{ borderBottom: '1px solid grey' }} value={item.department.toLowerCase()} onClick={(e) => {
                                 setNewDept(e.target.value)
-
+                                setDeptartment(e.target.value)
                                 getPolicy(e.target.value);
                                 if (localStorage.getItem("role") == "sadmin") {
                                     console.log("sadmin");
@@ -446,7 +450,7 @@ function Policy() {
                                             Delete Policy
                                         </SlButton> : null}
                                     {
-                                        item.have_to_accept? <div className="accept-policy-button">
+                                        item.accepted == "pending"? <div className="accept-policy-button">
                                         <SlCheckbox onSlChange={(e)=>{
                                              
                                             console.log(e.target.checked);
