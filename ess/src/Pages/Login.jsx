@@ -61,8 +61,7 @@ const LoginForm = () => {
         }
         toast.success('Login successful', {
           position: "top-right",
-          autoClose: 1500,
-
+          autoClose: 500,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,

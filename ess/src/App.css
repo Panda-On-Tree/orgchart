@@ -1,6 +1,5 @@
 html,
 body {
- 
   margin: 0;
   height: 100%;
   width: 100%;
@@ -10,38 +9,33 @@ body {
     'Segoe UI Symbol';
   -webkit-font-smoothing: antialiased;
 }
-*{
+* {
   -webkit-appearance: none !important;
 }
 
-
-
-.dashboard-main{
+.dashboard-main {
   display: flex;
   flex-direction: column;
-  scroll-behavior: smooth; 
- 
+  scroll-behavior: smooth;
 }
-.dashboard-inner{
- 
-}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 #root,
@@ -52,7 +46,7 @@ body {
   width: 100%;
   background-color: #f7f9fa;
 }
-#react-org-chart{
+#react-org-chart {
   cursor: move;
 }
 .org-chart-person-name {
@@ -103,11 +97,11 @@ body {
   height: 40px;
   display: flex;
   padding: 5% !important;
-border-radius: 300px !important ;
+  border-radius: 300px !important ;
 }
 
 .btn {
-background-color: white !important;
+  background-color: white !important;
   font-size: 0.875rem;
   text-transform: none;
   text-decoration-line: none;
@@ -135,7 +129,7 @@ background-color: white !important;
   color: #fff;
   border-color: #374ea2;
 }
-.btn:before{
+.btn:before {
   background-color: white !important;
 }
 
@@ -145,21 +139,16 @@ background-color: white !important;
   margin-right: 16px;
 }
 
-.stickys{
-  
-    position: fixed;
-    top: 0;
-    width: 100%;
-  
-  
+.stickys {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
-
-*{
+* {
   font-family: 'Public Sans', sans-serif;
-
 }
-.home-main{
+.home-main {
   display: flex;
   flex-direction: row;
   background-color: white;
@@ -169,25 +158,23 @@ background-color: white !important;
   justify-content: flex-start;
   color: white;
 }
-.home-main-left{
+.home-main-left {
   display: flex;
   min-width: 60px;
 }
-.home-main-right{
+.home-main-right {
   min-width: calc(100%-30px);
   min-height: 100vh;
 }
-.home-main-container{
+.home-main-container {
   min-height: 100vh;
   min-width: 100%;
 }
 
-.read-more-button{
+.read-more-button {
   font-size: 16px;
   border-radius: 5px !important;
 }
-.read-more-button:hover{
+.read-more-button:hover {
   color: #c5262d !important;
 }
-
-

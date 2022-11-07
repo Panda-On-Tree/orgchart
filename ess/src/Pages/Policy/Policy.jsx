@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './Policy.css'
-import { SlDivider, SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect } from '@shoelace-style/shoelace/dist/react';
+import { SlDivider, SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox } from '@shoelace-style/shoelace/dist/react';
 import pdf from '../assets/pdf-test.pdf'
 import axios from 'axios';
 import { baseurl } from '../../api/apiConfig';
 import { FileUpload } from 'primereact/fileupload';
 function Policy() {
     const [policyData, setPolicyData] = useState('');
+    const [buttonDisabled, setButtonDisabled] = useState("")
     const [deptList, setDeptList] = useState()
     const [data, setData] = useState()
     const [policy, setPolicy] = useState()
@@ -22,6 +23,7 @@ function Policy() {
     const [updateDescription, setUpdateDescription] = useState("");
     const [updateFile, setUpdateFile] = useState();
     const [newTitle, setNewTitle] = useState("");
+    const [needAccept, setNeedAccept] = useState("")
     const [newDeptAccess, setNewDeptAccess] = useState();
     const [newDept, setNewDept] = useState();
     const [departmentForPolicies, setDepartmentForPolicies] = useState([]);
@@ -30,6 +32,7 @@ function Policy() {
     const [gradeList, setGradeList] = useState();
     const [bandList, setBandList] = useState();
     const [updateGradeList, setUpdateGradeList] = useState("");
+    const [updateAccept, setUpdateAccept] = useState("")
     const [updateBandList, setUpdateBandList] = useState("");
     const [gradeListFull, setGradeListFull] = useState();
     const [bandListFull, setBandListFull] = useState();
@@ -100,6 +103,7 @@ function Policy() {
     function getPolicy(dept) {
         console.log(dept);
         const data = {
+            employee_id: localStorage.getItem("employee_id"),
             department: dept,
             access_to: localStorage.getItem('department'),
             access_to_band: localStorage.getItem('band'),
@@ -179,6 +183,8 @@ function Policy() {
         formdata.append("access_to", newDeptAccess)
         formdata.append("access_to_grade", gradeList)
         formdata.append("access_to_band", bandList)
+        formdata.append("have_to_accept", needAccept)
+
         formdata.append("employee_id", localStorage.getItem('employee_id'))
         for (const pair of formdata.entries()) {
             console.log(`${pair[0]}, ${pair[1]}`);
@@ -230,6 +236,7 @@ function Policy() {
         formdata.append("id", updateId)
         formdata.append("access_to_grade", updateGradeList)
         formdata.append("access_to_band", updateBandList)
+        formdata.append("have_to_accept", updateAccept)
         formdata.append("employee_id", localStorage.getItem('employee_id'))
         for (const pair of formdata.entries()) {
             console.log(`${pair[0]}, ${pair[1]}`);
@@ -259,6 +266,28 @@ function Policy() {
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/delete-policy`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+        .then((res)=>{
+            console.log(res);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
+    function sendAcceptPolicy(id){
+        const data = {
+            employee_id: localStorage.getItem("employee_id"),
+            policy_id: id
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/accept-policy`,
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization": `Bearer ${localStorage.getItem('token')}`
@@ -355,6 +384,20 @@ function Policy() {
                             })}
 
                         </SlSelect>
+                        <SlSelect label='Need To Accept?' style={{ marginBottom: '20px' }} onSlChange={(e)=>{
+                            setNeedAccept(e.target.value)
+                        }} placeholder="Select a few" clearable>
+                            <SlMenuItem value={true} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    
+                                    }} >True</SlMenuItem>
+                            <SlMenuItem value={false} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >False</SlMenuItem>
+                          
+
+                        </SlSelect>
+
                         <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setNewFile(e.target.files) }} />
                         <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
                             setNewPolicy(false);
@@ -373,7 +416,7 @@ function Policy() {
                     {policy?.length ? null : <p>"No Policy Found For This Department"</p>}
                     {
                         policy?.map((item) => {
-                            console.log(item);
+                            
                             return (
                                 <li className='policy-right-list-item'>
                                     <h4>{item.title}</h4>
@@ -389,6 +432,7 @@ function Policy() {
                                             setUpdateDescription(item.description);
                                             setUpdateId(item.id)
                                             setUpdatePolicy(true);
+                                            setUpdateAccept(item.have_to_accept)
                                             setUpdateBandList(item.access_to_band);
                                             setUpdateGradeList(item.access_to_grade);
                                         }}>
@@ -401,6 +445,28 @@ function Policy() {
                                         setDeletePolicy(true)}}>
                                             Delete Policy
                                         </SlButton> : null}
+                                    {
+                                        item.have_to_accept? <div className="accept-policy-button">
+                                        <SlCheckbox onSlChange={(e)=>{
+                                             
+                                            console.log(e.target.checked);
+                                            if(e.target.checked){
+                                                
+                                                setButtonDisabled(item.id)
+                                            }
+                                            else{
+                                                
+                                                setButtonDisabled("")
+                                            }
+                                        }} >I have read and understood the above policy</SlCheckbox>
+                                        {buttonDisabled == item.id ? <SlButton onClick={()=>{
+                                            sendAcceptPolicy(item.id)
+                                        }} >Accept</SlButton>:""}
+                                    
+                                    </div>:""
+                                    }      
+                                   
+
                                 </li>
                             )
                         })
@@ -409,7 +475,7 @@ function Policy() {
 
                 </ul>
             </div>
-            <SlDialog style={{ '--width': '50vw' }} label="Add Policy" open={updatePolicy} onSlRequestClose={() => { setUpdatePolicy(false); }}>
+            <SlDialog style={{ '--width': '50vw' }} label="Update Policy" open={updatePolicy} onSlRequestClose={() => { setUpdatePolicy(false); }}>
                 <SlInput style={{ marginBottom: '2vh' }} label="Policy Title" value={updateTitle} onSlInput={e => { setUpdateTitle(e.currentTarget.value) }} />
                 <SlTextarea style={{ marginBottom: '2vh' }} label="Policy Description" value={updateDescription} onSlInput={e => { setUpdateDescription(e.target.value) }} />
                 <SlSelect value={updateAccessto.split(",")} onSlChange={(e) => {
@@ -447,6 +513,19 @@ function Policy() {
                                     }} >{item.grade}</SlMenuItem>
                                 )
                             })}
+
+                        </SlSelect>
+                        <SlSelect label='Need To Accept?' style={{ marginBottom: '20px' }} value={updateAccept} placeholder="Select a few" onSlChange={(e)=>{
+                            setUpdateAccept(e.target.value)
+                        }} clearable>
+                            <SlMenuItem value={true} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    //setUpdateAccept(e.target.value)
+                                    }} >True</SlMenuItem>
+                            <SlMenuItem value={false} onClick={(e) => {
+                                        console.log(e.target.value);
+                                    }} >False</SlMenuItem>
+                          
 
                         </SlSelect>
                 <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setUpdateFile(e.target.files) }} />

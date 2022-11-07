@@ -9,11 +9,7 @@
   "files": [
     "dist/index.js"
   ],
-  "homepage": "https://unicef.github.io/react-org-chart",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/unicef/react-org-chart.git"
-  },
+  
   "scripts": {
     "start": "webpack --watch --mode production",
     "build": "webpack --mode production",

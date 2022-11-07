@@ -67,7 +67,7 @@ function render(config) {
       d.y = d.depth * lineDepthY
     }
   })
-  console.log("-------------------------");
+ 
 
   // Update the nodes
   const node = svg.selectAll('g.' + CHART_NODE_CLASS).data(

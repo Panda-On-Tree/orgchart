@@ -33,6 +33,7 @@ import MyTeam from './Pages/MyTeam/MyTeam'
 import ManageUsers from './Pages/ManageUsers/ManageUsers'
 import Approval from './Pages/Approval/Approval'
 import Leave from './Pages/Leave/Leave'
+import ProductChart from './Pages/ProductChart/ProductChart'
 
 function App() {
   let navigate = useNavigate()
@@ -113,6 +114,17 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <Chart />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/product-chart"
+          element={
+            localStorage.getItem('token') ? (
+              < ProductChart/>
             ) : (
               <Navigate replace to="/login" />
             )
