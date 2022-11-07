@@ -170,7 +170,7 @@ function OutdoorDuty() {
         <div className='leave-main'>
             <div className='od-main-leave'>
                 <div className='od-main-leave-header'>
-                    <p>New Leave</p>
+                    <p>New Outdoor Duty</p>
                 </div>
                 <div className='od-main-leave-inner'>
                     <SlSelect name='employee_id' value={leaveData.employee_id} onSlChange={leaveDataHandle} className='leave-select' label="Select one">
@@ -221,7 +221,7 @@ function OutdoorDuty() {
             </div>
             <div className='od-main-leave'>
             <div className='od-main-leave-header'>
-                    <p>Your Leave</p>
+                    <p>Your Outdoor Duty</p>
                 </div>
                 <div>
                 <MUIDataTable
@@ -235,7 +235,7 @@ function OutdoorDuty() {
             </div>
             <div className='od-main-leave'>
             <div className='od-main-leave-header'>
-                    <p>Team Leave</p>
+                    <p>Team Outdoor Duty</p>
                 </div>
                 <div>
                 <MUIDataTable

@@ -221,7 +221,7 @@ function Leave() {
    <div style={{}}>
    <div className='od-main-leave'>
         <div className='od-main-leave-header'>
-            <p>New Leave</p>
+            <p>New Outdoor Duty</p>
         </div>
         <div className='od-main-leave-inner'>
             <SlSelect name='employee_id' value={leaveData.employee_id} onSlChange={leaveDataHandle} className='leave-select' label="Select one">

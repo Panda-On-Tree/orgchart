@@ -225,7 +225,7 @@ function Navbar() {
                         }}
                         className="nav-link"
                       >
-                        Leave
+                        Outdoor Duty
                       </a>
                     </li>
                     <li className="nav-item">
