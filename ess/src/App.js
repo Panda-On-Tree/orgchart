@@ -122,13 +122,7 @@ function App() {
         <Route
           exact
           path="/product-chart"
-          element={
-            localStorage.getItem('token') ? (
-              < ProductChart/>
-            ) : (
-              <Navigate replace to="/login" />
-            )
-          }
+          element={<ProductChart/>}
         ></Route>
         <Route
           exact
