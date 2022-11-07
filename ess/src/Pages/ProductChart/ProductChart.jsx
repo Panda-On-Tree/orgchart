@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import '../../App.css'
 import OrgChart from '@unicef/react-org-chart'
-import avatarPersonnel from '../../assets/avatar-personnel.svg'
+import avatarPersonnel from '../../assets/part-image.svg'
 import axios from 'axios'
 import { baseurl } from '../../api/apiConfig'
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './Policy.css'
-import { SlDivider, SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox } from '@shoelace-style/shoelace/dist/react';
+import { SlDivider, SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox, SlIcon } from '@shoelace-style/shoelace/dist/react';
 import pdf from '../assets/pdf-test.pdf'
 import axios from 'axios';
 import { baseurl } from '../../api/apiConfig';
@@ -423,7 +423,13 @@ function Policy() {
                             
                             return (
                                 <li className='policy-right-list-item'>
-                                    <h4>{item.title}</h4>
+                                    <h4 style={{display:'flex'}}>{item.title}
+                                    {
+                                        item.accepted == "accepted"? <span style={{color:'green', marginLeft:'10px'}} class="material-symbols-rounded">
+check_circle
+</span>:""
+                                    }
+                                    </h4>
                                     <p>{item.description}</p>
                                     <a style={{ marginRight: '20px' }} id="link" href={item.url} target="_blank">View Policy</a>
 
@@ -468,7 +474,7 @@ function Policy() {
                                         }} >Accept</SlButton>:""}
                                     
                                     </div>:""
-                                    }      
+                                    }  
                                    
 
                                 </li>
