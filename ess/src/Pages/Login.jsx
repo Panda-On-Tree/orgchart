@@ -52,6 +52,29 @@ const LoginForm = () => {
             data,
           })
           .then(function(response){
+            if(!response.data.otp_sent){
+              toast.error(response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                });
+                return;
+            }
+            toast.success(response.data.message, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+              theme: "colored",
+              });
             navigate("/otp", {state:{username:data.username}})
           })
           .catch(function(err){

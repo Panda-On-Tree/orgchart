@@ -457,7 +457,7 @@ check_circle
                                         </SlButton> : null}
                                     {
                                         item.accepted == "pending"? <div className="accept-policy-button">
-                                        <SlCheckbox onSlChange={(e)=>{
+                                        <SlCheckbox className='home-policy-check' onSlChange={(e)=>{
                                              
                                             console.log(e.target.checked);
                                             if(e.target.checked){
