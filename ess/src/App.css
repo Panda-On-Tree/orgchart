@@ -8,6 +8,7 @@ body {
     Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
   -webkit-font-smoothing: antialiased;
+  overflow-y: hidden;
 }
 * {
   -webkit-appearance: none !important;

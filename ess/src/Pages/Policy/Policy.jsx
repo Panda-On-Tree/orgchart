@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import './Policy.css'
-import { SlDivider, SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox, SlIcon } from '@shoelace-style/shoelace/dist/react';
-import pdf from '../assets/pdf-test.pdf'
+import {  SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox } from '@shoelace-style/shoelace/dist/react';
 import axios from 'axios';
 import { baseurl } from '../../api/apiConfig';
-import { FileUpload } from 'primereact/fileupload';
+
 function Policy() {
-    const [policyData, setPolicyData] = useState('');
+   // const [policyData, setPolicyData] = useState('');
     const [buttonDisabled, setButtonDisabled] = useState("")
     const [deptartment, setDeptartment] = useState()
     const [deptList, setDeptList] = useState()
-    const [data, setData] = useState()
+    //const [data, setData] = useState()
     const [policy, setPolicy] = useState()
     const [newPolicy, setNewPolicy] = useState(false);
     const [updatePolicy, setUpdatePolicy] = useState(false);
@@ -37,7 +36,7 @@ function Policy() {
     const [updateBandList, setUpdateBandList] = useState("");
     const [gradeListFull, setGradeListFull] = useState();
     const [bandListFull, setBandListFull] = useState();
-    const [dept, setDept] = useState(['it', 'sales', 'travelling', 'service', 'admin', 'hr'])
+  //  const [dept, setDept] = useState(['it', 'sales', 'travelling', 'service', 'admin', 'hr'])
     useEffect(() => {
         getDept()
         getDeptPolicy();
@@ -81,7 +80,7 @@ function Policy() {
                 if(!res.data.data.length){
                     setDepartmentForPolicies([{department: localStorage.getItem('department')}]);
                 }
-                const has_department = false;
+                let has_department = false;
                 res.data.data.map((item, i)=>{
                     if(localStorage.getItem('department') == item.department){
                         has_department = true;
@@ -184,6 +183,7 @@ function Policy() {
         formdata.append("access_to", newDeptAccess)
         formdata.append("access_to_grade", gradeList)
         formdata.append("access_to_band", bandList)
+        formdata.append("have_question", false)
         formdata.append("have_to_accept", needAccept)
 
         formdata.append("employee_id", localStorage.getItem('employee_id'))
@@ -401,8 +401,9 @@ function Policy() {
                           
 
                         </SlSelect>
+                        <SlCheckbox className='policy-question-checkbox' >Require Questions?</SlCheckbox>
 
-                        <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setNewFile(e.target.files) }} />
+                        <input style={{display:'block'}} type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setNewFile(e.target.files) }} />
                         <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
                             setNewPolicy(false);
                             addPolicy();
@@ -411,30 +412,49 @@ function Policy() {
                         </SlButton>
                     </SlDialog>
                     {currentDepartmentAdmin ?
-                        <SlButton size='large' className='policy-button' variant="primary" style={{ marginBottom: "5vh" }} onClick={() => setNewPolicy(true)}>
+                        <SlButton size='large' className='policy-button' variant="primary" style={{ marginBottom: "3vh",paddingLeft:'5%' }} onClick={() => setNewPolicy(true)}>
                             Add New Policy
                         </SlButton> : null}
-                </div>
-                <ul className='policy-right-list-container'>
-
                     {policy?.length ? null : <p>"No Policy Found For This Department"</p>}
-                    {
-                        policy?.map((item) => {
-                            
-                            return (
-                                <li className='policy-right-list-item'>
-                                    <h4 style={{display:'flex'}}>{item.title}
-                                    {
-                                        item.accepted == "accepted"? <span style={{color:'green', marginLeft:'10px'}} class="material-symbols-rounded">
-check_circle
-</span>:""
-                                    }
-                                    </h4>
-                                    <p>{item.description}</p>
-                                    <a style={{ marginRight: '20px' }} id="link" href={item.url} target="_blank">View Policy</a>
-
-                                    {currentDepartmentAdmin ?
-                                        <SlButton size='large' className='policy-button' style={{ marginRight: '20px' }} variant="primary" onClick={() => {
+                        <div className='policy-card-main'>
+                            {policy?.map((item)=>{
+                                return(
+                                    <div className='policy-card-container'>
+                                <div className='policy-card-title'>
+                                    {item.title}
+                                    </div>
+                                <div className='policy-des-button-main'>
+                                <div className='policy-card-description'>
+                                    <div>
+                                    {item.description}
+                                    </div>
+                                   <div className='policy-accept-container'>
+                                   {
+                                        item.accepted == "pending"? <div className="accept-policy-button">
+                                        <SlCheckbox style={{marginLeft:'5px'}} className='home-policy-check' onSlChange={(e)=>{
+                                             
+                                            console.log(e.target.checked);
+                                            if(e.target.checked){
+                                                
+                                                setButtonDisabled(item.id)
+                                            }
+                                            else{
+                                                
+                                                setButtonDisabled("")
+                                            }
+                                        }} >I have read and understood the above policy</SlCheckbox>
+                                        {buttonDisabled == item.id ? <SlButton  style={{maxWidth:'20%', marginLeft:'5px'}} outline variant='success' onClick={()=>{
+                                            sendAcceptPolicy(item.id)
+                                        }} >Accept</SlButton>:""}
+                                    
+                                    </div>:""
+                                    }  
+                                   </div>
+                                </div>
+                                <div className='policy-card-button'>
+                                     <a style={{color:'white'}} id="link" href={item.url} target="_blank"><SlButton size='large' variant='neutral'>View Policy</SlButton></a>
+                                {currentDepartmentAdmin ?
+                                        <SlButton size='large' className='policy-button'  variant="primary" onClick={() => {
                                             setUpdateDepartment(item.department)
                                             setUpdateAccessto(item.access_to)
                                             console.log(item.access_to);
@@ -450,40 +470,35 @@ check_circle
                                         </SlButton> : null}
 
                                     {currentDepartmentAdmin ?
-                                        <SlButton size='large' className='policy-button' style={{ marginRight: '20px' }} variant="primary" onClick={() => {
+                                        <SlButton size='large' className='policy-button' outline style={{ marginRight: '20px' }} variant="danger" onClick={() => {
                                             setDeletePolicyId(item.id)
                                         setDeletePolicy(true)}}>
                                             Delete Policy
                                         </SlButton> : null}
-                                    {
-                                        item.accepted == "pending"? <div className="accept-policy-button">
-                                        <SlCheckbox className='home-policy-check' onSlChange={(e)=>{
-                                             
-                                            console.log(e.target.checked);
-                                            if(e.target.checked){
-                                                
-                                                setButtonDisabled(item.id)
-                                            }
-                                            else{
-                                                
-                                                setButtonDisabled("")
-                                            }
-                                        }} >I have read and understood the above policy</SlCheckbox>
-                                        {buttonDisabled == item.id ? <SlButton onClick={()=>{
-                                            sendAcceptPolicy(item.id)
-                                        }} >Accept</SlButton>:""}
-                                    
-                                    </div>:""
-                                    }  
+                                </div>
+                                </div>
+                            </div>
+                                )
+                            })}
+                           {/*  <div className='policy-card-container'>
+                                <div className='policy-card-title'></div>
+                                <div className='policy-des-button-main'>
+                                <div className='policy-card-description'>
+                                    <div>
                                    
+                                    </div>
+                                </div>
+                                <div className='policy-card-button'>
+                                
+                                </div>
+                                </div>
+                            </div> */}
+                            
+                        </div>
 
-                                </li>
-                            )
-                        })
-                    }
-
-
-                </ul>
+                    
+                </div>
+           
             </div>
             <SlDialog style={{ '--width': '50vw' }} label="Update Policy" open={updatePolicy} onSlRequestClose={() => { setUpdatePolicy(false); }}>
                 <SlInput style={{ marginBottom: '2vh' }} label="Policy Title" value={updateTitle} onSlInput={e => { setUpdateTitle(e.currentTarget.value) }} />

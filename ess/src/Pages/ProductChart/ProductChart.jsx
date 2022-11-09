@@ -8,17 +8,15 @@ import { baseurl } from '../../api/apiConfig'
 function ProductChart() {
   const [tree, setTree] = useState()
   const [downloadingChart, setDownloadingChart] = useState(false)
-  const [configData, setConfigData] = useState({})
-  const [highlightPostNumber, setHighlightPostNumber] = useState([1])
-  const [childData, setChildData] = useState()
+  //const [configData, setConfigData] = useState({})
+  //const [highlightPostNumber, setHighlightPostNumber] = useState([1])
+  //const [childData, setChildData] = useState()
   var configabc = {}
 
   useEffect(() => {
     //const token = localStorage.getItem('token');
     
-    const data = {
-      parent_employee_id: localStorage.getItem('employee_id'),
-    }
+  
     axios({
       method: 'get',
       url: `${baseurl.base_url}/mhere/get-part-parent-node`,

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import vision from "./assets/vison.svg"
 import Footer from './Home/Footer'
 function AboutUs() {
@@ -13,12 +13,12 @@ function AboutUs() {
                                 <span  style={{fontSize:"26px" , marginBottom:"3vh"}}>Vision &amp; Mission</span>
                                 <h2 style={{fontSize:"20px"}} >Be a market leader for all our products</h2>
                                 <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Loo make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                <div className="ptb-30"><a className="btn">Read More</a></div>
+                                <div className="ptb-30"><a href="/#" className="btn">Read More</a></div>
                          </div>
                         </div>
                         <div className="col-lg-6 ps-lg-0">
                             <div style={{display:"flex", alignItems:"center", justifyContent:"center"}} className="img">
-                                <img src={vision}/>
+                                <img alt='' src={vision}/>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ function AboutUs() {
                                             </div>
                                             <div className="">
                                             <h4 className="cspt-element-heading">Call Us:</h4>
-                                            <h2 className="cspt-element-title"> <a href="tel:+86-075527083814">+86-0755 2708 3814</a></h2>
+                                            <h2 className="cspt-element-title"> <a href="javascript:void(0);">+86-0755 2708 3814</a></h2>
                                             </div>
                                           </div>
 
@@ -60,7 +60,7 @@ function AboutUs() {
                                             </div>
                                             <div className="">
                                             <h4 className="cspt-element-heading">Mail Us:</h4>
-                                            <h2 className="cspt-element-title"> <a href="mailto:marketing@microtekdirect.com">marketing@microtekdirect.com</a></h2>
+                                            <h2 className="cspt-element-title"><a href="mailto:marketing@microtekdirect.com">marketing@microtekdirect.com</a></h2>
                                             </div>
                                           </div>
                                     </div>

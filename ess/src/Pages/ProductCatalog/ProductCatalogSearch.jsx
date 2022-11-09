@@ -1,5 +1,5 @@
 import React from 'react'
-import { SlInput, SlMenuItem, SlSelect, SlButton, SlTag, SlDetails } from '@shoelace-style/shoelace/dist/react';
+import { SlDetails } from '@shoelace-style/shoelace/dist/react';
 
 function ProductCatalogSearch() {
     return (

@@ -206,11 +206,11 @@ function Approval() {
 
   return (
     <div className="approval-main">
-      <SlDialog  label="Od Confirm" open={open} style={{ '--width': '40vw', marginBottom:'20px' }} onSlRequestClose={() => setOpen(false)}>
+      <SlDialog  label="OD Approval" open={open} style={{ '--width': '40vw', marginBottom:'20px' }} onSlRequestClose={() => setOpen(false)}>
         
         <div className='leave-dates-main'>
-            <div className='leave-dates-inner'><h4 style={{textDecoration:'underline', marginRight:'10px'}}>Start Date :</h4><h4> 21 Oct,2021</h4></div>
-            <div className='leave-dates-inner'><h4 style={{textDecoration:'underline', marginRight:'10px'}}>Start Date :</h4><h4> 21 Oct,2021</h4></div>
+            <div className='leave-dates-inner'><h4 style={{'fontWeight':"bold", marginRight:'10px'}}>Start Date :</h4><h4> {leaveData?.start_date}</h4></div>
+            <div className='leave-dates-inner'><h4 style={{'fontWeight':"bold", marginRight:'10px'}}>End Date :</h4><h4>{leaveData?.end_date}</h4></div>
             
         </div>
 

@@ -10,7 +10,7 @@ function Complaint() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    //formState: { errors },
     reset
   } = useForm()
 
@@ -19,7 +19,7 @@ function Complaint() {
     data.complaint_file = files
     data.employee_id= emp_id
     console.log(data);
-    if(data.type == "create"){
+    if(data.type === "create"){
     axios({
         method: 'post',
         url: `${baseurl.base_url}/mhere/create-complaint`,
@@ -40,7 +40,7 @@ function Complaint() {
           window.alert("An error occured")
             
         })}
-    if(data.type == "assign"){
+    if(data.type === "assign"){
     axios({
         method: 'post',
         url: `${baseurl.base_url}/mhere/assign-complaint`,
@@ -61,7 +61,7 @@ function Complaint() {
           window.alert("An error occured")
             
         })}
-    if(data.type == "close"){
+    if(data.type === "close"){
     axios({
         method: 'post',
         url: `${baseurl.base_url}/mhere/close-complaint`,

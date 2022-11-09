@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import self from '../assets/self_service.svg'
 import './Home.css'
-import MChart from '../MChart'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Footer from './Footer'
 import axios from 'axios'
 import { baseurl } from '../../api/apiConfig'
@@ -193,6 +191,7 @@ function Home() {
                                     <a
                                         target="_blank"
                                         href="https://internal.microtek.tech/itop"
+                                        rel="noopener noreferrer"
                                     >
                                         <span class="material-symbols-outlined">
                                             database
@@ -211,6 +210,7 @@ function Home() {
                                     <a
                                         target="_blank"
                                         href="https://internal.microtek.tech/Self-Declaration/login.php"
+                                        rel="noopener noreferrer"
                                     >
                                         <span class="material-symbols-outlined">
                                             app_registration
@@ -228,6 +228,7 @@ function Home() {
                                     <a
                                         target="_blank"
                                         href="https://internal.microtek.tech/capex/login.php"
+                                        rel="noopener noreferrer"
                                     >
                                         <span class="material-symbols-outlined">
                                             description
@@ -242,6 +243,7 @@ function Home() {
                                     <a
                                         target="_blank"
                                         href="https://microtek.peoplestrong.com/altLogin.jsf"
+                                        rel="noopener noreferrer"
                                     >
                                         <span class="material-symbols-outlined">
                                             description
@@ -259,6 +261,7 @@ function Home() {
                                     <a
                                         target="_blank"
                                         href="https://microtek.eisenvault.net/"
+                                        rel="noopener noreferrer"
                                     >
                                         <span class="material-symbols-outlined">
                                             description
@@ -274,6 +277,7 @@ function Home() {
                             <li class="col-lg-4 col-md-3 col-sm-12">
                                 <div class="ps-list-content">
                                     <a
+                                        href='/#'
                                         target="_blank"
                                         onClick={(e) => {
                                             e.preventDefault()
@@ -308,7 +312,7 @@ function Home() {
                             <h4 style={{ display: 'flex' }}>
                                 {policyBannerAcceptance.title}{' '}
                                 {`  (${policyBannerAcceptance.department})`}
-                                {policyBannerAcceptance.accepted ==
+                                {policyBannerAcceptance.accepted ===
                                 'accepted' ? (
                                     <span
                                         style={{
@@ -329,6 +333,7 @@ function Home() {
                                 id="link"
                                 href={policyBannerAcceptance.url}
                                 target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <span class="material-symbols-outlined">
                                     description

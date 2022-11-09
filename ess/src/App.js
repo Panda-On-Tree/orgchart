@@ -13,7 +13,6 @@ import ForgetPassword from './Pages/ForgetPassword'
 import MChart from './Pages/MChart'
 import Otp from './Pages/Otp'
 import Home from './Pages/Home/Home'
-import Sidemenu from './Pages/Home/Sidemenu'
 import Complaint from './Pages/Complaint'
 import Navbar from './Pages/Home/Navbar'
 import Profile from './Pages/Profile'
@@ -27,7 +26,6 @@ import ProductPartDescription from './Pages/ProductCatalog/ProductPartDescriptio
 import '@shoelace-style/shoelace/dist/themes/light.css'
 import '@shoelace-style/shoelace/dist/shoelace.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
-import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js'
 import Policy from './Pages/Policy/Policy'
 import MyTeam from './Pages/MyTeam/MyTeam'
 import ManageUsers from './Pages/ManageUsers/ManageUsers'
@@ -41,7 +39,7 @@ function App() {
   useEffect(() => {
     verifyToken()
     setInterval(verifyToken, 1800000)
-    setBasePath('@shoelace-style/shoelace/dist')
+  
   }, [])
 
   const Dashboard = () => (

@@ -1,6 +1,8 @@
 .home-policy-check::part(base){
    font-size: 16px;
+  
 }
+
 .home-policy-check::part(control){
 
     transform: scale(1.4);

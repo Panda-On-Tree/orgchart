@@ -3,7 +3,7 @@ import '.././App.css'
 import OrgChart from '@unicef/react-org-chart'
 import { baseurl } from '../api/apiConfig'
 
-import { tree0, tree1, tree2, tree3, tree4 } from './Tree'
+//import { tree0, tree1, tree2, tree3, tree4 } from './Tree'
 
 import avatarPersonnel from '../assets/avatar-personnel.svg'
 import axios from 'axios'
@@ -11,9 +11,9 @@ import axios from 'axios'
 function MChart() {
   const [tree, setTree] = useState()
   const [downloadingChart, setDownloadingChart] = useState(false)
-  const [configData, setConfigData] = useState({})
-  const [highlightPostNumber, setHighlightPostNumber] = useState([1])
-  const [childData, setChildData] = useState()
+  //const [configData, setConfigData] = useState({})
+  //const [highlightPostNumber, setHighlightPostNumber] = useState([1])
+  //const [childData, setChildData] = useState()
   var configabc = {}
 
   useEffect(() => {

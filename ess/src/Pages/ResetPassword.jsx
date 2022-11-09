@@ -12,7 +12,7 @@ function ResetPassword() {
     let navigate = useNavigate();
     let location = useLocation();
 
-    const { register, handleSubmit, formState: { errors }, } = useForm();
+    const { register, handleSubmit, } = useForm();
 
     const onSubmit = (data) => {
         data.username = location.state.username;
