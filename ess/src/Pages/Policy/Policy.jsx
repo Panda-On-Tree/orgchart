@@ -402,6 +402,8 @@ function Policy() {
 
                         </SlSelect>
                         <SlCheckbox className='policy-question-checkbox' >Require Questions?</SlCheckbox>
+                        
+
 
                         <input style={{display:'block'}} type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setNewFile(e.target.files) }} />
                         <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
