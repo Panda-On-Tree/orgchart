@@ -4,6 +4,22 @@
     min-height: 100%;
     background-color: #f7f9fa;
 }
+@media screen and (max-width: 850px) {
+
+    .policy-main{
+        flex-direction: column;
+    }
+    .policy-menu-item::part(base) {
+        padding: 1% 0%;
+    }
+    .policy-menu{
+        max-height: 40vh !important;
+    }
+
+}
+.policy-menu{
+    max-height: 75vh;
+}
 .policy-main-left{
     
     max-height:100%;
@@ -94,7 +110,7 @@
 }
 
 .policy-card-container:hover{
-    box-shadow: rgb(60 64 67 / 30%) 0px 1px 3px 0px, rgb(60 64 67 / 15%) 0px 4px 8px 3px;
+    box-shadow: 0 1px 2px hsla(0,0%,0%,0.05), 0 1px 4px hsla(0, 0%, 0%, 0.05), 0 2px 8px hsla(0, 0%, 0%, 0.05);
 }
 .policy-des-button-main{
     flex-grow: 1;
@@ -134,4 +150,27 @@
 .policy-question-checkbox::part(control){
     width: 20px;
     height: 20px;
+}
+.policy-question-tag-main{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.question-add-input::part(form-control-label){
+    font-size: 14px;
+}
+.question-add-input{
+    margin-top: 1%;
+}
+.question-add-input-container{
+    margin-top: 3%;
+}
+
+.add-question-dialog::part(close-button){
+    transform: scale(1.5);
+}
+
+.add-question-dialog::part(title){
+    font-size: 18px;
 }

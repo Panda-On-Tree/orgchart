@@ -3,11 +3,15 @@ import './Home.css'
 import { useNavigate } from 'react-router-dom'
 import Footer from './Footer'
 import axios from 'axios'
+import $ from 'jquery'
 import { baseurl } from '../../api/apiConfig'
 import {
     SlButton,
     SlCheckbox,
     SlDialog,
+    SlRadio,
+    SlRadioGroup,
+    SlTag,
 } from '@shoelace-style/shoelace/dist/react'
 
 function Home() {
@@ -17,7 +21,22 @@ function Home() {
     const [policyBannerAcceptance, setPolicyBannerAcceptance] = useState()
     const [PolicyDialog, setPolicyDialog] = useState(false)
     const [buttonDisabled, setButtonDisabled] = useState(true)
+    const [policyQuizQuestions, setPolicyQuizQuestions] = useState([
+        {
+            question: '',
+            option1: '',
+            option2: '',
+            option3: '',
+            option4: '',
+        },
+    ])
+    const [policyQuizDialog, setPolicyQuizDialog] = useState(false)
+    const [questionForReview, setQuestionForReview] = useState(0)
     useEffect(() => {
+        setTimeout(function () {
+            // allowing 3 secs to fade out loader
+            $('.page-loader').fadeOut('slow')
+        }, 2000)
         getPolicyBanner()
         getPolicyDailog()
     }, [])
@@ -117,8 +136,76 @@ function Home() {
             })
     }
 
+    function getQuestionsForPolicy(id) {
+        const data = {
+            policy_id: id,
+        }
+        console.log(data)
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/policy-question`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            data,
+        })
+            .then((res) => {
+                console.log(res.data.data)
+                setPolicyQuizQuestions(res.data.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    function acceptPolicyWithQuestion() {
+        const data = {
+            employee_id: localStorage.getItem('employee_id'),
+            policy_id: policyQuizQuestions[0].policy_id,
+            questions: policyQuizQuestions,
+        }
+        console.log(data)
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/accept-policy-question`,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            data,
+        })
+            .then((res) => {
+                console.log(res.data)
+                alert(res.data.message)
+                setPolicyQuizDialog(false)
+                getPolicyDailog()
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <div>
+            <div class="page-loader">
+                <div class="spinner"></div>
+                <div class="wavy-wraper">
+                    <div class="wavy">
+                        <span style={{"--i":"1"}}>M</span>
+                        <span style={{"--i":"2"}}>i</span>
+                        <span style={{"--i":"3"}}>c</span>
+                        <span style={{"--i":"4"}}>r</span>
+                        <span style={{"--i":"5"}}>o</span>
+                        <span style={{"--i":"6"}}>t</span>
+                        <span style={{"--i":"7"}}>e</span>
+                        <span style={{"--i":"8"}}>k</span>
+                        <span style={{"--i":"9"}}>.</span>
+                        <span style={{"--i":"10"}}>.</span>
+                        <span style={{"--i":"11"}}>.</span>
+                    </div>
+                </div>
+            </div>
             <div>
                 <marquee
                     behavior="sliding"
@@ -148,6 +235,7 @@ function Home() {
                     </div>
                 </marquee>
             </div>
+
             {/*  <section class="hero-wrap style1">
                 <div class="hero-slider-one">
                     <div class="hero-slide-item">
@@ -277,7 +365,7 @@ function Home() {
                             <li class="col-lg-4 col-md-3 col-sm-12">
                                 <div class="ps-list-content">
                                     <a
-                                        href='/#'
+                                        href="/#"
                                         target="_blank"
                                         onClick={(e) => {
                                             e.preventDefault()
@@ -329,7 +417,11 @@ function Home() {
                             </h4>
                             <p>{policyBannerAcceptance.description}</p>
                             <a
-                                style={{ marginRight: '20px', color: 'blue', display:"flex" }}
+                                style={{
+                                    marginRight: '20px',
+                                    color: 'blue',
+                                    display: 'flex',
+                                }}
                                 id="link"
                                 href={policyBannerAcceptance.url}
                                 target="_blank"
@@ -341,7 +433,8 @@ function Home() {
                                 View Policy
                             </a>
                             <SlCheckbox
-                              className='home-policy-check'
+                                className="home-policy-check"
+                                checked={!buttonDisabled}
                                 onSlChange={(e) => {
                                     console.log(e.target.checked)
                                     if (e.target.checked) {
@@ -350,7 +443,7 @@ function Home() {
                                         setButtonDisabled(true)
                                     }
                                 }}
-                                style={{"marginTop":"30px"}}
+                                style={{ marginTop: '30px' }}
                             >
                                 I have read and understood the above policy
                             </SlCheckbox>
@@ -365,7 +458,17 @@ function Home() {
                     <SlButton
                         slot="footer"
                         variant="success"
-                        onClick={() => acceptPolicy()}
+                        onClick={() => {
+                            setPolicyQuizDialog(false)
+                            setQuestionForReview(0)
+                            setButtonDisabled(true)
+                            if (policyBannerAcceptance.have_question) {
+                                getQuestionsForPolicy(policyBannerAcceptance.id)
+                                setPolicyQuizDialog(true)
+                            } else {
+                                acceptPolicy()
+                            }
+                        }}
                     >
                         Accept
                     </SlButton>
@@ -377,6 +480,115 @@ function Home() {
                     style={{ marginLeft: '10px' }}
                 >
                     Skip Anyway
+                </SlButton>
+            </SlDialog>
+
+            <SlDialog
+                className="policy-quiz-dialog"
+                label="Questionnaire"
+                style={{ '--width': '40vw' }}
+                open={policyQuizDialog}
+                onSlRequestClose={() => setPolicyQuizDialog(false)}
+            >
+                <div className="policy-question-tag-main">
+                    {policyQuizQuestions.map((item, i) => {
+                        return (
+                            <SlTag
+                                size="large"
+                                variant={
+                                    questionForReview == i
+                                        ? 'primary'
+                                        : 'neutral'
+                                }
+                                onClick={(e) => {
+                                    setQuestionForReview(i)
+                                }}
+                            >{`Question ${i + 1}`}</SlTag>
+                        )
+                    })}
+                </div>
+                <p style={{ marginTop: '20px' }}>
+                    {policyQuizQuestions[questionForReview].question}
+                </p>
+                <SlRadioGroup
+                    label="Select an option"
+                    name="a"
+                    value={policyQuizQuestions[questionForReview].answer}
+                    fieldset
+                    onSlChange={(e) => {
+                        setPolicyQuizQuestions((current) =>
+                            current.map((obj, i) => {
+                                if (i === questionForReview) {
+                                    return { ...obj, answer: e.target.value }
+                                }
+                                return obj
+                            })
+                        )
+                    }}
+                >
+                    <SlRadio
+                        value={policyQuizQuestions[questionForReview].option1}
+                    >
+                        {policyQuizQuestions[questionForReview].option1}
+                    </SlRadio>
+                    <SlRadio
+                        value={policyQuizQuestions[questionForReview].option2}
+                    >
+                        {policyQuizQuestions[questionForReview].option2}
+                    </SlRadio>
+                    <SlRadio
+                        value={policyQuizQuestions[questionForReview].option3}
+                    >
+                        {policyQuizQuestions[questionForReview].option3}
+                    </SlRadio>
+                    <SlRadio
+                        value={policyQuizQuestions[questionForReview].option4}
+                    >
+                        {policyQuizQuestions[questionForReview].option4}
+                    </SlRadio>
+                </SlRadioGroup>
+                <SlButton
+                    size="large"
+                    className="policy-button"
+                    disabled={!(questionForReview > 0)}
+                    variant="neutral"
+                    style={{ marginRight: '20px' }}
+                    slot="footer"
+                    onClick={() => {
+                        setQuestionForReview(questionForReview - 1)
+                    }}
+                >
+                    Previous
+                </SlButton>
+                <SlButton
+                    size="large"
+                    className="policy-button"
+                    disabled={
+                        !(questionForReview < policyQuizQuestions.length - 1)
+                    }
+                    variant="primary"
+                    style={{ marginRight: '20px' }}
+                    slot="footer"
+                    onClick={() => {
+                        setQuestionForReview(questionForReview + 1)
+                    }}
+                >
+                    Next
+                </SlButton>
+                <SlButton
+                    size="large"
+                    className="policy-button"
+                    disabled={
+                        !(questionForReview >= policyQuizQuestions.length - 1)
+                    }
+                    slot="footer"
+                    variant="success"
+                    onClick={() => {
+                        console.log(policyQuizQuestions)
+                        acceptPolicyWithQuestion()
+                    }}
+                >
+                    Submit
                 </SlButton>
             </SlDialog>
         </div>

@@ -129,6 +129,7 @@ function Leave() {
     function leaveDataHandle(e) {
         let name = e.target.name
         let value = e.target.value
+      
         setLeaveData({ ...leaveData, [name]: value })
     }
 

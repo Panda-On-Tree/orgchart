@@ -265,12 +265,12 @@ function Approval() {
       </div>
       <div className="approval-main-right">
         <div className="approval-table-main">
-          <MUIDataTable
+         {approvalData? <MUIDataTable
             title="Approval"
             columns={tableCol}
             data={approvalData}
             options={options}
-          ></MUIDataTable>
+          ></MUIDataTable>:<p>No approval data available</p>}
         </div>
       </div>
     </div>

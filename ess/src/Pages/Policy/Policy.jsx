@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './Policy.css'
-import {  SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox } from '@shoelace-style/shoelace/dist/react';
+import {  SlMenu, SlMenuItem, SlButton, SlDialog, SlInput, SlTextarea, SlSelect, SlCheckbox, SlTag, SlRadioGroup, SlRadio } from '@shoelace-style/shoelace/dist/react';
 import axios from 'axios';
 import { baseurl } from '../../api/apiConfig';
+import { window } from 'd3';
 
 function Policy() {
    // const [policyData, setPolicyData] = useState('');
@@ -10,6 +11,42 @@ function Policy() {
     const [deptartment, setDeptartment] = useState()
     const [deptList, setDeptList] = useState()
     //const [data, setData] = useState()
+    const [newHaveQuestion, setNewHaveQuestion] = useState(false);
+    const [newQuestions, setNewQuestions] = useState([
+        {
+            question:"",
+            option1:"",
+            option2:"",
+            option3:"",
+            option4:"",
+            answer:"",
+        }
+    ]);
+    const [questionForReview, setQuestionForReview] = useState(0);
+    const [policyQuizDialog, setPolicyQuizDialog] = useState(false);
+    const [policyQuizQuestions, setPolicyQuizQuestions] = useState([
+        {
+            question:``,
+            option1:"",
+            option2:"",
+            option3:"",
+            option4:""
+        }
+    ]);
+    const [newQuestionTag, setNewQuestionTag] = useState(0);
+    const [addQuestionDialog, setAddQuestionDialog] = useState(false);
+    const [updateQuestionDialog, setUpdateQuestionDialog] = useState(false)
+    const [updateQuestionTag, setUpdateQuestionTag] = useState(0)
+    const [updateQuestions, setUpdateQuestions] = useState([
+        {
+            question:"",
+            option1:"",
+            option2:"",
+            option3:"",
+            option4:"",
+            answer:""
+        }
+    ])
     const [policy, setPolicy] = useState()
     const [newPolicy, setNewPolicy] = useState(false);
     const [updatePolicy, setUpdatePolicy] = useState(false);
@@ -33,6 +70,7 @@ function Policy() {
     const [bandList, setBandList] = useState();
     const [updateGradeList, setUpdateGradeList] = useState("");
     const [updateAccept, setUpdateAccept] = useState("")
+    const [updateHaveQuestion, setUpdateHaveQuestion] = useState("");
     const [updateBandList, setUpdateBandList] = useState("");
     const [gradeListFull, setGradeListFull] = useState();
     const [bandListFull, setBandListFull] = useState();
@@ -60,6 +98,7 @@ function Policy() {
                 console.log(err);
             })
     }
+
     function getDeptPolicy() {
         const data = {
             department: localStorage.getItem('role') == "sadmin"? "" : localStorage.getItem('department'),
@@ -172,9 +211,25 @@ function Policy() {
     }
 
     function addPolicy() {
-        console.log(newTitle);
-        console.log(newDescription);
-        console.log(newFile);
+     
+        if(!newFile){
+            alert("Please Insert A Document");
+            return
+        }
+        console.log(JSON.stringify(updateQuestions));
+        console.log(JSON.parse(JSON.stringify(updateQuestions)));
+        if(newHaveQuestion){
+            console.log(newQuestions);
+           for ( const i of newQuestions){
+            for (const [key, value] of Object.entries(i)) {       
+                if(!value){
+                    alert("Input All Questions fields")
+                    return
+                }
+              }
+           }
+        }
+
         var formdata = new FormData();
         formdata.append("title", newTitle)
         formdata.append("description", newDescription)
@@ -183,13 +238,19 @@ function Policy() {
         formdata.append("access_to", newDeptAccess)
         formdata.append("access_to_grade", gradeList)
         formdata.append("access_to_band", bandList)
-        formdata.append("have_question", false)
+        formdata.append("have_question", newHaveQuestion)
         formdata.append("have_to_accept", needAccept)
+        formdata.append("questions",JSON.stringify(newQuestions));
 
         formdata.append("employee_id", localStorage.getItem('employee_id'))
         for (const pair of formdata.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
-        }
+           if(!pair[1]){
+             alert("Please Input all values")
+             return
+           }
+           
+          }
+          console.log("all test pass");
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/add-policy`,
@@ -201,6 +262,8 @@ function Policy() {
         })
             .then((res) => {
                 console.log(res);
+                setNewPolicy(false);
+                getPolicy(deptartment);
             })
             .catch((err) => {
                 console.log(err);
@@ -238,7 +301,9 @@ function Policy() {
         formdata.append("access_to_grade", updateGradeList)
         formdata.append("access_to_band", updateBandList)
         formdata.append("have_to_accept", updateAccept)
+        formdata.append("have_question", updateHaveQuestion)
         formdata.append("employee_id", localStorage.getItem('employee_id'))
+        formdata.append("questions",JSON.stringify(updateQuestions));
         for (const pair of formdata.entries()) {
             console.log(`${pair[0]}, ${pair[1]}`);
         }
@@ -253,6 +318,7 @@ function Policy() {
         })
             .then((res) => {
                 console.log(res);
+                getPolicy(deptartment);
             })
             .catch((err) => {
                 console.log(err);
@@ -275,6 +341,7 @@ function Policy() {
         })
         .then((res)=>{
             console.log(res);
+            getPolicy(deptartment);
         })
         .catch((err)=>{
             console.log(err);
@@ -306,12 +373,139 @@ function Policy() {
         })
     }
 
+    function removeNewQuestion(i){
+        console.log(i);
+        var newArray = [...newQuestions];
+        const nextArr = newArray.filter((item,index)=> index !== i);
+        console.log(newArray);
+        if (newQuestionTag >= nextArr.length) {
+            console.log(newQuestionTag);
+            if(newQuestionTag > 0)
+                setNewQuestionTag(newQuestionTag - 1);
+        }
+        if(!nextArr.length){
+            setNewQuestions([{
+                question:"",
+                option1:"",
+                option2:"",
+                option3:"",
+                option4:"",
+                answer:"",
+            }])
+            return;
+        }
+        setNewQuestions(nextArr);
+    }
+
+    function removeUpdateQuestion(i){
+        console.log(i);
+        var newArray = [...updateQuestions];
+        const nextArr = newArray.filter((item,index)=> index !== i);
+        console.log(newArray);
+        if (updateQuestionTag >= nextArr.length) {
+            //console.log(newQuestionTag);
+            if(updateQuestionTag > 0)
+                setUpdateQuestionTag(updateQuestionTag - 1);
+        }
+        if(!nextArr.length){
+            setUpdateQuestions([{
+                question:"",
+                option1:"",
+                option2:"",
+                option3:"",
+                option4:"",
+                answer:"",
+            }])
+            return;
+        }
+        setUpdateQuestions(nextArr);
+    }
+
+    function getQuestionsForPolicy(id) {
+        const data = {
+            policy_id: id
+        }
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/policy-question`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+        .then((res)=>{
+            console.log(res.data.data);
+            setPolicyQuizQuestions(res.data.data);
+            if(res.data.data.length){
+                setUpdateQuestions(res.data.data);
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        }) 
+    }
+
+    function getQuestionsForPolicyUpdate(id) {
+        const data = {
+            policy_id: id
+        }
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/policy-question-update`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+        .then((res)=>{
+            console.log(res.data.data);
+            if(res.data.data.length){
+                setUpdateQuestions(res.data.data);
+            }
+        })
+        .catch((err)=>{
+            console.log(err);
+        }) 
+    }
+
+    function acceptPolicyWithQuestion() {
+        const data = {
+            employee_id: localStorage.getItem('employee_id'),
+            policy_id: policyQuizQuestions[0].policy_id,
+            questions: policyQuizQuestions
+        }
+        console.log(data);
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/accept-policy-question`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+        .then((res)=>{
+            console.log(res.data);
+            alert(res.data.message)
+            setPolicyQuizDialog(false);
+            getPolicy(deptartment);
+        })
+        .catch((err)=>{
+            console.log(err);
+        }) 
+    }
+    
+
     return (
         <div className='policy-main'>
 
             <div className='policy-main-left'>
                 <h3 style={{ marginBottom: '30px', textAlign: 'center' }}>Policy</h3>
-                <SlMenu style={{ maxWidth: '100%', maxHeight: '75vh', overflowX: 'hidden' }}>
+                <SlMenu className='policy-menu' style={{ maxWidth: '100%', overflowX: 'hidden' }}>
                     {departmentForPolicies?.map((item) => {
                         return (
                             <SlMenuItem style={{ borderBottom: '1px solid grey' }} value={item.department.toLowerCase()} onClick={(e) => {
@@ -401,13 +595,15 @@ function Policy() {
                           
 
                         </SlSelect>
-                        <SlCheckbox className='policy-question-checkbox' >Require Questions?</SlCheckbox>
-                        
-
-
+                        <SlCheckbox className='policy-question-checkbox' onSlChange={e=>{setNewHaveQuestion(e.target.checked)}} >Require Questions?</SlCheckbox>
                         <input style={{display:'block'}} type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setNewFile(e.target.files) }} />
-                        <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
-                            setNewPolicy(false);
+                        {newHaveQuestion ?<SlButton size='large' style={{marginRight:'20px'}} className='policy-button' slot="footer" variant="primary" onClick={() => {
+                            setAddQuestionDialog(true);
+                        }}>
+                            Add Question
+                        </SlButton>:""}
+                        <SlButton size='large' className='policy-button' slot="footer" variant="success" onClick={() => {
+                           
                             addPolicy();
                         }}>
                             Add
@@ -417,13 +613,14 @@ function Policy() {
                         <SlButton size='large' className='policy-button' variant="primary" style={{ marginBottom: "3vh",paddingLeft:'5%' }} onClick={() => setNewPolicy(true)}>
                             Add New Policy
                         </SlButton> : null}
-                    {policy?.length ? null : <p>"No Policy Found For This Department"</p>}
+                        {deptartment?(policy?.length ? null : <p>"No Policy Found For This Department"</p>):<p>"Select Department to view there policy"</p>}
                         <div className='policy-card-main'>
                             {policy?.map((item)=>{
                                 return(
                                     <div className='policy-card-container'>
-                                <div className='policy-card-title'>
-                                    {item.title}
+                                    <div className='policy-card-title' style={{'display':'flex','justifyContent': "flex-start"}}>
+                                        {item.title} 
+                                        {item.accepted == "accepted"?<span class="material-symbols-outlined" style={{"marginLeft":"10px", "color":"green"}}> verified </span>: null}
                                     </div>
                                 <div className='policy-des-button-main'>
                                 <div className='policy-card-description'>
@@ -446,9 +643,14 @@ function Policy() {
                                             }
                                         }} >I have read and understood the above policy</SlCheckbox>
                                         {buttonDisabled == item.id ? <SlButton  style={{maxWidth:'20%', marginLeft:'5px'}} outline variant='success' onClick={()=>{
-                                            sendAcceptPolicy(item.id)
+                                            if(item.have_question){
+                                                getQuestionsForPolicy(item.id);
+                                                setPolicyQuizDialog(true);
+                                            }
+                                            else{
+                                                sendAcceptPolicy(item.id);
+                                            }
                                         }} >Accept</SlButton>:""}
-                                    
                                     </div>:""
                                     }  
                                    </div>
@@ -459,14 +661,16 @@ function Policy() {
                                         <SlButton size='large' className='policy-button'  variant="primary" onClick={() => {
                                             setUpdateDepartment(item.department)
                                             setUpdateAccessto(item.access_to)
-                                            console.log(item.access_to);
+                                            console.log(item.have_question);
                                             setUpdateTitle(item.title);
                                             setUpdateDescription(item.description);
                                             setUpdateId(item.id)
                                             setUpdatePolicy(true);
-                                            setUpdateAccept(item.have_to_accept)
+                                            setUpdateAccept(item.have_to_accept);
+                                            setUpdateHaveQuestion(item.have_question);
                                             setUpdateBandList(item.access_to_band);
                                             setUpdateGradeList(item.access_to_grade);
+                                            getQuestionsForPolicyUpdate(item.id);
                                         }}>
                                             Update Policy
                                         </SlButton> : null}
@@ -500,8 +704,8 @@ function Policy() {
 
                     
                 </div>
-           
             </div>
+            {/* Update Dialog */}
             <SlDialog style={{ '--width': '50vw' }} label="Update Policy" open={updatePolicy} onSlRequestClose={() => { setUpdatePolicy(false); }}>
                 <SlInput style={{ marginBottom: '2vh' }} label="Policy Title" value={updateTitle} onSlInput={e => { setUpdateTitle(e.currentTarget.value) }} />
                 <SlTextarea style={{ marginBottom: '2vh' }} label="Policy Description" value={updateDescription} onSlInput={e => { setUpdateDescription(e.target.value) }} />
@@ -555,15 +759,22 @@ function Policy() {
                           
 
                         </SlSelect>
+                        <SlCheckbox className='policy-question-checkbox' checked={updateHaveQuestion} onSlChange={e=>{setUpdateHaveQuestion(e.target.checked)}} >Require Questions?</SlCheckbox>
                 <input type="file" id="myfile" name="myfile" accept='application/pdf' onChange={e => { setUpdateFile(e.target.files) }} />
                
-                <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => {
+                {updateHaveQuestion?<SlButton size='large' className='policy-button' slot="footer" variant="primary" style={{marginRight:'20px'}} onClick={() => {
+                    setUpdateQuestionDialog(true);
+                }}>
+                    Add Question
+                </SlButton>:""}
+                <SlButton size='large' className='policy-button' slot="footer" variant="success" onClick={() => {
                     setUpdatePolicy(false);
                     updatePolicyFinal();
                 }}>
                     Update
                 </SlButton>
             </SlDialog>
+            {/* Delete Dialog */}
             <SlDialog label="Confirmation" style={{'--width': '25vw'}} open={deletePolicy} onSlAfterHide={() => setDeletePolicy(false)}>
                 Are you Sure You Want to DELETE this Policy?
                 <SlButton size='large' className='policy-button' variant="danger" style={{marginRight:'20px'}} slot="footer"  onClick={() => {
@@ -574,6 +785,249 @@ function Policy() {
                 </SlButton>
                 <SlButton size='large' className='policy-button' slot="footer" variant="primary" onClick={() => setDeletePolicy(false)}>
                     Cancel
+                </SlButton>
+            </SlDialog>
+            {/* Add Question Dialog */}
+            <SlDialog className='add-question-dialog' label="Questionnaire" style={{'--width': '40vw'}} open={addQuestionDialog} onSlRequestClose={() => setAddQuestionDialog(false)}>
+            <div className='policy-question-tag-main'>
+                {newQuestions.map((item,i)=>{
+                    return(
+                            <SlTag size="large" variant={newQuestionTag == i ? "primary" : "neutral"} removable onSlRemove={e=>{removeNewQuestion(i)}} onClick={e=>{setNewQuestionTag(i); console.log(i); console.log(newQuestions[i]);}}>{`Question ${i+1}`}</SlTag>
+                    )
+                })}
+            </div>
+            <div className='question-add-input-container'>
+            <SlInput className='question-add-input' label="Question" value={newQuestions[newQuestionTag].question} onSlInput={e=>{
+                setNewQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === newQuestionTag) {
+                        return {...obj, question: e.target.value};
+                      }
+              
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 1" value={newQuestions[newQuestionTag].option1} onSlInput={e=>{
+                setNewQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === newQuestionTag) {
+                        return {...obj, option1: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 2" value={newQuestions[newQuestionTag].option2} onSlInput={e=>{
+                setNewQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === newQuestionTag) {
+                        return {...obj, option2: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 3" value={newQuestions[newQuestionTag].option3} onSlInput={e=>{
+                setNewQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === newQuestionTag) {
+                        return {...obj, option3: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 4" value={newQuestions[newQuestionTag].option4} onSlInput={e=>{
+                setNewQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === newQuestionTag) {
+                        return {...obj, option4: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            {newQuestions[newQuestionTag].option4 && newQuestions[newQuestionTag].option3 && newQuestions[newQuestionTag].option2 && newQuestions[newQuestionTag].option1 ?
+            <SlSelect className='question-add-input' value={newQuestions[newQuestionTag].answer} label="Answer" onSlChange={e=>{
+                console.log(e.target.value);
+                setNewQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === newQuestionTag) {
+                        return {...obj, answer: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}>
+                <SlMenuItem value={newQuestions[newQuestionTag]?.option1}>{newQuestions[newQuestionTag].option1}</SlMenuItem>
+                <SlMenuItem value={newQuestions[newQuestionTag]?.option2}>{newQuestions[newQuestionTag].option2}</SlMenuItem>
+                <SlMenuItem value={newQuestions[newQuestionTag]?.option3}>{newQuestions[newQuestionTag].option3}</SlMenuItem>
+                <SlMenuItem value={newQuestions[newQuestionTag]?.option4}>{newQuestions[newQuestionTag].option4}</SlMenuItem>
+            </SlSelect>
+           : "" }
+            </div>
+                <SlButton size='large' className='policy-button' variant="primary" style={{marginRight:'20px'}} slot="footer"  onClick={() => {
+                    setNewQuestions([...newQuestions, {
+                        question:"",
+                        option1:"",
+                        option2:"",
+                        option3:"",
+                        option4:"",
+                        answer:"",
+                    }])
+                    setNewQuestionTag(newQuestions.length);
+                }}>
+                    ADD More
+                </SlButton>
+                <SlButton size='large' className='policy-button' slot="footer" variant="success" onClick={() => {
+                    //setAddQuestionDialog(false)
+                    console.log(newQuestions);
+                }}>
+                    Done
+                </SlButton>
+            </SlDialog>
+            {/* Policy Question on Acceptance Dialog */}
+            <SlDialog className='policy-quiz-dialog' label="Questionnaire" style={{'--width': '40vw'}} open={policyQuizDialog} onSlRequestClose={() => setPolicyQuizDialog(false)}>
+                <div className='policy-question-tag-main'>
+                    {policyQuizQuestions.map((item,i)=>{
+                        return(
+                                <SlTag size="large" variant={questionForReview == i ? "primary" : "neutral"} onClick={e=>{setQuestionForReview(i)}}>{`Question ${i+1}`}</SlTag>
+                        )
+                    })}
+                </div>
+                <p style={{marginTop:"20px"}}>{policyQuizQuestions[questionForReview].question}</p>
+                <SlRadioGroup label="Select an option" name="a" value={policyQuizQuestions[questionForReview].answer} fieldset onSlChange={e=>{
+                    setPolicyQuizQuestions(current =>
+                        current.map((obj, i) => {
+                          if (i === questionForReview) {
+                            return {...obj, answer: e.target.value};
+                          }
+                          return obj;
+                        }),
+                      );
+                }}>
+                    <SlRadio value={policyQuizQuestions[questionForReview].option1}>{policyQuizQuestions[questionForReview].option1}</SlRadio>
+                    <SlRadio value={policyQuizQuestions[questionForReview].option2}>{policyQuizQuestions[questionForReview].option2}</SlRadio>
+                    <SlRadio value={policyQuizQuestions[questionForReview].option3}>{policyQuizQuestions[questionForReview].option3}</SlRadio>
+                    <SlRadio value={policyQuizQuestions[questionForReview].option4}>{policyQuizQuestions[questionForReview].option4}</SlRadio>
+                </SlRadioGroup>
+                    <SlButton size='large' className='policy-button' disabled={!(questionForReview>0)} variant="neutral" style={{marginRight:'20px'}} slot="footer"  onClick={() => {
+                        setQuestionForReview(questionForReview-1);
+                    }}>
+                        Previous
+                    </SlButton>
+                    <SlButton size='large' className='policy-button' disabled={!(questionForReview < policyQuizQuestions.length-1)} variant="primary" style={{marginRight:'20px'}} slot="footer"  onClick={() => {
+                        setQuestionForReview(questionForReview+1);
+                    }}>
+                        Next
+                    </SlButton>
+                    <SlButton size='large' className='policy-button' disabled={!(questionForReview >= policyQuizQuestions.length-1)} slot="footer" variant="success" onClick={() => {
+                        console.log(policyQuizQuestions);
+                        acceptPolicyWithQuestion();
+                    }}>
+                        Submit
+                    </SlButton>
+            </SlDialog>
+            {/* Update Policy Question Dailog */}
+            <SlDialog className='add-question-dialog' label="Questionnaire" style={{'--width': '40vw'}} open={updateQuestionDialog} onSlRequestClose={() => setUpdateQuestionDialog(false)}>
+            <div className='policy-question-tag-main'>
+                {updateQuestions.map((item,i)=>{
+                    return(
+                            <SlTag size="large" variant={updateQuestionTag == i ? "primary" : "neutral"} removable onSlRemove={e=>{removeUpdateQuestion(i)}} onClick={e=>{setUpdateQuestionTag(i);}}>{`Question ${i+1}`}</SlTag>
+                    )
+                })}
+            </div>
+            <div className='question-add-input-container'>
+            <SlInput className='question-add-input' label="Question" value={updateQuestions[updateQuestionTag].question} onSlInput={e=>{
+                setUpdateQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === updateQuestionTag) {
+                        return {...obj, question: e.target.value};
+                      }
+              
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 1" value={updateQuestions[updateQuestionTag].option1} onSlInput={e=>{
+                setUpdateQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === updateQuestionTag) {
+                        return {...obj, option1: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 2" value={updateQuestions[updateQuestionTag].option2} onSlInput={e=>{
+                setUpdateQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === updateQuestionTag) {
+                        return {...obj, option2: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 3" value={updateQuestions[updateQuestionTag].option3} onSlInput={e=>{
+                setUpdateQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === updateQuestionTag) {
+                        return {...obj, option3: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            <SlInput className='question-add-input' label="Option 4" value={updateQuestions[updateQuestionTag].option4} onSlInput={e=>{
+                setUpdateQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === updateQuestionTag) {
+                        return {...obj, option4: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}/>
+            {updateQuestions[updateQuestionTag].option4 && updateQuestions[updateQuestionTag].option3 && updateQuestions[updateQuestionTag].option2 && updateQuestions[updateQuestionTag].option1 ?
+            <SlSelect className='question-add-input' value={updateQuestions[updateQuestionTag]?.answer} label="Answer" onSlChange={e=>{
+                console.log(e.target.value);
+                setUpdateQuestions(current =>
+                    current.map((obj, i) => {
+                      if (i === updateQuestionTag) {
+                        return {...obj, answer: e.target.value};
+                      }
+                      return obj;
+                    }),
+                  );
+            }}>
+                
+                <SlMenuItem value={updateQuestions[updateQuestionTag]?.option1}>{updateQuestions[updateQuestionTag].option1}</SlMenuItem>
+                <SlMenuItem value={updateQuestions[updateQuestionTag]?.option2}>{updateQuestions[updateQuestionTag].option2}</SlMenuItem>
+                <SlMenuItem value={updateQuestions[updateQuestionTag]?.option3}>{updateQuestions[updateQuestionTag].option3}</SlMenuItem>
+                <SlMenuItem value={updateQuestions[updateQuestionTag]?.option4}>{updateQuestions[updateQuestionTag].option4}</SlMenuItem>
+            </SlSelect>
+           : "" }
+            </div>
+                <SlButton size='large' className='policy-button' variant="primary" style={{marginRight:'20px'}} slot="footer"  onClick={() => {
+                    setUpdateQuestions([...updateQuestions, {
+                        question:"",
+                        option1:"",
+                        option2:"",
+                        option3:"",
+                        option4:"",
+                        answer:"",
+                    }])
+                    setUpdateQuestionTag(updateQuestions.length);
+                }}>
+                    ADD More
+                </SlButton>
+                <SlButton size='large' className='policy-button' slot="footer" variant="success" onClick={() => {
+                    //setAddQuestionDialog(false)
+                    console.log(updateQuestions);
+                }}>
+                    Done
                 </SlButton>
             </SlDialog>
         </div>
