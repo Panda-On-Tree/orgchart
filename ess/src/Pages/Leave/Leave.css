@@ -42,3 +42,20 @@
 
 
 
+@media screen and (max-width: 450px) {
+    .od-main-leave-inner{
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 1150px) {
+   .leave-select{
+    min-width: 24vw;
+   }
+}
+
+@media screen and (max-width: 720px) {
+    .leave-select{
+        min-width: 40vw;
+    }
+}

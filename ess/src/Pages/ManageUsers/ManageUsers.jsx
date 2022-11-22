@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { baseurl } from '../../api/apiConfig';
 import './ManageUsers.css'
 import MUIDataTable from "mui-datatables";
-import { SlButton, SlMenuItem, SlSelect, SlTag, SlDialog } from '@shoelace-style/shoelace/dist/react';
+import { SlButton, SlMenuItem, SlSelect, SlTag, SlDialog, SlCheckbox } from '@shoelace-style/shoelace/dist/react';
 
 function ManageUsers() {
 
@@ -12,6 +12,8 @@ function ManageUsers() {
     const [openStatusDialogue, setOpenStatusDialogue] = useState(false);
     const [currentEmployeeRole, setCurrentEmployeeRole] = useState();
     const [selectedEmployee, setSelectedEmployee] = useState();
+    const [openModuleDialogue, setOpenModuleDialogue] = useState(false);
+    const [employeeModuleAccess, setEmployeeModuleAccess] = useState([]);
     useEffect(() => {
         getUsersData()
     }, [])
@@ -74,7 +76,7 @@ function ManageUsers() {
             }
         },
         {
-            name: "Images",
+            name: "Update Role",
             options: {
                 filter: false,
                 sort: false,
@@ -92,9 +94,88 @@ function ManageUsers() {
                     );
                 }
             }
+        },
+        {
+            name: "Module Access",
+            options: {
+                filter: false,
+                sort: false,
+                empty: true,
+                customBodyRenderLite: (dataIndex, rowIndex) => {
+                    return (
+                        <SlTag variant='primary' size="medium" className="tag-row" onClick={e => {
+                            console.log(users[dataIndex]);
+                            setSelectedEmployee(users[dataIndex].new_e_code);
+                            getEmployeeModuleAccess(users[dataIndex].new_e_code);
+                        }} style={{ zIndex: "20", cursor: "pointer" }}>
+                            Update Module Access
+                        </SlTag>
+                    );
+                }
+            }
         }
     ]
 
+    function getEmployeeModuleAccess(employee_id) {
+        const data={
+            employee_id: employee_id
+        }
+        axios({
+            method:"post",
+            url:`${baseurl.base_url}/mhere/get-employee-module-access`,
+            headers:{
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+          })
+          .then((res)=>{
+            console.log(res);
+            if(!res.data.data){
+                return;
+            }
+            var module_array = [];
+            for (const [key, value] of Object.entries(res.data.data)) {
+                if(key == 'employee_id'){
+                    continue;
+                }
+                const temp = {
+                    module_name: key,
+                    allow: value
+                }
+                module_array.push(temp);
+            }
+            setEmployeeModuleAccess(module_array);
+            console.log(module_array);
+            setOpenModuleDialogue(true);
+            console.log("heo");
+          })
+          .catch((err)=>{
+            console.log(err);
+          })
+    }
+    function updateEmployee_moduleAccess(){
+        const data={
+            employee_id: selectedEmployee,
+            module_list: employeeModuleAccess
+        }
+        axios({
+            method: 'post',
+            url: `${baseurl.base_url}/mhere/update-employee-module-access`,
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            },
+            data
+        })
+            .then((res) => {
+                console.log(res.data);
+                setOpenModuleDialogue(false)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
     const options = {
         tableBodyMaxHeight: "64vh",
         responsive: "standard",
@@ -178,6 +259,33 @@ function ManageUsers() {
                 </SlButton>
                 <SlButton slot="footer" variant="primary" onClick={() => {
                     setOpenStatusDialogue(false)
+                }}>
+                    Close
+                </SlButton>
+            </SlDialog>
+            <SlDialog label="Change status" open={openModuleDialogue} onSlRequestClose={() => {
+                setOpenModuleDialogue(false)
+            }} >
+                {employeeModuleAccess.map((item, index)=>{
+                    return(
+                        <div>
+                            <SlCheckbox checked={item.allow} onSlChange={e=>{setEmployeeModuleAccess(current=>{
+                                var abc = current;
+                                abc[index].allow = e.target.checked
+                                return abc;
+                            })}}>{item.module_name}</SlCheckbox>
+                        </div>
+                    )
+                })}
+                <SlButton style={{ marginRight: "20px" }} slot="footer" variant="primary" onClick={() => {
+                    console.log(employeeModuleAccess);
+                    updateEmployee_moduleAccess()
+                }}>
+                    Change
+                </SlButton>
+
+                <SlButton slot="footer" variant="primary" onClick={() => {
+                    setOpenModuleDialogue(false)
                 }}>
                     Close
                 </SlButton>

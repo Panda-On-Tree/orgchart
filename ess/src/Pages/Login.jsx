@@ -37,7 +37,25 @@ const LoginForm = () => {
         localStorage.setItem('band', response.data.band)
         localStorage.setItem('role', response.data.role)
         localStorage.setItem('department', response.data.department)
-
+        const data = {
+          employee_id: response.data.new_e_code
+        }
+        axios({
+          method:"post",
+          url:`${baseurl.base_url}/mhere/get-employee-module-access`,
+          headers:{
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('token')}`
+          },
+          data
+        })
+        .then((res)=>{
+          console.log(res);
+          localStorage.setItem('module_access', JSON.stringify(res.data.data))
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
         if(response.data.is_first_login){
           const data ={
               username: response.data.new_e_code

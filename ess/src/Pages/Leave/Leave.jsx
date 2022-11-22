@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { baseurl } from '../../api/apiConfig'
 import { SlMenuItem, SlSelect, SlIcon, SlInput, SlButton , SlButtonGroup} from '@shoelace-style/shoelace/dist/react';
 import MUIDataTable from 'mui-datatables';
+import { toast } from 'react-toastify';
 
 function Leave() {
 
@@ -145,18 +146,46 @@ function Leave() {
             applied_by = 'manager'
         }
         if (!(leaveData.leave_type && leaveData.start_date && leaveData.employee_id && manager_id && applied_by)) {
-            alert("Fields can not be empty 1");
+            toast.error("Fields cannot be empty", {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                });
             return;
         }
         if (leaveData.leave_type == "short_leave" || leaveData.leave_type == "half_day") {
             if (!leaveData.short_leave_type) {
-                alert("Fields can not be empty 2");
+                toast.error("Fields cannot be empty", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 return;
             }
         }
         else {
             if (!leaveData.end_date) {
-                alert("Fields can not be empty 3");
+              //  alert("Fields can not be empty 3");
+                toast.error("Fields cannot be empty", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
                 return;
             }
         }
@@ -184,9 +213,29 @@ function Leave() {
             .then(function (response) {
                 console.log(response);
                 setLeaveData({ ...leaveData, leave_type: "", reason:"",start_date:"", end_date:"", short_leave_type:"", employee_id:"" })
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
             })
             .catch(err=>{
                 console.log(err);
+                toast.error(err.message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                    theme: "colored",
+                    });
             })
     }
 

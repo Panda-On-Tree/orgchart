@@ -39,6 +39,8 @@ function Home() {
         }, 2000)
         getPolicyBanner()
         getPolicyDailog()
+        console.log(localStorage.getItem("module_access"));
+        console.log(JSON.parse(localStorage.getItem("module_access")));
     }, [])
 
     function getPolicyBanner() {

@@ -32,6 +32,9 @@ import ManageUsers from './Pages/ManageUsers/ManageUsers'
 import Approval from './Pages/Approval/Approval'
 import Leave from './Pages/Leave/Leave'
 import ProductChart from './Pages/ProductChart/ProductChart'
+import Report from './Pages/Report/Report'
+import Profile2 from './Pages/Profile/Profile2'
+import Login2 from './Pages/Login/Login2'
 
 function App() {
   let navigate = useNavigate()
@@ -101,6 +104,17 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <Profile />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/profile2"
+          element={
+            localStorage.getItem('token') ? (
+              <Profile2 />
             ) : (
               <Navigate replace to="/login" />
             )
@@ -201,6 +215,17 @@ function App() {
         ></Route>
         <Route
           exact
+          path="/reports"
+          element={
+            localStorage.getItem('token') ? (
+              JSON.parse(localStorage.getItem('module_access')).report ? <Report /> : <Navigate replace to="/home" />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
           path="/my-team"
           element={
             localStorage.getItem('token') ? (
@@ -271,7 +296,8 @@ function App() {
         ></Route>
       </Route>
       <Route element={<Auth />}>
-        <Route exact path="/login" element={<LoginForm />}></Route>
+        <Route exact path="/login" element={<Login2 />}></Route>
+        <Route exact path="/login2" element={<Login2 />}></Route>
         <Route exact path="/otp" element={<Otp />}></Route>
         <Route exact path="/reset-password" element={<ResetPassword />}></Route>
         <Route

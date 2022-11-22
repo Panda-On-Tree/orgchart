@@ -238,6 +238,16 @@ function Navbar() {
                         Approval Tasks
                       </a>
                     </li>
+                    {JSON.parse(localStorage.getItem('module_access')).report ? <li className="nav-item">
+                      <a
+                        onClick={() => {
+                          navigate('/reports')
+                        }}
+                        className="nav-link"
+                      >
+                        Reports
+                      </a>
+                    </li> : null}
                     <li className="nav-item">
                       <a
                         onClick={(e) => {
