@@ -204,7 +204,7 @@ function Login2() {
                             }}  />
                         </div>
                         <div className='logi-forget-link'>
-                            <a href="/home">Forgot Password?</a>
+                            <a   href="/ess/forget-password">Forgot Password?</a>
                         </div>
                     </div>
                     <div className='logi-buttons-main'>
