@@ -208,7 +208,8 @@ function Login2() {
                         </div>
                     </div>
                     <div className='logi-buttons-main'>
-                        <button onClick={()=>{
+                        <button type='submit' onClick={(e)=>{
+                            e.preventDefault()
                             submitLogin()
                         }}>Login</button>
                     </div>
