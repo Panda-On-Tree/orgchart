@@ -11,9 +11,9 @@ import axios from 'axios'
 function MChart() {
   const [tree, setTree] = useState()
   const [downloadingChart, setDownloadingChart] = useState(false)
-  //const [configData, setConfigData] = useState({})
-  //const [highlightPostNumber, setHighlightPostNumber] = useState([1])
-  //const [childData, setChildData] = useState()
+  const [configData, setConfigData] = useState({})
+  const [highlightPostNumber, setHighlightPostNumber] = useState([1])
+  const [childData, setChildData] = useState()
   var configabc = {}
 
   useEffect(() => {
@@ -61,6 +61,7 @@ function MChart() {
   }
 
   async function getParent(nodeData) {
+    console.log("hello");
     console.log(nodeData)
     const child = [nodeData]
     const data = {

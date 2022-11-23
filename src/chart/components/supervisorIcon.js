@@ -19,7 +19,7 @@ module.exports = function supervisorIcon({
     .append('g')
     .attr('id', 'supervisorIcon')
     .on('click', d => {
-      if (d3.event.defaultPrevented) return
+      //if (d3.event.defaultPrevented) return
       onParentClick(config, treeData)
     })
     .attr('stroke', 'none')

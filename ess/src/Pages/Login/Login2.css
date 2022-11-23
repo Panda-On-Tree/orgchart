@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500&display=swap');
+
+
+
 .logi-main{
     min-height: 100vh;
     min-width: 100%;
@@ -33,6 +37,7 @@ padding: 5% 5%;
 }
 .logi-main-left-header > h3{
     font-size: 34px;
+    font-family: 'Nunito', sans-serif;
 }
 .logi-main-left-header > p{
     font-size: 16px;
@@ -83,6 +88,13 @@ border-radius: 5px;
 }
 .logi-buttons-main > button:hover{
     background-color:  rgb(119, 67, 241);
+}
+.logi-buttons-main > button:disabled{
+    cursor: not-allowed;
+    color: rgba(219, 218, 218, 0.774);
+    background-color:  rgba(138, 92, 246, 0.729);
+
+    border-color:rgba(138, 92, 246, 0.729);
 }
 
 .logi-main-right{

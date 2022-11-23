@@ -18,28 +18,7 @@ function Login2() {
         password:""
     })
 
-    /* function submitLogin(){
-        console.log(loginData);
-        const data = loginData;
-        axios({
-            method:"post",
-            url:`${baseurl.base_url}/mhere/login`,
-            headers:{
-              "Content-Type": "application/json",
-            },
-            data
-          })
-          .then((res)=>{
-            console.log(res);
-            navigate("/home")
-
-          })
-          .catch((err)=>{
-            console.log(err);
-            alert("error")
-          })
-          
-    } */
+   
 
     const submitLogin = () => {
         const data = loginData
@@ -79,6 +58,7 @@ function Login2() {
               localStorage.setItem('module_access', JSON.stringify(res.data.data))
             })
             .catch((err)=>{
+                document.getElementById("login-button").disabled = true
               console.log(err);
             })
             if(response.data.is_first_login){
@@ -121,6 +101,7 @@ function Login2() {
                 navigate("/otp", {state:{username:data.username}})
               })
               .catch(function(err){
+                document.getElementById("login-button").disabled = true
                 console.log(err);
               })
               return
@@ -144,6 +125,7 @@ function Login2() {
           })
           .catch(function (err) {
             console.log(err)
+            document.getElementById("login-button").disabled = false
             if(err.response.data)
               {/* setError(err.response.data.message) */
                 toast.error(err.response.data.message, {
@@ -208,7 +190,9 @@ function Login2() {
                         </div>
                     </div>
                     <div className='logi-buttons-main'>
-                        <button type='submit' onClick={(e)=>{
+                        <button type='submit' id='login-button'  onClick={(e)=>{
+                            console.log("submit");
+                            document.getElementById("login-button").disabled = true
                             e.preventDefault()
                             submitLogin()
                         }}>Login</button>
