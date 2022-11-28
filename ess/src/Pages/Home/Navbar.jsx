@@ -118,21 +118,25 @@ function Navbar() {
                                         </li>
                                     </ul>
                                 </li> */}
-                    <li className="nav-item">
+                    
+                    {JSON.parse(localStorage.getItem('module_access'))?.org_chart ? <li className="nav-item">
                       <a className='nav-link' onClick={() => {
                         navigate('/chart')
                       }}>Org Chart</a>
-                    </li>
-                    <li className="nav-item">
+                    </li> : null}
+
+                    {JSON.parse(localStorage.getItem('module_access'))?.product_catalogue ? <li className="nav-item">
                       <a className='nav-link' onClick={() => {
                         navigate('/product-catalog')
                       }}>Product Catalog</a>
-                    </li>
-                    <li className="nav-item">
+                    </li> : null}
+                    
+                    {JSON.parse(localStorage.getItem('module_access'))?.policy ? <li className="nav-item">
                       <a className='nav-link' onClick={() => {
                         navigate('/policy')
                       }}>Policy</a>
-                    </li>
+                    </li> : null}
+                    
                     <li className="nav-item">
                       <a className='nav-link' target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
                     </li>
@@ -158,7 +162,7 @@ function Navbar() {
                         Complaint
                       </a>
                     </li>
-                    {localStorage.getItem('role') == 'sadmin' ?
+                    {JSON.parse(localStorage.getItem('module_access'))?.manage_user ?
                       <li className="nav-item">
                         <a
                           onClick={() => {
@@ -208,7 +212,7 @@ function Navbar() {
                         Profile
                       </a>
                     </li>
-                    <li className="nav-item">
+                    {JSON.parse(localStorage.getItem('module_access'))?.my_team ? <li className="nav-item">
                       <a
                         onClick={() => {
                           navigate('/my-team')
@@ -217,8 +221,9 @@ function Navbar() {
                       >
                         My Team
                       </a>
-                    </li>
-                    <li className="nav-item">
+                    </li> : null}
+                    
+                    {JSON.parse(localStorage.getItem('module_access'))?.od ? <li className="nav-item">
                       <a
                         onClick={() => {
                           navigate('/leaves')
@@ -227,8 +232,9 @@ function Navbar() {
                       >
                         Outdoor Duty
                       </a>
-                    </li>
-                    <li className="nav-item">
+                    </li> : null}
+                    
+                    {JSON.parse(localStorage.getItem('module_access'))?.approval_tasks ? <li className="nav-item">
                       <a
                         onClick={() => {
                           navigate('/approval')
@@ -237,7 +243,8 @@ function Navbar() {
                       >
                         Approval Tasks
                       </a>
-                    </li>
+                    </li> : null}
+                    
                     {JSON.parse(localStorage.getItem('module_access')).report ? <li className="nav-item">
                       <a
                         onClick={() => {
@@ -256,6 +263,7 @@ function Navbar() {
                           localStorage.removeItem('token')
                           localStorage.removeItem('fullname')
                           localStorage.removeItem('email')
+                          localStorage.removeItem('module_access')
                           navigate('/login')
                         }}
                         className="nav-link"

@@ -87,6 +87,7 @@ function App() {
   return (
     <Routes>
       <Route element={<Dashboard />}>
+        {/* HOME */}
         <Route
           exact
           path="/"
@@ -98,6 +99,7 @@ function App() {
             )
           }
         ></Route>
+        {/* PROFILE 1 */}
         <Route
           exact
           path="/profile"
@@ -109,6 +111,7 @@ function App() {
             )
           }
         ></Route>
+        {/* PROFILE 2 */}
         <Route
           exact
           path="/profile2"
@@ -120,22 +123,25 @@ function App() {
             )
           }
         ></Route>
+        {/* CHART */}
         <Route
           exact
           path="/mchart"
           element={
             localStorage.getItem('token') ? (
-              <Chart />
+              JSON.parse(localStorage.getItem('module_access'))?.org_chart ? <Chart /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* PRODUCT CHART */}
         <Route
           exact
           path="/product-chart"
           element={<ProductChart/>}
         ></Route>
+        {/* COMPLAINTS */}
         <Route
           exact
           path="/complaint"
@@ -147,50 +153,55 @@ function App() {
             )
           }
         ></Route>
+        {/* OD */}
         <Route
           exact
           path="/leaves"
           element={
             localStorage.getItem('token') ? (
-              <Leave />
+              JSON.parse(localStorage.getItem('module_access'))?.od ? <Leave /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* PRODUCT CATALOGUE */}
         <Route
           exact
           path="/product-catalog"
           element={
             localStorage.getItem('token') ? (
-              <ProductCatalog />
+              JSON.parse(localStorage.getItem('module_access'))?.product_catalogue ? <ProductCatalog /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* PRODUCT CATALOGUE SEARCH */}
         <Route
           exact
           path="/product-catalog-search"
           element={
             localStorage.getItem('token') ? (
-              <ProductCatalogSearch />
+              JSON.parse(localStorage.getItem('module_access'))?.product_catalogue ? <ProductCatalogSearch /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* PRODUCT PART DESCRIPTION */}
         <Route
           exact
           path="/product-part-desc"
           element={
             localStorage.getItem('token') ? (
-              <ProductPartDescription />
+              JSON.parse(localStorage.getItem('module_access'))?.product_catalogue ? <ProductPartDescription /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+
         <Route
           exact
           path="/aboutus"
@@ -202,76 +213,80 @@ function App() {
             )
           }
         ></Route>
+        {/* POLICY */}
         <Route
           exact
           path="/policy"
           element={
             localStorage.getItem('token') ? (
-              <Policy />
+              JSON.parse(localStorage.getItem('module_access'))?.policy ? <Policy /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* Reports */}
         <Route
           exact
           path="/reports"
           element={
             localStorage.getItem('token') ? (
-              JSON.parse(localStorage.getItem('module_access')).report ? <Report /> : <Navigate replace to="/home" />
+              JSON.parse(localStorage.getItem('module_access'))?.report ? <Report /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* MY TEAM */}
         <Route
           exact
           path="/my-team"
           element={
             localStorage.getItem('token') ? (
-              <MyTeam />
+              JSON.parse(localStorage.getItem('module_access'))?.my_team ? <MyTeam /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* APPROVAL */}
         <Route
           exact
           path="/approval"
           element={
             localStorage.getItem('token') ? (
-              <Approval />
+              JSON.parse(localStorage.getItem('module_access'))?.approval_tasks ? <Approval /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* MANAGE USERS */}
         <Route
           exact
           path="/manage-users"
           element={
             localStorage.getItem('token') ? (
-              localStorage.getItem('role') == 'sadmin' ? (
-                <ManageUsers />
-              ) : (
-                <Navigate replace to="/login" />
-              )
+              JSON.parse(localStorage.getItem('module_access'))?.manage_user ? <ManageUsers /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* ORG CHART */}
         <Route
           exact
           path="/chart"
           element={
-            localStorage.getItem('token') ? (
-              <MChart />
+            localStorage.getItem('token') ? 
+            (
+              JSON.parse(localStorage.getItem('module_access'))?.org_chart ? <MChart /> : <Navigate replace to="/home" />
             ) : (
               <Navigate replace to="/login" />
             )
           }
         ></Route>
+        {/* HOME */}
         <Route
           exact
           path="/home"
@@ -283,23 +298,18 @@ function App() {
             )
           }
         ></Route>
-        <Route
-          exact
-          path="/react-org-chart"
-          element={
-            localStorage.getItem('token') ? (
-              <Navigate replace to="/home" />
-            ) : (
-              <Navigate replace to="/login" />
-            )
-          }
-        ></Route>
+
       </Route>
       <Route element={<Auth />}>
+        {/* LOGIN 1 */}
         <Route exact path="/login" element={<Login2 />}></Route>
+        {/* LOGIN 2 */}
         <Route exact path="/login2" element={<Login2 />}></Route>
+        {/* OTP */}
         <Route exact path="/otp" element={<Otp />}></Route>
+        {/* RESET PASSWORD */}
         <Route exact path="/reset-password" element={<ResetPassword />}></Route>
+        {/* FORGOT PASSWORD */}
         <Route
           exact
           path="/forget-password"
