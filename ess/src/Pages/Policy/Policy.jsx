@@ -881,7 +881,7 @@ function Policy() {
                     ADD More
                 </SlButton>
                 <SlButton size='large' className='policy-button' slot="footer" variant="success" onClick={() => {
-                    //setAddQuestionDialog(false)
+                    setAddQuestionDialog(false)
                     console.log(newQuestions);
                 }}>
                     Done
@@ -1025,6 +1025,7 @@ function Policy() {
                 </SlButton>
                 <SlButton size='large' className='policy-button' slot="footer" variant="success" onClick={() => {
                     //setAddQuestionDialog(false)
+                    setUpdateQuestionDialog(false)
                     console.log(updateQuestions);
                 }}>
                     Done
