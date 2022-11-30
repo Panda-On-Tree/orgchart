@@ -923,17 +923,23 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
-                console.log(res);
-                setPartStatus("");
-                searchPartBase()
-                backOpacity.current.style.display = "none"
-                display.current.style.display = "none";
-                document.getElementById("root").style.overflow = "auto";
+                //console.log(res);
+                displayDesMain.current = true
                 setOpenStatus(false)
-                displayModel.current = false
+                setPartStatus("")
+                searchPartBase()
+               
+
+                /* backOpacity.current.style.display = "none"
+                display.current.style.display = "none";
+                document.getElementById("root").style.overflow = "auto"; */
+                setOpenStatus(false)
+               /*  displayModel.current = false */
             })
             .catch((err) => {
                 console.log(err);
+                displayDesMain.current = true
+                setOpenStatus(false)
 
             })
     }
@@ -958,7 +964,7 @@ function ProductCatalog() {
                     <div className='part-add-attribute-main'>
                         <div>
                             <h5 className='search-heading'>Add Attributes</h5>
-                            {addPartAttributeData.map(item => {
+                            {addPartAttributeData.map((item,i) => {
                                 return (
                                     <div id='filter-row' className='product-filter-main'>
                                         <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
@@ -1133,7 +1139,7 @@ function ProductCatalog() {
                                     setInputToOption3(JSON.parse(e.target.value))
 
                                 }}>
-                                    {attributes?.map((item) => {
+                                    {attributes?.map((item,i) => {
                                         return (
                                             <SlMenuItem value={JSON.stringify(item)} id={item.name}>{item.name}</SlMenuItem>
                                         )
