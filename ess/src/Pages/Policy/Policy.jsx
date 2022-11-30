@@ -506,9 +506,9 @@ function Policy() {
             <div className='policy-main-left'>
                 <h3 style={{ marginBottom: '30px', textAlign: 'center' }}>Policy</h3>
                 <SlMenu className='policy-menu' style={{ maxWidth: '100%', overflowX: 'hidden' }}>
-                    {departmentForPolicies?.map((item) => {
+                    {departmentForPolicies?.map((item,i) => {
                         return (
-                            <SlMenuItem style={{ borderBottom: '1px solid grey' }} value={item.department.toLowerCase()} onClick={(e) => {
+                            <SlMenuItem id={i} style={{ borderBottom: '1px solid grey' }} value={item.department.toLowerCase()} onClick={(e) => {
                                 setNewDept(e.target.value)
                                 setDeptartment(e.target.value)
                                 getPolicy(e.target.value);
@@ -549,9 +549,9 @@ function Policy() {
                         <SlSelect onSlChange={(e) => {
                             setNewDeptAccess(String(e.target.value))
                         }} label='Department:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
-                            {deptList?.map((item) => {
+                            {deptList?.map((item,i) => {
                                 return (
-                                    <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {
+                                    <SlMenuItem i={i} value={item.department.toLowerCase()} onClick={(e) => {
                                         console.log(e.target.value);
                                     }} >{item.department}</SlMenuItem>
                                 )
@@ -561,9 +561,9 @@ function Policy() {
                         <SlSelect onSlChange={(e) => {
                             setBandList(String(e.target.value))
                         }} label='Band:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
-                            {bandListFull?.map((item) => {
+                            {bandListFull?.map((item,i) => {
                                 return (
-                                    <SlMenuItem value={item.band.toLowerCase()} onClick={(e) => {
+                                    <SlMenuItem id={i} value={item.band.toLowerCase()} onClick={(e) => {
                                         console.log(e.target.value);
                                     }} >{item.band}</SlMenuItem>
                                 )
@@ -573,9 +573,9 @@ function Policy() {
                         <SlSelect onSlChange={(e) => {
                             setGradeList(String(e.target.value))
                         }} label='Grade:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
-                            {gradeListFull?.map((item) => {
+                            {gradeListFull?.map((item,i) => {
                                 return (
-                                    <SlMenuItem value={item.grade.toLowerCase()} onClick={(e) => {
+                                    <SlMenuItem id={i} value={item.grade.toLowerCase()} onClick={(e) => {
                                         console.log(e.target.value);
                                     }} >{item.grade}</SlMenuItem>
                                 )
@@ -615,9 +615,9 @@ function Policy() {
                         </SlButton> : null}
                         {deptartment?(policy?.length ? null : <p>"No Policy Found For This Department"</p>):<p>"Select Department to view there policy"</p>}
                         <div className='policy-card-main'>
-                            {policy?.map((item)=>{
+                            {policy?.map((item,i)=>{
                                 return(
-                                    <div className='policy-card-container'>
+                                    <div id={i} className='policy-card-container'>
                                     <div className='policy-card-title' style={{'display':'flex','justifyContent': "flex-start"}}>
                                         {item.title} 
                                         {item.accepted == "accepted"?<span class="material-symbols-outlined" style={{"marginLeft":"10px", "color":"green"}}> verified </span>: null}
@@ -713,9 +713,9 @@ function Policy() {
                     setUpdateAccessto(String(e.target.value))
                    
                 }} label='Access to:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
-                    {deptList?.map((item) => {
+                    {deptList?.map((item,i) => {
                         return (
-                            <SlMenuItem value={item.department.toLowerCase()} onClick={(e) => {
+                            <SlMenuItem id={i} value={item.department.toLowerCase()} onClick={(e) => {
                                 
                             }} >{item.department}</SlMenuItem>
                         )
@@ -725,9 +725,9 @@ function Policy() {
                 <SlSelect value={updateBandList.split(",")} onSlChange={(e) => {
                             setUpdateBandList(String(e.target.value))
                         }} label='Band:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
-                            {bandListFull?.map((item) => {
+                            {bandListFull?.map((item,i) => {
                                 return (
-                                    <SlMenuItem value={item.band.toLowerCase()} onClick={(e) => {
+                                    <SlMenuItem id={i} value={item.band.toLowerCase()} onClick={(e) => {
                                         console.log(e.target.value);
                                     }} >{item.band}</SlMenuItem>
                                 )
@@ -737,9 +737,9 @@ function Policy() {
                         <SlSelect value={updateGradeList.split(",")} onSlChange={(e) => {
                             setUpdateGradeList(String(e.target.value))
                         }} label='Grade:' style={{ marginBottom: '20px' }} placeholder="Select a few" maxTagsVisible={-1} multiple clearable>
-                            {gradeListFull?.map((item) => {
+                            {gradeListFull?.map((item,i) => {
                                 return (
-                                    <SlMenuItem value={item.grade.toLowerCase()} onClick={(e) => {
+                                    <SlMenuItem id={i} value={item.grade.toLowerCase()} onClick={(e) => {
                                         console.log(e.target.value);
                                     }} >{item.grade}</SlMenuItem>
                                 )
@@ -792,7 +792,7 @@ function Policy() {
             <div className='policy-question-tag-main'>
                 {newQuestions.map((item,i)=>{
                     return(
-                            <SlTag size="large" variant={newQuestionTag == i ? "primary" : "neutral"} removable onSlRemove={e=>{removeNewQuestion(i)}} onClick={e=>{setNewQuestionTag(i); console.log(i); console.log(newQuestions[i]);}}>{`Question ${i+1}`}</SlTag>
+                            <SlTag size="large" id={`a${i}`} variant={newQuestionTag == i ? "primary" : "neutral"} removable onSlRemove={e=>{removeNewQuestion(i)}} onClick={e=>{setNewQuestionTag(i); console.log(i); console.log(newQuestions[i]);}}>{`Question ${i+1}`}</SlTag>
                     )
                 })}
             </div>
@@ -892,7 +892,7 @@ function Policy() {
                 <div className='policy-question-tag-main'>
                     {policyQuizQuestions.map((item,i)=>{
                         return(
-                                <SlTag size="large" variant={questionForReview == i ? "primary" : "neutral"} onClick={e=>{setQuestionForReview(i)}}>{`Question ${i+1}`}</SlTag>
+                                <SlTag size="large" id={i} variant={questionForReview == i ? "primary" : "neutral"} onClick={e=>{setQuestionForReview(i)}}>{`Question ${i+1}`}</SlTag>
                         )
                     })}
                 </div>
@@ -934,7 +934,7 @@ function Policy() {
             <div className='policy-question-tag-main'>
                 {updateQuestions.map((item,i)=>{
                     return(
-                            <SlTag size="large" variant={updateQuestionTag == i ? "primary" : "neutral"} removable onSlRemove={e=>{removeUpdateQuestion(i)}} onClick={e=>{setUpdateQuestionTag(i);}}>{`Question ${i+1}`}</SlTag>
+                            <SlTag size="large" id={i} variant={updateQuestionTag == i ? "primary" : "neutral"} removable onSlRemove={e=>{removeUpdateQuestion(i)}} onClick={e=>{setUpdateQuestionTag(i);}}>{`Question ${i+1}`}</SlTag>
                     )
                 })}
             </div>

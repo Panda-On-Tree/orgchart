@@ -1020,7 +1020,7 @@ function ProductCatalog() {
 </div>
 </div> */}
 
-                    <SlButton {...(loadingRef.current && { loading: true })} size='large' className='add-part-main-button' onClick={() => {
+                    <SlButton /* {...(loadingRef.current && { loading: true })} */ size='large' className='add-part-main-button' onClick={() => {
 
                         sendAddPartData()
                     }} variant="primary">Submit
