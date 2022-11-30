@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import Footer from './Footer'
 import axios from 'axios'
 import $ from 'jquery'
+import self from '../assets/self_service.svg'
 import { baseurl } from '../../api/apiConfig'
 import {
     SlButton,
@@ -190,10 +191,10 @@ function Home() {
 
     return (
         <div>
-            <div class="page-loader">
-                <div class="spinner"></div>
-                <div class="wavy-wraper">
-                    <div class="wavy">
+            <div className="page-loader">
+                <div className="spinner"></div>
+                <div className="wavy-wraper">
+                    <div className="wavy">
                         <span style={{"--i":"1"}}>M</span>
                         <span style={{"--i":"2"}}>i</span>
                         <span style={{"--i":"3"}}>c</span>
@@ -227,6 +228,7 @@ function Home() {
                             }) `
                             return (
                                 <p
+                                    key={i}
                                     style={{ color: 'blue' }}
                                     className="marque-text"
                                 >
@@ -238,26 +240,26 @@ function Home() {
                 </marquee>
             </div>
 
-            {/*  <section class="hero-wrap style1">
-                <div class="hero-slider-one">
-                    <div class="hero-slide-item">
-                        <div class="container">
-                            <div class="row align-items-center gx-5">
-                                <div class="col-xl-5 col-lg-6 set-width ">
-                                    <div class="hero-content">
+           {/*   <section className="hero-wrap style1">
+                <div className="hero-slider-one">
+                    <div className="hero-slide-item">
+                        <div className="container">
+                            <div className="row align-items-center gx-5">
+                                <div className="col-xl-5 col-lg-6 set-width ">
+                                    <div className="hero-content">
                                         <h1 style={{minWidth:"37vw"}}>Welcome to Microtek Employee Self Service </h1>
-                                        <div class="hero-btn">
+                                        <div className="hero-btn">
                                             <a onClick={(e)=>{
                                               e.preventDefault();
                                               navigate('/aboutus')
-                                            }} class="btn read-more-button">Read More</a>
+                                            }} className="btn read-more-button">Read More</a>
                                             
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-7 col-lg-6 set-width">
-                                    <div class="hero-img-wrap">
-                                        <img class="hero-img" src={self} alt="Image"/>
+                                <div className="col-xl-7 col-lg-6 set-width">
+                                    <div className="hero-img-wrap">
+                                        <img className="hero-img" src={self} alt="Image"/>
                                     </div>
                                 </div>
                             </div>
@@ -266,24 +268,24 @@ function Home() {
                     
                 </div>
             </section> */}
-            <section class="product">
+            <section className="product">
                 <div>
-                    <div class="content-title ptb-30 text-center">
+                    <div className="content-title ptb-30 text-center">
                         <h2>Useful Links</h2>
                     </div>
                     <div
                         style={{ marginBottom: '20px' }}
-                        class="product-section"
+                        className="product-section"
                     >
-                        <ul class="row ps-list">
-                            <li class="col-lg-4 col-md-3 col-sm-12">
-                                <div class="ps-list-content">
+                        <ul className="row ps-list">
+                            <li className="col-lg-4 col-md-3 col-sm-12">
+                                <div className="ps-list-content">
                                     <a
                                         target="_blank"
                                         href="https://internal.microtek.tech/itop"
                                         rel="noopener noreferrer"
                                     >
-                                        <span class="material-symbols-outlined">
+                                        <span className="material-symbols-outlined">
                                             database
                                         </span>
                                         <h4>CMDB Tool</h4>
@@ -295,14 +297,14 @@ function Home() {
                                     </a>
                                 </div>
                             </li>
-                            <li class="col-lg-4 col-md-3 col-sm-12">
-                                <div class="ps-list-content">
+                            <li className="col-lg-4 col-md-3 col-sm-12">
+                                <div className="ps-list-content">
                                     <a
                                         target="_blank"
                                         href="https://internal.microtek.tech/Self-Declaration/login.php"
                                         rel="noopener noreferrer"
                                     >
-                                        <span class="material-symbols-outlined">
+                                        <span className="material-symbols-outlined">
                                             app_registration
                                         </span>
                                         <h4>Self Declaration</h4>
@@ -313,14 +315,14 @@ function Home() {
                                     </a>
                                 </div>
                             </li>
-                            <li class="col-lg-4 col-md-3 col-sm-12">
-                                <div class="ps-list-content">
+                            <li className="col-lg-4 col-md-3 col-sm-12">
+                                <div className="ps-list-content">
                                     <a
                                         target="_blank"
                                         href="https://internal.microtek.tech/capex/login.php"
                                         rel="noopener noreferrer"
                                     >
-                                        <span class="material-symbols-outlined">
+                                        <span className="material-symbols-outlined">
                                             description
                                         </span>
                                         <h4>Capex</h4>
@@ -328,14 +330,14 @@ function Home() {
                                     </a>
                                 </div>
                             </li>
-                            <li class="col-lg-4 col-md-3 col-sm-12">
-                                <div class="ps-list-content">
+                            <li className="col-lg-4 col-md-3 col-sm-12">
+                                <div className="ps-list-content">
                                     <a
                                         target="_blank"
                                         href="https://microtek.peoplestrong.com/altLogin.jsf"
                                         rel="noopener noreferrer"
                                     >
-                                        <span class="material-symbols-outlined">
+                                        <span className="material-symbols-outlined">
                                             description
                                         </span>
                                         <h4>People Strong Microtek</h4>
@@ -346,14 +348,14 @@ function Home() {
                                     </a>
                                 </div>
                             </li>
-                            <li class="col-lg-4 col-md-3 col-sm-12">
-                                <div class="ps-list-content">
+                            <li className="col-lg-4 col-md-3 col-sm-12">
+                                <div className="ps-list-content">
                                     <a
                                         target="_blank"
                                         href="https://microtek.eisenvault.net/"
                                         rel="noopener noreferrer"
                                     >
-                                        <span class="material-symbols-outlined">
+                                        <span className="material-symbols-outlined">
                                             description
                                         </span>
                                         <h4>Eisen Vault</h4>
@@ -364,8 +366,8 @@ function Home() {
                                     </a>
                                 </div>
                             </li>
-                            <li class="col-lg-4 col-md-3 col-sm-12">
-                                <div class="ps-list-content">
+                            <li className="col-lg-4 col-md-3 col-sm-12">
+                                <div className="ps-list-content">
                                     <a
                                         href="/#"
                                         target="_blank"
@@ -374,7 +376,7 @@ function Home() {
                                             navigate('/chart')
                                         }}
                                     >
-                                        <span class="material-symbols-outlined">
+                                        <span className="material-symbols-outlined">
                                             description
                                         </span>
                                         <h4>Org Chart</h4>
@@ -409,7 +411,7 @@ function Home() {
                                             color: 'green',
                                             marginLeft: '10px',
                                         }}
-                                        class="material-symbols-rounded"
+                                        className="material-symbols-rounded"
                                     >
                                         check_circle
                                     </span>
@@ -429,7 +431,7 @@ function Home() {
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <span class="material-symbols-outlined">
+                                <span className="material-symbols-outlined">
                                     description
                                 </span>
                                 View Policy
@@ -496,6 +498,7 @@ function Home() {
                     {policyQuizQuestions.map((item, i) => {
                         return (
                             <SlTag
+                                key={i}
                                 size="large"
                                 variant={
                                     questionForReview == i

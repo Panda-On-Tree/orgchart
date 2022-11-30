@@ -13,8 +13,10 @@ import { toast } from 'react-toastify';
 function ProductCatalog() {
 
     const [filterData, setFilterData] = useState([]);
+    const [partDescMain, setPartDescMain] = useState(false);
+    const [partDescUpdate, setPartDescUpdate] = useState(false);
     const [filterOption1, setFilterOption1] = useState({});
-    const [filterOption2, setFilterOption2] = useState();
+    const [filterOption2, setFilterOption2] = useState("");
     const [filterOption3, setFilterOption3] = useState();
     const [inputToOption3, setInputToOption3] = useState({});
     const [attributes, setAttributes] = useState();
@@ -42,32 +44,39 @@ function ProductCatalog() {
     const [partUpdateImages, setPatUpdateImages] = useState([])
     const [openStatus, setOpenStatus] = useState(false);
     const [openImage, setOpenImage] = useState(false);
+    const displayDesMain = useRef(true)
     const displayModel = useRef(false)
     const displayEdit = useRef(null);
     const display = useRef(null);
     const backOpacity = useRef(null);
     const loadingRef = useRef(false);
+    const [closeParentOnChild, setCloseParentOnChild] = useState(false);
     const options = {
         tableBodyMaxHeight: "60vh",
         responsive: "standard",
         onCellClick: (colData, colMeta) => {
-            console.log(colData);
-            console.log(colMeta);
+            //console.log(colData);
+            //console.log(colMeta);
         },
         onRowClick: (rowData, rowMeta) => {
+            //console.log(rowData);
+            //console.log(rowMeta);
+            //console.log(displayModel);
             getPartImages(rowData[0])
-            console.log(rowData);
-            console.log(rowMeta);
             getPartInfo(rowData[0]);
-            console.log(displayModel);
-            display.current.style.display = "block"
-            if (displayModel.current) {
+            if(displayDesMain.current == true){
+                console.log("true display");
+                setPartDescMain(true)
+            }
+          
+           // display.current.style.display = "block"
+           /*  if (displayModel.current) {
 
                 display.current.style.display = "none"
-            }
-            backOpacity.current.style.display = "block"
-            document.getElementById("root").style.overflow = "hidden"
-            document.getElementById("root").scrollTop = 0;
+            } */
+            //backOpacity.current.style.display = "block"
+           // document.getElementById("root").style.overflow = "hidden"
+            //document.getElementById("root").scrollTop = 0;
 
         },
         selectableRowsHideCheckboxes: true
@@ -94,7 +103,7 @@ function ProductCatalog() {
         const data = {
             part_id: part_id
         }
-        console.log(data);
+        //console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/get-part-image`,
@@ -105,7 +114,7 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
-                console.log(res.data.data);
+               // console.log(res.data.data);
                 setPatUpdateImages(res.data.data)
                 let images = []
                 res.data.data.map((item) => {
@@ -113,7 +122,7 @@ function ProductCatalog() {
                     obj.original = item.image
                     images.push(obj);
                 })
-                console.log(images);
+               // console.log(images);
                 setPatImages(images)
             })
             .catch((err) => {
@@ -126,7 +135,7 @@ function ProductCatalog() {
         const data = {
             part_id: part_id
         }
-        console.log(data);
+       // console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/part-data`,
@@ -137,10 +146,10 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
-                console.log(res);
+               // console.log(res);
                 setPartInfo(res.data.data);
                 setPartAttributeInfo(res.data.data.attribute);
-                console.log(res.data.data.attribute[0]);
+                //console.log(res.data.data.attribute[0]);
                 let obj = res.data.data.attribute[0]
                 
 
@@ -166,11 +175,11 @@ function ProductCatalog() {
                             return (
 
                                 <SlTag variant='primary' size="medium" className="tag-row" onClick={() => {
-                                    console.log(res.data.data.attribute[dataIndex].attribute_id);
+                                   // console.log(res.data.data.attribute[dataIndex].attribute_id);
                                     const data ={
                                         attribute_id:res.data.data.attribute[dataIndex].attribute_id
                                     }
-                                    console.log(data);
+                                    //console.log(data);
                                     axios({
                                         method: 'post',
                                         url: `${baseurl.base_url}/mhere/get-attribute-image`,
@@ -181,7 +190,7 @@ function ProductCatalog() {
                                         data
                                     })
                                     .then((res)=>{
-                                        console.log(res.data.data);
+                                      //  console.log(res.data.data);
                                         let arr =[]
 
                                         res.data.data.map((item)=>{
@@ -190,7 +199,7 @@ function ProductCatalog() {
                                             }
                                             arr.push(obj)
                                         })
-                                        console.log(arr);
+                                       // console.log(arr);
                                         setAttributeImage(arr)
                                         if(attributeImage){
                                             setOpenImage(true)
@@ -224,7 +233,7 @@ function ProductCatalog() {
             },
         })
             .then((res) => {
-                console.log(res);
+               // console.log(res);
                 setAttributes(res.data.data);
                 setAttributeMaster(res.data.data);
                 setAddPartAttributeMaster(res.data.data);
@@ -241,7 +250,7 @@ function ProductCatalog() {
             },
         })
             .then((res) => {
-                console.log(res);
+              //  console.log(res);
                 setPrimaryAttributes(res.data.data);
                 //setAttributeMaster(res.data.data);
 
@@ -253,8 +262,8 @@ function ProductCatalog() {
     /* Axios api calls */
 
     useEffect(() => {
-        console.log(filterOption1);
-        console.log("100" > "95");
+     //   console.log(filterOption1);
+       // console.log("100" > "95");
     }, [filterOption1])
 
     function closeEdit() {
@@ -267,7 +276,7 @@ function ProductCatalog() {
 
     function get() {
 
-        console.log(attributes);
+     //   console.log(attributes);
         if (!(filterOption1 && filterOption2 && filterOption3)) {
             alert("input all");
             return;
@@ -279,13 +288,13 @@ function ProductCatalog() {
         }
         setFilterData([...filterData, filter]);
         setSearchData([...searchData, filter]);
-        console.log(filterOption1);
-        console.log([...filterData, filter]);
+       // console.log(filterOption1);
+       // console.log([...filterData, filter]);
         setFilterOption1({});
         setFilterOption2("");
         setFilterOption3("");
         if (!partDataMaster) {
-            console.log(partDataMaster);
+           // console.log(partDataMaster);
             getFilterList();
         }
         else {
@@ -398,7 +407,7 @@ function ProductCatalog() {
             part_category: part_category,
             part_group: part_group
         }
-        console.log(data);
+       // console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/part-base-search`,
@@ -409,7 +418,7 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 toast.success('Part Searched', {
                     position: "top-right",
                     autoClose: 1500,
@@ -423,7 +432,7 @@ function ProductCatalog() {
                 let attribute = [];
                 setPartDataMaster(res.data.data.part_data);
                 setPartAttributeDataMaster(res.data.data.part_attribute_data);
-                console.log(res.data.data.part_attribute_data);
+              //  console.log(res.data.data.part_attribute_data);
                 res.data.data.part_attribute_data.map(item => {
                     const data = {
                         id: item.attribute_type_id,
@@ -448,11 +457,11 @@ function ProductCatalog() {
 
                     return false;
                 });
-                console.log(unique);
+             //   console.log(unique);
                 setAttributes(unique);
                 let data = res.data.data.part_data;
                 let obj = res.data.data.part_data[0];
-                console.log(obj);
+               // console.log(obj);
                 delete obj.created_at
                 delete obj.created_by
                 delete obj.updated_at
@@ -479,16 +488,21 @@ function ProductCatalog() {
                             customBodyRenderLite: (dataIndex, rowIndex) => {
 
                                 return (
-                                    <SlTag size="medium" className="tag-row" onClick={() => {
+                                    
+                                        <SlTag size="medium" className="tag-row" onClick={() => {
+                                            
+                                            displayDesMain.current = false
+                                            setPartDescUpdate(true)
                                         //alert(dataIndex + "hello " + rowIndex) ;
-                                        document.getElementById("root").scrollTo({ top: 0, behavior: 'smooth' });
+                                 //       document.getElementById("root").scrollTo({ top: 0, behavior: 'smooth' });
+                                   //    
+                                     //   displayModel.current = true
                                        
-                                        displayModel.current = true
-                                       
-                                        displayEdit.current.style.display = "block"
-                                        display.current.style.display = "none"
-
+                                       // displayEdit.current.style.display = "block"
+                                        //display.current.style.display = "none"
+                                           // console.log("heeelljhaflhUQUFY");
                                     }} style={{ zIndex: "20", cursor: "pointer" }} >Update</SlTag>
+                                   
                                 );
                             }
                         }
@@ -506,8 +520,7 @@ function ProductCatalog() {
                                 return (
                                     <SlTag size="medium" className="tag-row" onClick={() => {
                                         //alert(dataIndex + "hello " + rowIndex) ;
-                                        displayModel.current = true
-                                        display.current.style.display = "none"
+                                        displayDesMain.current = false
                                         setOpenStatus(true)
 
                                     }} style={{ zIndex: "20", cursor: "pointer" }} >Change</SlTag>
@@ -516,7 +529,7 @@ function ProductCatalog() {
                         }
                     })
                 }
-                console.log(new_arr);
+              //  console.log(new_arr);
 
                 // console.log(arr);
                 setPartDataKeys(new_arr)
@@ -536,6 +549,11 @@ function ProductCatalog() {
                     theme: "colored",
                     });
             })
+    }
+
+    function closeDialog(){
+        displayDesMain.current = true
+        console.log("closeDialog");
     }
 
     function getFilterList() {
@@ -562,7 +580,7 @@ function ProductCatalog() {
                 filter_operation: filterOption3
             }
         }
-        console.log(data);
+       // console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/filter-part`,
@@ -576,7 +594,7 @@ function ProductCatalog() {
                 let attribute = [];
                 setPartDataMaster(res.data.data.part_data);
                 setPartAttributeDataMaster(res.data.data.part_attribute_data);
-                console.log(res.data.data.part_attribute_data);
+               // console.log(res.data.data.part_attribute_data);
                 res.data.data.part_attribute_data.map(item => {
                     const data = {
                         id: item.attribute_type_id,
@@ -601,11 +619,11 @@ function ProductCatalog() {
 
                     return false;
                 });
-                console.log(unique);
+            //    console.log(unique);
                 setAttributes(unique);
                 let data = res.data.data.part_data;
                 let obj = res.data.data.part_data[0];
-                console.log(obj);
+             //   console.log(obj);
                 delete obj.created_at
                 delete obj.created_by
                 delete obj.updated_at
@@ -652,14 +670,14 @@ function ProductCatalog() {
         var filter = filterData
         const index = filter.findIndex(x => x.filter_attribute == item.filter_attribute)
         filter[index].filter_operation = operation;
-        console.log(filter);
+      //  console.log(filter);
         setFilterData(filter);
     }
     function changeFilterValue(item, value) {
         var filter = filterData
         const index = filter.findIndex(x => x.filter_attribute == item.filter_attribute)
         filter[index].filter_value = value;
-        console.log(filter);
+    //    console.log(filter);
         setFilterData(filter);
     }
 
@@ -671,7 +689,7 @@ function ProductCatalog() {
         const data = {
             part_code: partCodeSearch
         }
-        console.log(data);
+       // console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/part-code-search`,
@@ -682,7 +700,7 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
-                console.log(res);
+              //  console.log(res);
                 if (!res.data.dataFound) {
                     alert("No Data Found for Part Code :" + partCodeSearch)
                     return
@@ -690,7 +708,7 @@ function ProductCatalog() {
                 setPartInfo(res.data.data);
                 setPartAttributeInfo(res.data.data.attribute);
                 let arr = Object.keys(res.data.data.attribute[0]);
-                console.log(arr);
+             //   console.log(arr);
                 setPartAttributeKeys(arr)
                 display.current.style.display = "block"
                 backOpacity.current.style.display = "block"
@@ -774,7 +792,7 @@ function ProductCatalog() {
         }
 
         const data = newPartData.current
-        console.log(data);
+       // console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/insert-part-master`,
@@ -795,7 +813,7 @@ function ProductCatalog() {
                     progress: undefined,
                     theme: "colored",
                     });
-                console.log(res);
+               // console.log(res);
                 loadingRef.current = false
                 setAddPartAttributeData([]);
                 document.getElementById("add-part-form").reset();
@@ -845,7 +863,7 @@ function ProductCatalog() {
             data
         })
             .then((res) => {
-                console.log(res);
+               // console.log(res);
                 toast.success('Attribute Added successfully', {
                     position: "top-right",
                     autoClose: 1500,
@@ -920,10 +938,9 @@ function ProductCatalog() {
             })
     }
 
-
     return (
         <div className='product-table-main'>
-            <h1 style={{ textAlign: "center", marginBottom: "5vh" }}>Part Catalogue</h1>
+            <h1 style={{ textAlign: "center", marginBottom: "5vh" }}>Product Catalogue</h1>
 
             {localStorage.getItem('role') != 'user' ? <div>
                 <SlDetails className='part-add-input-main' summary="Add New Part">
@@ -962,7 +979,7 @@ function ProductCatalog() {
                             <div id='filter-row' className='product-filter-main'>
                                 <select className='product-filter-option1' name="cars" id="cars" value={addAttributeOption1} onChange={e => {
                                     setAddAttributeOption1(e.target.value)
-                                    console.log(JSON.parse(e.target.value));
+                                 //   console.log(JSON.parse(e.target.value));
                                 }}>
 
                                     <option value="" hidden>Select an option </option>
@@ -972,6 +989,8 @@ function ProductCatalog() {
                                         )
                                     })}
                                 </select>
+                               
+
                                 <input type="text" name="" className='product-search' id="" value={addAttributeOption2} onChange={e => {
 
                                     setAddAttributeOption2(e.target.value);
@@ -1015,7 +1034,7 @@ function ProductCatalog() {
                         <SlInput maxlength={250} size="large" className="part-add-input" clearable label="Attribute Description" onSlChange={(e) => { newAttributeData.current.attribute_description = e.target.value }} />
                     </div>
                     <SlButton size='large' className='add-part-main-button' onClick={() => {
-                        console.log(newAttributeData.current);
+                       // console.log(newAttributeData.current);
                         sendNewAttributeData()
                     }} variant="primary">Submit</SlButton>
 
@@ -1027,7 +1046,7 @@ function ProductCatalog() {
                         <div>
                             <h5 className='search-heading'>Search Using Filters</h5>
                             {filterData.slice(0, 1).map(item => {
-                                console.log(item.filter_attribute);
+                               // console.log(item.filter_attribute);
                                 return (
                                     <div id='filter-row' className='product-filter-main'>
                                         <select className='product-filter-option1' name="cars" id="cars" value={item.filter_attribute} disabled>
@@ -1037,6 +1056,7 @@ function ProductCatalog() {
                                                 )
                                             })}
                                         </select>
+                                       
                                         {JSON.parse(item.filter_attribute).type == "text" ? <select disabled className='product-filter-option2' name="cars" id="cars" value={item.filter_operation}>
 
                                             <option value="" hidden>Select an option </option>
@@ -1089,7 +1109,7 @@ function ProductCatalog() {
                                 )
                             })}
                             <div id='filter-row' className='product-filter-main'>
-                                <select className='product-filter-option1' name="cars" id="cars" value={filterOption1} onChange={e => {
+                               {/*  <select className='product-filter-option1' name="cars" id="cars" value={filterOption1} onChange={e => {
                                     setFilterOption1(e.target.value)
                                     console.log(JSON.parse(e.target.value));
                                     setInputToOption3(JSON.parse(e.target.value))
@@ -1102,8 +1122,26 @@ function ProductCatalog() {
                                             <option value={JSON.stringify(item)} id={item.name}>{item.name}</option>
                                         )
                                     })}
-                                </select>
-                                {inputToOption3.type == "text" ? <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
+                                </select> */}
+                                <SlSelect label='Attribute Name'  size='large' style={{minWidth:'15vw'}}/*  value={filterOption1} */ onSlChange={e => {
+                                    //console.log(e.target.value);
+
+                                 //  setFilterOption1(e.target.value)
+                                    
+                                //console.log(JSON.parse(e.target.value));
+                               
+                                    setInputToOption3(JSON.parse(e.target.value))
+
+                                }}>
+                                    {attributes?.map((item) => {
+                                        return (
+                                            <SlMenuItem value={JSON.stringify(item)} id={item.name}>{item.name}</SlMenuItem>
+                                        )
+                                    })}
+                                   
+                                </SlSelect>
+                                {inputToOption3.type == "text" ? 
+                               /*  <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
                                     setFilterOption3(e.target.value)
                                 }}>
 
@@ -1112,7 +1150,17 @@ function ProductCatalog() {
                                     <option value="end_with">End's With</option>
                                     <option value="contains">Contains</option>
                                     <option value="equal_string">Equals</option>
-                                </select> : inputToOption3.type == "number" ? <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
+                                </select>  */
+                                <SlSelect label='functions' style={{minWidth:'15vw'}} size='large' name="cars" id="cars" value={filterOption3} onSlChange={e => {
+                                    setFilterOption3(e.target.value)
+                                }}>
+
+                                    <SlMenuItem value="" hidden>Select an option</SlMenuItem>
+                                    <SlMenuItem value="start_with">Start's With</SlMenuItem>
+                                    <SlMenuItem value="end_with">End's With</SlMenuItem>
+                                    <SlMenuItem value="contains">Contains</SlMenuItem>
+                                    <SlMenuItem value="equal_string">Equals</SlMenuItem>
+                                </SlSelect>: inputToOption3.type == "number" ? /* <select className='product-filter-option2' name="cars" id="cars" value={filterOption3} onChange={e => {
                                     setFilterOption3(e.target.value)
                                 }}>
 
@@ -1120,9 +1168,17 @@ function ProductCatalog() {
                                     <option value="greater_then">Greater Then</option>
                                     <option value="less_then">Less Then</option>
                                     <option value="equal">Equals</option>
-                                </select> : null}
-                                <input type="text" name="" className='product-search' id="" value={filterOption2} onChange={e => {
-                                    console.log(e.target.value);
+                                </select> */<SlSelect label='functions'  size='large' style={{minWidth:'15vw'}} name="cars" id="cars" value={filterOption3} onSlChange={e => {
+                                    setFilterOption3(e.target.value)
+                                }}>
+
+                                    <SlMenuItem value="" hidden>Select an option</SlMenuItem>
+                                    <SlMenuItem value="greater_then">Greater Then</SlMenuItem>
+                                    <SlMenuItem value="less_then">Less Then</SlMenuItem>
+                                    <SlMenuItem value="equal">Equals</SlMenuItem>
+                                </SlSelect> : null}
+                                <SlInput label='Attribute Value' type="text" name="" size='large' id="" value={filterOption2} onSlChange={e => {
+                                   // console.log(e.target.value);
                                     setFilterOption2(e.target.value)
                                 }} />
 
@@ -1142,10 +1198,13 @@ function ProductCatalog() {
                         <div className='part-code-search-main'>
                             <h5 className='search-heading' >Search By : </h5>
                             <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginBottom: "15px" }}>
-                                <select className='product-filter-option1' name="cars" id="cars">
+                               {/*  <select className='product-filter-option1' name="cars" id="cars">
                                     <option value="part_code" hidden>Part Code</option>
-                                </select>
-                                <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_code} onChange={(e) => {
+                                </select> */}
+                               {/*  <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_code} onChange={(e) => {
+                                    setPart_code((e.target.value).toUpperCase())
+                                }} name="" id="" /> */}
+                                <SlInput style={{ minWidth: "15vw" }} size='large' label='Part Code' type="text" value={part_code} onSlChange={(e) => {
                                     setPart_code((e.target.value).toUpperCase())
                                 }} name="" id="" />
                                 {/* <button className='product-add-filter-button' onClick={() => {
@@ -1153,10 +1212,13 @@ function ProductCatalog() {
                         }}>Search Part</button> */}
                             </div>
                             <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginBottom: "15px" }}>
-                                <select className='product-filter-option1' name="cars" id="cars">
+                               {/*  <select className='product-filter-option1' name="cars" id="cars">
                                     <option value="part_category" hidden>Part Category</option>
-                                </select>
-                                <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_category} onChange={(e) => {
+                                </select> */}
+                               {/*  <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_category} onChange={(e) => {
+                                    setPart_category((e.target.value).toUpperCase())
+                                }} name="" id="" /> */}
+                                <SlInput style={{ minWidth: "15vw" }}  type="text" size='large' label='Part Category' value={part_category} onSlChange={(e) => {
                                     setPart_category((e.target.value).toUpperCase())
                                 }} name="" id="" />
                                 {/* <button className='product-add-filter-button' onClick={() => {
@@ -1164,10 +1226,13 @@ function ProductCatalog() {
                         }}>Search Part</button> */}
                             </div>
                             <div style={{ display: "flex", flexDirection: "row", gap: "15px", marginBottom: "25px" }}>
-                                <select className='product-filter-option1' name="cars" id="cars">
+                               {/*  <select className='product-filter-option1' name="cars" id="cars">
                                     <option value="part_group" hidden>Part Group</option>
-                                </select>
-                                <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_group} onChange={(e) => {
+                                </select> */}
+                                {/* <input style={{ minWidth: "10vw" }} className='product-search part-code-search' type="text" value={part_group} onChange={(e) => {
+                                    setPart_group((e.target.value).toUpperCase())
+                                }} name="" id="" /> */}
+                                <SlInput style={{ minWidth: "15vw" }} label="Part Group" size='large' type="text" value={part_group} onChange={(e) => {
                                     setPart_group((e.target.value).toUpperCase())
                                 }} name="" id="" />
                                 {/* <button className='product-add-filter-button' onClick={() => {
@@ -1196,7 +1261,51 @@ function ProductCatalog() {
             <div className='background-opacity' ref={backOpacity}>
 
             </div>
-            <main style={{ display: "none" }} ref={display} className="part-desc-main">
+            {/* part desc main */}
+            <SlDialog style={{ '--width': '90vw' }}  open={partDescMain} onSlRequestClose={()=>{setPartDescMain(false)}}>
+            <main >
+              {/*   <button className='button-close-part-desc' onClick={() => {
+                    display.current.style.display = "none";
+                    backOpacity.current.style.display = "none";
+                    document.getElementById("root").style.overflow = "auto";
+                }}><span className="material-symbols-outlined">
+                        close
+                    </span></button> */}
+                <div className='part-dec-container'>
+                    <div className='part-desc-inner'>
+
+                        <div className='part-desc-image-data-main'>
+                            <div className='part-desc-image-main'>
+                                <ImageGallery items={partImages} />
+                            </div>
+                            <div className='part-desc-data-main'>
+                                <h1 style={{ textAlign: "center", fontSize: "24px" }}>Part Description</h1>
+                                <div className='part-desc-data-desc'>
+                                    <div className='desc-info-main'><p className='info-key'>Part ID :</p><p className='info-value'>{partInfo?.part_id}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Code :</p><p className='info-value'>{partInfo?.part_code}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Name :</p><p className='info-value'>{partInfo?.part_name}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Description :</p><p className='info-value'>{partInfo?.part_description}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Category :</p><p className='info-value'>{partInfo?.part_category}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Grounp :</p><p className='info-value'>{partInfo?.part_group}</p></div>
+                                    <div className='desc-info-main'><p className='info-key'>Part Status :</p><p className='info-value'>{partInfo?.status}</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='part-desc-table'>
+                        <MUIDataTable
+                            title={"Product Attribute List"}
+                            data={partAttributeInfo}
+                            columns={partAttributeKeys}
+                            options={optionsAtt}
+                        ></MUIDataTable>
+                    </div>
+                </div>
+            </main>
+            </SlDialog>
+
+
+         {/*    <main style={{ display: "none" }} ref={display} className="part-desc-main">
                 <button className='button-close-part-desc' onClick={() => {
                     display.current.style.display = "none";
                     backOpacity.current.style.display = "none";
@@ -1234,12 +1343,13 @@ function ProductCatalog() {
                         ></MUIDataTable>
                     </div>
                 </div>
-            </main>
+            </main> */}
             <SlDialog label="Change status" open={openStatus} onSlRequestClose={() => {
-                displayModel.current = false
+              /*   displayModel.current = false
                 display.current.style.display = "none";
                 backOpacity.current.style.display = "none";
-                document.getElementById("root").style.overflow = "auto";
+                document.getElementById("root").style.overflow = "auto"; */
+                displayDesMain.current = true
                 setOpenStatus(false)
             }} >
                 <SlSelect className="part-edit-input" size='large' label="Status" value={partStatus} onSlChange={(e) => {
@@ -1260,23 +1370,21 @@ function ProductCatalog() {
                 <SlButton slot="footer" variant="primary" onClick={() => {
                     setOpenStatus(false)
                     setPartStatus("");
-                    backOpacity.current.style.display = "none"
-                    display.current.style.display = "none";
-                    document.getElementById("root").style.overflow = "auto";
-                    displayModel.current = false
+                    displayDesMain.current = true
+                  
                 }}>
                     Close
                 </SlButton>
             </SlDialog>
-            <SlDialog className='attribute-image-modal' style={{ '--width': '50vw', '--height': '20vh' }} label="Images" open={openImage} onSlAfterHide={() => setOpenImage(false)}>
+            <SlDialog className='attribute-image-modal'  label="Images" open={openImage} onSlAfterHide={() => setOpenImage(false)}>
 
                 <div>
                     <ImageGallery items={attributeImage} />
                 </div>
             </SlDialog>
-            <div ref={displayEdit} style={{ display: "none"}}>
-                <UpdateProductCatalog onClose={closeEdit} partInfo={partInfo} attribute={attributes} images={partUpdateImages} updateData={getPartInfo}></UpdateProductCatalog>
-            </div>
+                     <SlDialog style={{ '--width': '90vw' }} label="Update Part" open={partDescUpdate} onSlRequestClose={()=>{ if(closeParentOnChild) {setCloseParentOnChild(false); return;} setPartDescUpdate(false);  console.log("closing"); displayDesMain.current = true}}>
+                        {partDescUpdate? <UpdateProductCatalog  /* onClose={closeEdit} */ /* closeDialog={closeDialog} */ closeMain={()=>{setCloseParentOnChild(true)}} partInfo={partInfo} attribute={attributes} images={partUpdateImages} updateData={getPartInfo}></UpdateProductCatalog>  : null}
+                     </SlDialog>
         </div>
     )
 }

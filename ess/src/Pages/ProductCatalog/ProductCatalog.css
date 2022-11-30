@@ -215,7 +215,7 @@ max-height: 80vh;
     min-width: 100%;
    flex-direction: row;
    justify-content: space-between;
-   padding: 0% 00% 0% 0%;
+   padding: 0% 0% ;
    gap: 20px;
    margin-bottom: 2vh;
 }
@@ -224,6 +224,9 @@ max-height: 80vh;
 }
 .part-code-search{
     min-width: 15vw !important;
+}
+.part-code-search-main{
+ margin-right: 5vw;
 }
 
 .search-part-base-button{
@@ -288,7 +291,7 @@ input.part-edit-input {
 .part-edit-main-container{
     max-height: 100%;
     min-width: 100%;
-    overflow-y: scroll;
+   /*  overflow-y: scroll; */
 }
 
 @media only screen and (max-width: 1300px) {

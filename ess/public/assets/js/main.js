@@ -1,8 +1,6 @@
-$( document ).ready(function() {
-    console.log( "ready!" );
-});
+
 (function ($) {
-    console.log("hello");
+    
     "use strict";    
     //Tweenmax js
     $('.hero-wrap').mousemove(function (e) {

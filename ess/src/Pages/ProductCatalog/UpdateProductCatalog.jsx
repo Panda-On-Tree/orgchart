@@ -31,7 +31,7 @@ function UpdateProductCatalog(props) {
         attribute_type_id: "",
         attribute_value: "",
         employee_id: localStorage.getItem('employee_id'),
-        part_id: props.partInfo.part_id
+        part_id: props.partInfo.part_id,
     })
 
   
@@ -45,10 +45,10 @@ function UpdateProductCatalog(props) {
         setPartAttributeInfoUpdate(props.partInfo.attribute)
         insertAttributeData.current.part_id = props.partInfo.part_id
         //console.log(props.partInfo.attribute[0]);
+        console.log("prorps printed");
+      //  console.log(props.images);
 
-        console.log(props.images);
-
-        console.log(props.attribute);
+        //console.log(props.attribute);
 
         if (props.partInfo.attribute) {
             let arr = Object.keys(props.partInfo.attribute[0]);
@@ -128,7 +128,7 @@ function UpdateProductCatalog(props) {
                 employee_id: localStorage.getItem('employee_id')
             }]
         }
-        console.log(data);
+      //  console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/update-attribute-data`,
@@ -139,7 +139,7 @@ function UpdateProductCatalog(props) {
             data
         })
             .then((res) => {
-                console.log(res);
+               // console.log(res);
                 attObj.current.attribute_value = attValue;
                 setAttValue(attObj.current.attribute_value);
                 props.updateData(props.partInfo.part_id);
@@ -174,7 +174,7 @@ function UpdateProductCatalog(props) {
             data
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
             })
             .catch((err) => {
                 console.log(err);
@@ -189,7 +189,7 @@ function UpdateProductCatalog(props) {
         customToolbar: () => {
             return (
                 <SlTag size="large" variant='primary' onClick={() => {
-                    console.log(insertAttributeData.current);
+                    //console.log(insertAttributeData.current);
                     setOpenAtt(true)
                 }} className="tag-row">Add New</SlTag>
             );
@@ -206,7 +206,7 @@ function UpdateProductCatalog(props) {
                 insertAttributeData.current
             ]
         }
-        console.log(data);
+        //console.log(data);
         axios({
             method: 'post',
             url: `${baseurl.base_url}/mhere/insert-attribute-data`,
@@ -217,7 +217,7 @@ function UpdateProductCatalog(props) {
             data
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 setOpenAtt(false);
                 insertAttributeData.current.attribute_type_id = "";
                 insertAttributeData.current.attribute_value = ""
@@ -228,7 +228,7 @@ function UpdateProductCatalog(props) {
     }
 
     function uploadImages(e) {
-        console.log(e.files);
+        //console.log(e.files);
 
         var formdata = new FormData();
         e.files.map((item) => {
@@ -238,7 +238,7 @@ function UpdateProductCatalog(props) {
         formdata.append("employee_id", localStorage.getItem("employee_id"))
 
         for (const value of formdata.values()) {
-            console.log(value);
+            //console.log(value);
         }
         axios({
             method: 'post',
@@ -250,7 +250,7 @@ function UpdateProductCatalog(props) {
             data: formdata
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 e.options.clear()
             })
             .catch((err) => {
@@ -259,7 +259,7 @@ function UpdateProductCatalog(props) {
     }
 
     function uploadAttImages(e) {
-        console.log(e.files);
+        //console.log(e.files);
         var formdata = new FormData();
         e.files.map((item) => {
             formdata.append("attribute_image", item)
@@ -268,7 +268,7 @@ function UpdateProductCatalog(props) {
         formdata.append("employee_id", localStorage.getItem("employee_id"))
 
         for (const value of formdata.values()) {
-            console.log(value);
+            //console.log(value);
         }
         axios({
             method: 'post',
@@ -280,7 +280,7 @@ function UpdateProductCatalog(props) {
             data: formdata
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 e.options.clear()
             })
             .catch((err) => {
@@ -289,7 +289,7 @@ function UpdateProductCatalog(props) {
     }
 
     function getAttributeImages(item){
-        console.log(item);
+        //console.log(item);
         const data ={
             attribute_id: item
         }
@@ -303,7 +303,7 @@ function UpdateProductCatalog(props) {
             data
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 setAttImageDel(res.data.data)
                 setOpenAttImageDel(true)
                
@@ -315,7 +315,7 @@ function UpdateProductCatalog(props) {
 
     function delImage(path,i){
 
-        console.log(path);
+        //console.log(path);
         const data = {
             "data":[
                 {
@@ -335,7 +335,7 @@ function UpdateProductCatalog(props) {
             data
         })
             .then((res) => {
-                console.log(res);
+                //console.log(res);
                 document.getElementById(path+i).style.display= "none"
             })
             .catch((err) => {
@@ -345,10 +345,9 @@ function UpdateProductCatalog(props) {
 
 
     return (
-        <main className='part-edit-main'>
-            <SlDialog label="Enter Value Below" open={open} onSlAfterHide={() => setOpen(false)}>
-                <SlInput autofocus placeholder="Enter Value" value={attObj?.current?.attribute_value} onSlInput={e => { attObj.current.attribute_value = e.target.value }} />
-
+        <main>
+            <SlDialog label="Enter Value Below"  open={open}  onSlRequestClose={(e) => {setOpen(false); props.closeMain()}} >
+                <SlInput autofocus placeholder="Enter Value" label='Enter Value below' value={attObj?.current?.attribute_value} onSlInput={e => { attObj.current.attribute_value = e.target.value }} />
                 <SlButton style={{ marginRight: "20px" }} slot="footer" outline variant="success" onClick={() => {
                     updateAttributeValue()
                     setOpen(false)
@@ -359,7 +358,7 @@ function UpdateProductCatalog(props) {
                     Close
                 </SlButton>
             </SlDialog>
-            <SlDialog label="Add images" open={openAttImageAdd} style={{ '--width': '50vw' }} onSlAfterHide={() => setOpenAttImageAdd(false)}>
+            <SlDialog label="Add images" open={openAttImageAdd} style={{ '--width': '50vw' }} onSlRequestClose={() => {setOpenAttImageAdd(false); props.closeMain()}}>
                 <div style={{ padding: "0% 2%" }}>
                     <div className='edit-images-main card'>
                         <FileUpload name="demo[]" customUpload uploadHandler={uploadAttImages} multiple accept="image/*" maxFileSize={1000000}
@@ -370,7 +369,7 @@ function UpdateProductCatalog(props) {
                     Close
                 </SlButton>
             </SlDialog>
-            <SlDialog label="Delete images" open={openAttImageDel} style={{ '--width': '70vw' }} onSlAfterHide={() => setOpenAttImageDel(false)}>
+            <SlDialog label="Delete images" open={openAttImageDel} style={{ '--width': '70vw' }} onSlRequestClose={() => {setOpenAttImageDel(false); props.closeMain()}}>
                 <div style={{ padding: "0% 2%" }}>
                 <div className="del-image-part-main">
                 {attImageDel?.map((item,i)=>{
@@ -393,22 +392,22 @@ function UpdateProductCatalog(props) {
                 </SlButton>
             </SlDialog>
 
-            <button className='button-close-part-desc' onClick={() => {
+          {/*   <button className='button-close-part-desc' onClick={() => {
                 props.onClose()
                 insertAttributeData.current.attribute_type_id = "";
                 insertAttributeData.current.attribute_value = "";
                 insertAttributeData.current.part_id = "";
             }}><span className="material-symbols-outlined">
                     close
-                </span></button>
+                </span></button> */}
             <div className='part-edit-main-container'>
                 <div className='part-edit-main-inner'>
                     <div className='part-edit-input-main'>
-                        <h4>Update Part Information</h4>
+                        <h4 style={{display:'none'}}>Update Part Information</h4>
                         <div className='part-edit-input-inner'>
                             <SlInput className="part-edit-input" size='large' label="Part Code" value={partCode} required={true} onSlInput={e => {
                                 setPartCode(e.target.value);
-                                console.log(e.target.value);
+                                //console.log(e.target.value);
                             }} clearable />
                             <SlInput className="part-edit-input" size='large' label="Part Category" value={partCategory} onSlInput={e => { setPartCategory(e.target.value) }} clearable />
                             <SlInput className="part-edit-input" size='large' label="Part Name" value={partName} onSlInput={e => { setPartName(e.target.value) }} clearable />
@@ -454,7 +453,7 @@ function UpdateProductCatalog(props) {
                     ></MUIDataTable>
                 </div>
             </div>
-            <SlDialog label="Add new Attribute" open={openAtt} onSlRequestClose={() => { setOpenAtt(false) }} >
+            <SlDialog label="Add new Attribute" open={openAtt} onSlRequestClose={() => { setOpenAtt(false); props.closeMain() }} >
                 <div>
                     <SlSelect className="part-edit-input" size='large' label="Attribute Name" onSlChange={e => {
                         insertAttributeData.current.attribute_type_id = e.target.value
