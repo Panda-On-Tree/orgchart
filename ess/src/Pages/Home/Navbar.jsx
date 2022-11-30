@@ -245,7 +245,7 @@ function Navbar() {
                       </a>
                     </li> : null}
                     
-                    {JSON.parse(localStorage.getItem('module_access')).report ? <li className="nav-item">
+                    {JSON.parse(localStorage.getItem('module_access'))?.report ? <li className="nav-item">
                       <a
                         onClick={() => {
                           navigate('/reports')
