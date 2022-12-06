@@ -1129,10 +1129,10 @@ function ProductCatalog() {
                                         )
                                     })}
                                 </select> */}
-                                <SlSelect label='Attribute Name'  size='large' style={{minWidth:'15vw'}}/*  value={filterOption1} */ onSlChange={e => {
+                                <SlSelect label='Attribute Name'  size='large' style={{minWidth:'15vw'}}  /* value={filterOption1} */  onSlChange={e => {
                                     //console.log(e.target.value);
 
-                                 //  setFilterOption1(e.target.value)
+                                  setFilterOption1(e.target.value)
                                     
                                 //console.log(JSON.parse(e.target.value));
                                
