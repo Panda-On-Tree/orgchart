@@ -35,6 +35,8 @@ import ProductChart from './Pages/ProductChart/ProductChart'
 import Report from './Pages/Report/Report'
 import Profile2 from './Pages/Profile/Profile2'
 import Login2 from './Pages/Login/Login2'
+import Ceam from './Pages/Ceam/Ceam'
+import CeamRoster from './Pages/Ceam/CeamRoster'
 
 function App() {
   let navigate = useNavigate()
@@ -94,6 +96,29 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <Home />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        {/* CEAM */}
+        <Route
+          exact
+          path="/ceam"
+          element={
+            localStorage.getItem('token') ? (
+              <Ceam />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/ceam-roster"
+          element={
+            localStorage.getItem('token') ? (
+              <CeamRoster />
             ) : (
               <Navigate replace to="/login" />
             )

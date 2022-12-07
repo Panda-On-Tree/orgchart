@@ -1,0 +1,38 @@
+.ceam-main{
+    display: flex;
+    min-height: 100%;
+    min-width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.ceam-inner{
+    display: flex;
+    flex-direction: column;
+    min-height: 30vh;
+    width: 30%;
+    border: 1px solid black;
+    
+}
+.ceam-inner > div:nth-child(1){
+    background-color: rgba(96, 221, 221, 0.486);
+}
+
+.ceam-inner-record{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1% 5%;
+    border-bottom: 1px solid black;
+}
+.ceam-inner-record > h4{
+    font-size: 16px;
+}
+
+.ceam-main-proceed-button{
+    width: 150px;
+    padding: 2% 0%;
+    margin-top: 3vh;
+}

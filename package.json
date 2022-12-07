@@ -9,7 +9,6 @@
   "files": [
     "dist/index.js"
   ],
-  
   "scripts": {
     "start": "webpack --watch --mode production",
     "build": "webpack --mode production",
@@ -48,6 +47,7 @@
   "dependencies": {
     "d3-save-svg": "0.0.2",
     "google": "^2.1.0",
-    "jspdf": "^2.3.1"
+    "jspdf": "^2.3.1",
+    "react-spreadsheet-import": "^2.0.8"
   }
 }
