@@ -37,6 +37,7 @@ import Profile2 from './Pages/Profile/Profile2'
 import Login2 from './Pages/Login/Login2'
 import Ceam from './Pages/Ceam/Ceam'
 import CeamRoster from './Pages/Ceam/CeamRoster'
+import Glossary from './Pages/Glossary/Glossary'
 
 function App() {
   let navigate = useNavigate()
@@ -119,6 +120,17 @@ function App() {
           element={
             localStorage.getItem('token') ? (
               <CeamRoster />
+            ) : (
+              <Navigate replace to="/login" />
+            )
+          }
+        ></Route>
+        <Route
+          exact
+          path="/microtek-glossary"
+          element={
+            localStorage.getItem('token') ? (
+              <Glossary />
             ) : (
               <Navigate replace to="/login" />
             )

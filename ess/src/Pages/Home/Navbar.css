@@ -1939,7 +1939,9 @@
   .product-slider .card h4{font-weight: 500;}
   
   .product-slider .owl-prev i{transform: rotateY(180deg)}
-  
+  .navbar-logo{
+    height: 40px !important;
+  }
   .card{
     background-color:#fff;
     padding: 25px;
@@ -1957,6 +1959,7 @@
   @media only screen and (max-width: 767px) {
     .navbar-brand img {
       max-width: 120px;
+      height: 40px;
     }
     .header-wrap .header-top .header-top-left .contact-item p,
     .header-wrap .header-top .header-top-left .contact-item a,
@@ -2413,7 +2416,7 @@
     .header-wrap .navbar .navbar-nav .nav-item a {
       color: black;
       font-weight: 500;
-      padding: 30px 0;
+      padding: 20px 0;
       -webkit-transition: 0.4s;
       transition: 0.4s;
       position: relative;

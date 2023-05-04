@@ -72,7 +72,7 @@ function Navbar() {
         <div className="container nv-main">
           <nav className="nav-img navbar navbar-expand-md navbar-light">
             <a className="navbar-brand">
-              <img className="" src={logo2} alt="logo" />
+              <img className='navbar-logo' src={logo2} alt="logo" />
             </a>
             <div
               className="collapse navbar-collapse main-menu-wrap"
@@ -124,6 +124,11 @@ function Navbar() {
                         navigate('/chart')
                       }}>Org Chart</a>
                     </li> : null}
+                    <li className="nav-item">
+                      <a className='nav-link' onClick={() => {
+                        navigate('/microtek-glossary')
+                      }}>Microtek Glossary</a>
+                    </li>
 
                     {JSON.parse(localStorage.getItem('module_access'))?.product_catalogue ? <li className="nav-item">
                       <a className='nav-link' onClick={() => {
