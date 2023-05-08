@@ -38,6 +38,7 @@ import Login2 from './Pages/Login/Login2'
 import Ceam from './Pages/Ceam/Ceam'
 import CeamRoster from './Pages/Ceam/CeamRoster'
 import Glossary from './Pages/Glossary/Glossary'
+import ChangeEmailPassword from './Pages/ChangeEmailPassword'
 
 function App() {
   let navigate = useNavigate()
@@ -346,6 +347,7 @@ function App() {
         <Route exact path="/otp" element={<Otp />}></Route>
         {/* RESET PASSWORD */}
         <Route exact path="/reset-password" element={<ResetPassword />}></Route>
+        <Route exact path="/reset-password-email" element={<ChangeEmailPassword />}></Route>
         {/* FORGOT PASSWORD */}
         <Route
           exact

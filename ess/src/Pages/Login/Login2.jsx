@@ -185,9 +185,13 @@ function Login2() {
                                
                             }}  />
                         </div>
-                        <div className='logi-forget-link'>
+                        <div style={{display:'flex', flexDirection:'column', alignItems:'flex-end'}}>
+                       
+                        <div className='logi-forget-link' style={{marginBottom:'10px'}}>
                             <a   href="/ess/forget-password">Forgot Password?</a>
                         </div>
+                        </div>
+                      
                     </div>
                     <div className='logi-buttons-main'>
                         <button type='submit' id='login-button'  onClick={(e)=>{

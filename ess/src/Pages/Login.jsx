@@ -195,7 +195,7 @@ const LoginForm = () => {
 
               <div className="check">
                 <a
-                  style={{ color: 'red', fontSize: '14px' }}
+                  style={{ color: 'red', fontSize: '14px', marginBottom:'10px' }}
                   href="/ess/forget-password"
                 >
                   Forget Password?
@@ -204,7 +204,7 @@ const LoginForm = () => {
 
               <button
                 className="btns"
-                style={{ padding: '10px 20px' }}
+                style={{ padding: '10px 20px', marginTop:'10px' }}
                 type="submit"
               >
                 Log In
