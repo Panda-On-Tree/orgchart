@@ -83,7 +83,7 @@ function ForgetPassword() {
                 <div className=" flex-r input">
                   <input
                     type="text"
-                    placeholder="name@abc.com"
+                    placeholder="Your Employee Code"
                     {...register('username', {
                       required: 'required',
                     })}

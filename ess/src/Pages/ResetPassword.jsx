@@ -75,7 +75,7 @@ function ResetPassword() {
                             <div className="input-box">
                                 <span className="label">Password</span>
                                 <div className="flex-r input">
-                                    <input type="password" placeholder="8+ (a, A, 1, #)" {...register("new_password", {
+                                    <input type="password" placeholder="" {...register("new_password", {
                                         required: true,
                                         maxLength: 15,
                                     })} />
@@ -86,7 +86,7 @@ function ResetPassword() {
                             <div className="input-box">
                                 <span className="label">Confirm Password</span>
                                 <div className="flex-r input">
-                                    <input type="password" placeholder="8+ (a, A, 1, #)"
+                                    <input type="password" placeholder=""
                                         {...register("confirm_new_password", {
                                             required: true,
                                             maxLength: 15,

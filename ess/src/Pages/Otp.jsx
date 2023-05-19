@@ -134,7 +134,7 @@ function Otp() {
                                 >
                                     <input
                                         type="number"
-                                        placeholder="name@abc.com"
+                                        placeholder=""
                                         {...register('otp', {
                                             required: 'required',
                                         })}
