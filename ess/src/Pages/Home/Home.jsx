@@ -301,16 +301,15 @@ function Home() {
                                 <div className="ps-list-content">
                                     <a
                                         target="_blank"
-                                        href="https://internal.microtek.tech/Self-Declaration/login.php"
+                                        href="https://internal.microtek.tech:8443/ijp"
                                         rel="noopener noreferrer"
                                     >
                                         <span className="material-symbols-outlined">
                                             app_registration
                                         </span>
-                                        <h4>Self Declaration</h4>
+                                        <h4>Internal Job Posting</h4>
                                         <p>
-                                            Tool for declaring assets onwned by
-                                            employee{' '}
+                                            Tool for exploring further career opportunities within the organization. 
                                         </p>
                                     </a>
                                 </div>
