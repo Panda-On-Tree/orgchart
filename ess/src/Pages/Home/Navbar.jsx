@@ -143,13 +143,13 @@ function Navbar() {
                     </li> : null}
                     
                     <li className="nav-item">
-                      <a className='nav-link' target="_blank" href='https://internal.microtek.tech/itop'>CMDB Tool</a>
+                      <a className='nav-link' target="_blank" href="https://internal.microtek.tech/ithelpdesk/front/ticket.php">Ticketing Tool</a>
                     </li>
                     <li className="nav-item">
                       <a className='nav-link' target="_blank" href='https://internal.microtek.tech/Self-Declaration/login.php'>Self Declaration</a>
                     </li>
                     <li className="nav-item">
-                      <a className='nav-link' target="_blank" href='https://internal.microtek.tech/capex/login.php'>Capex Portal</a>
+                      <a className='nav-link' target="_blank" href='https://microtek.tech/capex/'>Capex Portal</a>
                     </li>
                     <li className="nav-item">
                       <a className='nav-link' target="_blank" href='https://microtek.eisenvault.net/'>Eisen Vault</a>

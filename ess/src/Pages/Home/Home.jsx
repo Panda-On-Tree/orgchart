@@ -282,13 +282,13 @@ function Home() {
                                 <div className="ps-list-content">
                                     <a
                                         target="_blank"
-                                        href="https://internal.microtek.tech/itop"
+                                        href="https://internal.microtek.tech/ithelpdesk/front/ticket.php"
                                         rel="noopener noreferrer"
                                     >
                                         <span className="material-symbols-outlined">
                                             database
                                         </span>
-                                        <h4>CMDB Tool</h4>
+                                        <h4>Ticketing Tool</h4>
                                         <p>
                                             IT Management Tool For Incident ,
                                             change , Asset , Problem Management
@@ -301,7 +301,7 @@ function Home() {
                                 <div className="ps-list-content">
                                     <a
                                         target="_blank"
-                                        href="https://internal.microtek.tech:8443/ijp"
+                                        href="https://microtek.tech/ijp"
                                         rel="noopener noreferrer"
                                     >
                                         <span className="material-symbols-outlined">
@@ -318,7 +318,7 @@ function Home() {
                                 <div className="ps-list-content">
                                     <a
                                         target="_blank"
-                                        href="https://internal.microtek.tech/capex/login.php"
+                                        href="https://microtek.tech/capex/"
                                         rel="noopener noreferrer"
                                     >
                                         <span className="material-symbols-outlined">
