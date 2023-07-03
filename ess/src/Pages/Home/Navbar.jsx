@@ -143,6 +143,9 @@ function Navbar() {
                     </li> : null}
                     
                     <li className="nav-item">
+                      <a className='nav-link' target="_blank" href="https://microtek.tech/mtek-ess/doc-identification">DIN</a>
+                    </li>
+                    <li className="nav-item">
                       <a className='nav-link' target="_blank" href="https://internal.microtek.tech/ithelpdesk/front/ticket.php">Ticketing Tool</a>
                     </li>
                     <li className="nav-item">

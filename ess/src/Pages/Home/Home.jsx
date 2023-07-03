@@ -368,20 +368,16 @@ function Home() {
                             <li className="col-lg-4 col-md-3 col-sm-12">
                                 <div className="ps-list-content">
                                     <a
-                                        href="/#"
+                                        href="https://microtek.tech/mtek-ess/doc-identification"
                                         target="_blank"
-                                        onClick={(e) => {
-                                            e.preventDefault()
-                                            navigate('/chart')
-                                        }}
+                                       
                                     >
                                         <span className="material-symbols-outlined">
                                             description
                                         </span>
-                                        <h4>Org Chart</h4>
+                                        <h4>DIN</h4>
                                         <p>
-                                            Representation of Employee Hierarchy
-                                            within the Organisation
+                                          Web Portal to generate Document Identification Number
                                         </p>
                                     </a>
                                 </div>
