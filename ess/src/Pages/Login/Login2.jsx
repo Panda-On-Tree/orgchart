@@ -35,12 +35,14 @@ function Login2() {
             localStorage.setItem('employee_id', response.data.new_e_code)
             localStorage.setItem('manager_id', response.data.reporting_manager_id)
             localStorage.setItem('token', response.data.token)
-            localStorage.setItem('fullname', response.data.name_of_the_employee)
-            localStorage.setItem('email', response.data.email)
+            localStorage.setItem('fullname', response.data.name_of_the_eployee)
+            localStorage.setItem('email', response.data.mail_id_official)
             localStorage.setItem('grade', response.data.grade)
             localStorage.setItem('band', response.data.band)
             localStorage.setItem('role', response.data.role)
             localStorage.setItem('department', response.data.department)
+				localStorage.setItem('designation', response.data.designation);
+
             const data = {
               employee_id: response.data.new_e_code
             }
