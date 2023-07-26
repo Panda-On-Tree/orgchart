@@ -137,9 +137,7 @@ function Navbar() {
                     </li> : null}
                     
                     {JSON.parse(localStorage.getItem('module_access'))?.policy ? <li className="nav-item">
-                      <a className='nav-link' onClick={() => {
-                        navigate('/policy')
-                      }}>Policy</a>
+                      <a className='nav-link' target="_blank" href="https://microtek.tech/mtek-ess/policy">Policy</a>
                     </li> : null}
                     
                     <li className="nav-item">
